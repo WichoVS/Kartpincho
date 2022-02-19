@@ -1,0 +1,4 @@
+class PlayerGamepad {
+  gamepadInstance;
+  constructor() {}
+}
