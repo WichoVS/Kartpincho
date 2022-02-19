@@ -1,14 +1,18 @@
-import * as THREE from "../../library/threejs/src/Three.js";
+import * as THREE from "../../libs/threejs/src/Three.js";
+import { OptMove, GeneraEventos } from "./Inicio_Eventos.js";
 
-import { OrbitControls } from "../../library/threejs/examples/jsm/controls/OrbitControls.js";
-import { FBXLoader } from "../../library/threejs/examples/jsm/loaders/FBXLoader.js";
-//import { OrbitControls } from "https://cdn.skypack.dev/three@0.137.5/examples/jsm/controls/OrbitControls.js";
+import { OrbitControls } from "../../libs/threejs/examples/jsm/controls/OrbitControls.js";
+import { FBXLoader } from "../../libs/threejs/examples/jsm/loaders/FBXLoader.js";
 
 var skyboxArray = [];
 
+const clock = new THREE.Clock();
+const delta = clock.getDelta();
+
 $(() => {
+  GeneraEventos();
+  window.addEventListener("resize", onWindowResize, false);
   $("#fondo3d").append(renderer.domElement);
-  const controls = new OrbitControls(camera, renderer.domElement);
   const geometry = new THREE.BoxGeometry();
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   const cube = new THREE.Mesh(geometry, material);
@@ -18,11 +22,14 @@ $(() => {
   CargaModelos();
   render();
   camera.position.z = 5;
+  camera.position.y = 10;
+  camera.rotateX(THREE.Math.degToRad(30));
 });
 
 function render() {
   requestAnimationFrame(render);
   renderer.render(scene, camera);
+  OptMove();
 }
 
 const CrearEscena = () => {
@@ -77,9 +84,7 @@ const CargaModelos = () => {
 
       fbx.traverse((child) => {
         if (child.isMesh) {
-          console.log(child.geometry.attributes.uv);
           child.material = texture;
-          console.log(texture);
         }
       });
 
@@ -126,3 +131,12 @@ const CargaModelos = () => {
     }
   );
 };
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+export { clock, delta };
