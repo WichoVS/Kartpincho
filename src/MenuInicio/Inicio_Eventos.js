@@ -128,6 +128,23 @@ const GeneraEventos = () => {
       }
     }
   });
+
+  $("#btnCrearSala").on("click", () => {
+    window.location.href = "../Sala/Sala.html";
+  });
+
+  $("#btnPerfil").on("click", () => {
+    window.location.href = "../Perfil/Perfil.html";
+  });
+
+  $("#btnConfiguracion").on("click", () => {
+    window.location.href = "../Configuracion/Configuracion.html";
+  });
+
+  $("#btnCerrarSesion").on("click", () => {
+    //Agregar el proceso para cerrar la sesión
+    window.location.href = "../Login/Login.html";
+  });
 };
 
 const ActualizaBotonFocus = (mod) => {
