@@ -14,40 +14,47 @@ var pivot = new THREE.Group();
 const width = 500;
 const height = 300;
 const intensity = 20;
-const rectLight = new THREE.RectAreaLight("#FFFFFF", intensity, width, height);
-const rectLightOp1 = new THREE.RectAreaLight("#BF0413", 0, width, height);
-const rectLightOp2 = new THREE.RectAreaLight("#5A37A6", 0, width, height);
-const rectLightOp3 = new THREE.RectAreaLight("#393073", 0, width, height);
-const rectLightOp4 = new THREE.RectAreaLight("#04BFBF", 0, width, height);
+const numOpts = 5;
+const arrayLightsColors = [
+  "#EBEBEB",
+  "#FF808C",
+  "#D780FF",
+  "#393073",
+  "#54A89D",
+];
+var arrayLights = [];
 
 $(() => {
   RectAreaLightUniformsLib.init();
   GeneraEventos();
   window.addEventListener("resize", onWindowResize, false);
   $("#fondo3d").append(renderer.domElement);
-  const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  //var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 1.0);
-  //scene.add(ambientLight);
+  for (let index = 0; index < numOpts; index++) {
+    if (index == 0) {
+      var rectLight = new THREE.RectAreaLight(
+        arrayLightsColors[index],
+        intensity,
+        width,
+        height
+      );
+    } else {
+      var rectLight = new THREE.RectAreaLight(
+        arrayLightsColors[index],
+        0,
+        width,
+        height
+      );
+    }
 
-  rectLight.position.set(0, 300, 0);
-  rectLight.lookAt(0, 0, 0);
-  rectLightOp1.position.set(0, 300, 0);
-  rectLightOp1.lookAt(0, 0, 0);
-  rectLightOp2.position.set(0, 300, 0);
-  rectLightOp2.lookAt(0, 0, 0);
-  rectLightOp3.position.set(0, 300, 0);
-  rectLightOp3.lookAt(0, 0, 0);
-  rectLightOp4.position.set(0, 300, 0);
-  rectLightOp4.lookAt(0, 0, 0);
-  scene.add(rectLight);
-  scene.add(rectLightOp1);
-  scene.add(rectLightOp2);
-  scene.add(rectLightOp3);
-  scene.add(rectLightOp4);
+    rectLight.position.set(0, 300, 0);
+    rectLight.lookAt(0, 0, 0);
 
-  //const rectLightHelper = new THREE.RectAreaLightHelper(rectLight);
-  //rectLight.add(rectLightHelper);
+    arrayLights.push(rectLight);
+  }
+
+  arrayLights.forEach((element) => {
+    scene.add(element);
+  });
 
   pivot.position.x = 0;
   pivot.position.y = 0;
@@ -65,7 +72,6 @@ $(() => {
   camera.position.z = 300;
   camera.position.y = 200;
   camera.position.x = 0;
-  //camera.rotateX(THREE.Math.degToRad(5));
   render();
 });
 
@@ -212,14 +218,4 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-export {
-  clock,
-  delta,
-  camera,
-  pivot,
-  rectLight,
-  rectLightOp1,
-  rectLightOp2,
-  rectLightOp3,
-  rectLightOp4,
-};
+export { clock, delta, camera, pivot, arrayLights };
