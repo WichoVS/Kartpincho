@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Sala.css" />
+    <script src="../../libs/jquery/jquery-3.6.0.js"></script>
+    <script src="../Controles/Gamepad.js"></script>
+    <script type="module" src="./main.js"></script>
+    <title>Sala</title>
+  </head>
+  <body style="background-color: #1f0a27">
+    <label class="lbl-titulo">MODOS DE JUEGO</label>
+    <div style="width: 100%; display: flex; justify-content: center">
+      <div class="div-pasos-circulos">
+        <div class="div-paso-circulo div-paso-actual">
+          <label>1</label>
+        </div>
+        <div class="div-paso-circulo div-paso-otro">
+          <label> 2</label>
+        </div>
+        <div class="div-paso-circulo div-paso-otro">
+          <label>3</label>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="paso1"
+      style="
+        margin-top: 80px;
+        width: 100%;
+        display: none;
+        justify-content: center;
+      "
+    >
+      <div style="width: 80%; display: flex; justify-content: space-between">
+        <div class="div-modojuego">
+          <img src="" alt="" />
+          <label>Circuito</label>
+        </div>
+        <div class="div-modojuego">
+          <img src="" alt="" />
+          <label>Eliminación</label>
+        </div>
+        <div class="div-modojuego">
+          <img src="" alt="" />
+          <label>Rey de la Pista</label>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="paso2"
+      style="
+        margin-top: 80px;
+        width: 100%;
+        display: none;
+        justify-content: center;
+      "
+    >
+      <div style="width: 80%; display: flex; justify-content: space-between">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            align-items: center;
+          "
+        >
+          <div class="div-options-col">
+            <label class="lbl-option">Pista</label>
+            <select id="selMapa" style="margin-bottom: 10px; width: 100%">
+              <option value="1">Mapa 1</option>
+              <option value="2">Mapa 2</option>
+              <option value="3">Mapa 3</option>
+            </select>
+            <img style="width: 150px; height: 150px" src="" alt="" />
+          </div>
+          <div class="div-options-col" style="margin-top: 30px">
+            <label class="lbl-option">Jugadores</label>
+            <select id="selJugadores" style="width: 100%">
+              <option value="1">1 Jugador</option>
+              <option value="2">2 Jugadores</option>
+              <option value="3">3 Jugadores</option>
+              <option value="4">4 Jugadores</option>
+            </select>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            align-items: center;
+          "
+        >
+          <div class="div-options-col">
+            <label class="lbl-option">Vueltas</label>
+            <select id="selVueltas" style="width: 100%">
+              <option value="1">1 Vuelta</option>
+              <option value="2">2 Vueltas</option>
+              <option value="3">3 Vueltas</option>
+              <option value="4">4 Vueltas</option>
+            </select>
+          </div>
+          <div class="div-options-col">
+            <label class="lbl-option">Dificultad</label>
+            <select id="selDificultad" style="width: 100%">
+              <option value="1">50 cc</option>
+              <option value="2">100 cc</option>
+              <option value="3">150 cc</option>
+            </select>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            align-items: center;
+          "
+        >
+          <div class="div-options-col">
+            <label class="lbl-option">Bots</label>
+          </div>
+          <div class="div-options-col">
+            <label class="lbl-option">No. Bots</label>
+            <select id="selBots" style="width: 100%">
+              <option value="1">1 Bot</option>
+              <option value="2">2 Bots</option>
+              <option value="3">3 Bots</option>
+              <option value="4">4 Bots</option>
+              <option value="5">5 Bots</option>
+              <option value="6">6 Bots</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="paso3"
+      style="
+        margin-top: 80px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <div style="width: 80%; display: flex; justify-content: space-between">
+        <div style="width: 180px; height: 200px">
+          <div style="background-color: gray; width: 200px; height: 150px">
+            J1
+          </div>
+          <label>Jugador 1</label>
+        </div>
+        <div style="width: 180px; height: 200px">
+          <div style="background-color: gray; width: 200px; height: 150px">
+            J2
+          </div>
+          <label>Jugador 2</label>
+        </div>
+        <div style="width: 180px; height: 200px">
+          <div style="background-color: gray; width: 200px; height: 150px">
+            J3
+          </div>
+          <label>Jugador 3</label>
+        </div>
+        <div style="width: 180px; height: 200px">
+          <div style="background-color: gray; width: 200px; height: 150px">
+            J4
+          </div>
+          <label>Jugador 4</label>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button class="button-pasos-back">Menú</button>
+      <button class="button-pasos-next">Siguiente</button>
+    </div>
+  </body>
+</html>
