@@ -56,7 +56,7 @@
       style="
         margin-top: 80px;
         width: 100%;
-        display: none;
+        display: flex;
         justify-content: center;
       "
     >
@@ -71,7 +71,11 @@
         >
           <div class="div-options-col">
             <label class="lbl-option">Pista</label>
-            <select id="selMapa" style="margin-bottom: 10px; width: 100%">
+            <select
+              class="sel-option"
+              id="selMapa"
+              style="margin-bottom: 10px; width: 100%"
+            >
               <option value="1">Mapa 1</option>
               <option value="2">Mapa 2</option>
               <option value="3">Mapa 3</option>
@@ -80,7 +84,7 @@
           </div>
           <div class="div-options-col" style="margin-top: 30px">
             <label class="lbl-option">Jugadores</label>
-            <select id="selJugadores" style="width: 100%">
+            <select class="sel-option" id="selJugadores" style="width: 100%">
               <option value="1">1 Jugador</option>
               <option value="2">2 Jugadores</option>
               <option value="3">3 Jugadores</option>
@@ -98,7 +102,7 @@
         >
           <div class="div-options-col">
             <label class="lbl-option">Vueltas</label>
-            <select id="selVueltas" style="width: 100%">
+            <select class="sel-option" id="selVueltas" style="width: 100%">
               <option value="1">1 Vuelta</option>
               <option value="2">2 Vueltas</option>
               <option value="3">3 Vueltas</option>
@@ -107,7 +111,7 @@
           </div>
           <div class="div-options-col">
             <label class="lbl-option">Dificultad</label>
-            <select id="selDificultad" style="width: 100%">
+            <select class="sel-option" id="selDificultad" style="width: 100%">
               <option value="1">50 cc</option>
               <option value="2">100 cc</option>
               <option value="3">150 cc</option>
@@ -124,10 +128,22 @@
         >
           <div class="div-options-col">
             <label class="lbl-option">Bots</label>
+            <div style="display: flex; justify-content: start; width: 100%">
+              <input name="sel-bots" value="1" type="radio" /><label
+                class="radio-lbl"
+                >Si</label
+              >
+            </div>
+            <div style="display: flex; justify-content: start; width: 100%">
+              <input name="sel-bots" value="0" type="radio" /><label
+                class="radio-lbl"
+                >No</label
+              >
+            </div>
           </div>
           <div class="div-options-col">
             <label class="lbl-option">No. Bots</label>
-            <select id="selBots" style="width: 100%">
+            <select class="sel-option" id="selBots" style="width: 100%">
               <option value="1">1 Bot</option>
               <option value="2">2 Bots</option>
               <option value="3">3 Bots</option>
@@ -145,34 +161,67 @@
       style="
         margin-top: 80px;
         width: 100%;
-        display: flex;
+        display: none;
         justify-content: center;
       "
     >
-      <div style="width: 80%; display: flex; justify-content: space-between">
-        <div style="width: 180px; height: 200px">
-          <div style="background-color: gray; width: 200px; height: 150px">
-            J1
+      <div
+        style="
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+          "
+        >
+          <div class="div-player-selection">
+            <div style="background-color: gray; width: 200px; height: 150px">
+              J1
+            </div>
+            <label class="lbl-playername">Jugador 1</label>
           </div>
-          <label>Jugador 1</label>
+          <div class="div-player-selection">
+            <div style="background-color: gray; width: 200px; height: 150px">
+              J2
+            </div>
+            <label class="lbl-playername">Jugador 2</label>
+          </div>
+          <div class="div-player-selection">
+            <div style="background-color: gray; width: 200px; height: 150px">
+              J3
+            </div>
+            <label class="lbl-playername">Jugador 3</label>
+          </div>
+          <div class="div-player-selection">
+            <div style="background-color: gray; width: 200px; height: 150px">
+              J4
+            </div>
+            <label class="lbl-playername">Jugador 4</label>
+          </div>
         </div>
-        <div style="width: 180px; height: 200px">
-          <div style="background-color: gray; width: 200px; height: 150px">
-            J2
-          </div>
-          <label>Jugador 2</label>
-        </div>
-        <div style="width: 180px; height: 200px">
-          <div style="background-color: gray; width: 200px; height: 150px">
-            J3
-          </div>
-          <label>Jugador 3</label>
-        </div>
-        <div style="width: 180px; height: 200px">
-          <div style="background-color: gray; width: 200px; height: 150px">
-            J4
-          </div>
-          <label>Jugador 4</label>
+        <div
+          style="
+            width: 200px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 15%;
+          "
+        >
+          <label class="lbl-option">Elegir Playlist</label>
+          <select class="sel-option" style="width: 100%" id="selPlaylist">
+            <option value="1">Playlist 1</option>
+            <option value="2">Playlist 2</option>
+            <option value="3">Playlist 3</option>
+            <option value="4">Playlist 4</option>
+          </select>
         </div>
       </div>
     </div>
