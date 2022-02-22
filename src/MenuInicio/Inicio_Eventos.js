@@ -1,28 +1,14 @@
-import {
-  clock,
-  delta,
-  camera,
-  pivot,
-  rectLight,
-  rectLightOp1,
-  rectLightOp2,
-  rectLightOp3,
-  rectLightOp4,
-} from "./Inicio.js";
+import { clock, delta, camera, pivot, arrayLights } from "./Inicio.js";
 import * as THREE from "../../libs/threejs/src/Three.js";
+import lights_toon_fragmentGlsl from "../../libs/threejs/src/renderers/shaders/ShaderChunk/lights_toon_fragment.glsl.js";
 var opcionMenu = 0;
 var canInput = [true, true, true, true];
 var gamepads = {};
-
-var gamepadP1 = {};
-var gamepadP2 = {};
-var gamepadP3 = {};
-var gamepadP4 = {};
-var gamepadDown = {};
-var gamepadUp = {};
-
-var gpsStateRT = []; //new GamepadState();
 var gpsStateLF = []; //new GamepadState();
+var arrayPlaylistVideos = [];
+
+const APIKEY = "AIzaSyCahpRLo0SMKUbnrzzgOjZjwdZXRy6wwso";
+
 function gamepadHandler(event, connecting) {
   var gamepad = event.gamepad;
   // Note:
@@ -31,11 +17,9 @@ function gamepadHandler(event, connecting) {
   if (connecting) {
     gamepads[gamepad.index] = gamepad;
     let gamepadState = new GamepadState(gamepad.index);
-    gpsStateRT.push(gamepadState);
     gpsStateLF.push(gamepadState);
   } else {
     delete gamepads[gamepad.index];
-    delete gpsStateRT[gamepad.index];
     delete gpsStateLF[gamepad.index];
   }
 }
@@ -57,20 +41,44 @@ window.addEventListener(
 
 const GeneraEventos = () => {
   $("#btnCrearSala").on("mouseover", () => {
-    $("#btnCrearSala").addClass("btnHover-Active");
-    $("#btnCrearSala").removeClass("btnNotHover-Active");
+    SetBotonFocus(1);
+    opcionMenu = 1;
+  });
+  $("#btnCrearSala").on("mouseleave", () => {
+    SetBotonFocus(0);
+    opcionMenu = 0;
   });
 
-  $("#btnCrearSala").on("mouseleave", () => {
-    $("#btnCrearSala").removeClass("btnHover-Active");
-    $("#btnCrearSala").addClass("btnNotHover-Active");
+  $("#btnPerfil").on("mouseover", () => {
+    SetBotonFocus(2);
+    opcionMenu = 2;
+  });
+  $("#btnPerfil").on("mouseleave", () => {
+    SetBotonFocus(0);
+    opcionMenu = 0;
+  });
+
+  $("#btnConfiguracion").on("mouseover", () => {
+    SetBotonFocus(3);
+    opcionMenu = 3;
+  });
+  $("#btnConfiguracion").on("mouseleave", () => {
+    SetBotonFocus(0);
+    opcionMenu = 0;
+  });
+
+  $("#btnCerrarSesion").on("mouseover", () => {
+    SetBotonFocus(4);
+    opcionMenu = 4;
+  });
+  $("#btnCerrarSesion").on("mouseleave", () => {
+    SetBotonFocus(0);
+    opcionMenu = 0;
   });
 
   $(window).on("keydown", (e) => {
     var code = e.keyCode || e.which;
     if (code == 38) {
-      //Enter keycode
-      //Do something
       console.log("arrowUp");
       ActualizaBotonFocus(-1);
     }
@@ -92,6 +100,50 @@ const GeneraEventos = () => {
       SetBotonFocus(opcionMenu);
       console.log("esc");
     }
+
+    if (code == 32) {
+      //Input de Prueba
+      GetVideosPlaylist("PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH");
+      //playerPlayVideo("lbxfbp9KPUQ");
+    }
+
+    if (code == 13) {
+      console.log("entra");
+      switch (opcionMenu) {
+        case 1:
+          window.location.href = "../Sala/Sala.html";
+          break;
+        case 2:
+          window.location.href = "../Perfil/Perfil.html";
+          break;
+        case 3:
+          window.location.href = "../Configuracion/Configuracion.html";
+          break;
+        case 4:
+          //Hacer Procedimiento para cerrar la sesión
+          window.location.href = "../Login/Login.html";
+          break;
+        default:
+          break;
+      }
+    }
+  });
+
+  $("#btnCrearSala").on("click", () => {
+    window.location.href = "../Sala/Sala.html";
+  });
+
+  $("#btnPerfil").on("click", () => {
+    window.location.href = "../Perfil/Perfil.html";
+  });
+
+  $("#btnConfiguracion").on("click", () => {
+    window.location.href = "../Configuracion/Configuracion.html";
+  });
+
+  $("#btnCerrarSesion").on("click", () => {
+    //Agregar el proceso para cerrar la sesión
+    window.location.href = "../Login/Login.html";
   });
 };
 
@@ -128,11 +180,14 @@ const SetBotonFocus = (opcSelect) => {
       $("#btnCerrarSesion").removeClass("btnBorder-Focus");
       $("#btnCerrarSesion").addClass("btnBorder-NotFocus");
       //rectLight.color.setHex("#FFFFFF");
-      rectLight.intensity = 20;
-      rectLightOp1.intensity = 0;
-      rectLightOp2.intensity = 0;
-      rectLightOp3.intensity = 0;
-      rectLightOp4.intensity = 0;
+
+      for (let index = 0; index < arrayLights.length; index++) {
+        if (index == opcSelect) {
+          arrayLights[index].intensity = 20;
+        } else {
+          arrayLights[index].intensity = 0;
+        }
+      }
       break;
     case 1:
       $("#btnCrearSala").removeClass("btnNotHover-Active");
@@ -152,11 +207,14 @@ const SetBotonFocus = (opcSelect) => {
       $("#btnCerrarSesion").removeClass("btnBorder-Focus");
       $("#btnCerrarSesion").addClass("btnBorder-NotFocus");
       //rectLight.color.setHex("#BF0413");
-      rectLight.intensity = 0;
-      rectLightOp1.intensity = 20;
-      rectLightOp2.intensity = 0;
-      rectLightOp3.intensity = 0;
-      rectLightOp4.intensity = 0;
+
+      for (let index = 0; index < arrayLights.length; index++) {
+        if (index == opcSelect) {
+          arrayLights[index].intensity = 20;
+        } else {
+          arrayLights[index].intensity = 0;
+        }
+      }
       break;
     case 2:
       $("#btnCrearSala").removeClass("btnHover-Active");
@@ -176,11 +234,14 @@ const SetBotonFocus = (opcSelect) => {
       $("#btnCerrarSesion").removeClass("btnBorder-Focus");
       $("#btnCerrarSesion").addClass("btnBorder-NotFocus");
       //rectLight.color.setHex("#5A37A6");
-      rectLight.intensity = 0;
-      rectLightOp1.intensity = 0;
-      rectLightOp2.intensity = 20;
-      rectLightOp3.intensity = 0;
-      rectLightOp4.intensity = 0;
+
+      for (let index = 0; index < arrayLights.length; index++) {
+        if (index == opcSelect) {
+          arrayLights[index].intensity = 20;
+        } else {
+          arrayLights[index].intensity = 0;
+        }
+      }
       break;
     case 3:
       $("#btnCrearSala").removeClass("btnHover-Active");
@@ -200,11 +261,14 @@ const SetBotonFocus = (opcSelect) => {
       $("#btnCerrarSesion").removeClass("btnBorder-Focus");
       $("#btnCerrarSesion").addClass("btnBorder-NotFocus");
       //rectLight.color.setHex("#393073");
-      rectLight.intensity = 0;
-      rectLightOp1.intensity = 0;
-      rectLightOp2.intensity = 0;
-      rectLightOp3.intensity = 20;
-      rectLightOp4.intensity = 0;
+
+      for (let index = 0; index < arrayLights.length; index++) {
+        if (index == opcSelect) {
+          arrayLights[index].intensity = 20;
+        } else {
+          arrayLights[index].intensity = 0;
+        }
+      }
       break;
     case 4:
       $("#btnCrearSala").removeClass("btnHover-Active");
@@ -224,11 +288,14 @@ const SetBotonFocus = (opcSelect) => {
       $("#btnCerrarSesion").removeClass("btnBorder-NotFocus");
       $("#btnCerrarSesion").addClass("btnBorder-Focus");
       //rectLight.color.setHex("#04BFBF");
-      rectLight.intensity = 0;
-      rectLightOp1.intensity = 0;
-      rectLightOp2.intensity = 0;
-      rectLightOp3.intensity = 0;
-      rectLightOp4.intensity = 20;
+
+      for (let index = 0; index < arrayLights.length; index++) {
+        if (index == opcSelect) {
+          arrayLights[index].intensity = 20;
+        } else {
+          arrayLights[index].intensity = 0;
+        }
+      }
       //Otros colores #F2B705
       break;
   }
@@ -293,6 +360,24 @@ export const OptMove = () => {
         gpsStateLF[index].GetBtnA() != gamepads[index].buttons[0].pressed
       ) {
         console.log("Button A pressed");
+        switch (opcionMenu) {
+          case 1:
+            window.location.href = "../Sala/Sala.html";
+            break;
+          case 2:
+            window.location.href = "../Perfil/Perfil.html";
+            break;
+          case 3:
+            window.location.href = "../Configuracion/Configuracion.html";
+            break;
+          case 4:
+            //Hacer Procedimiento para cerrar la sesión
+            window.location.href = "../Login/Login.html";
+            break;
+
+          default:
+            break;
+        }
         gpsStateLF[index].SetBtnA(true);
       } else if (!gamepads[index].buttons[0].pressed) {
         gpsStateLF[index].SetBtnA(false);
@@ -338,6 +423,33 @@ export const OptMove = () => {
       }
     }
   }
+};
+
+const GetVideosPlaylist = (playlistID) => {
+  $.ajax({
+    url: `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistID}&key=${APIKEY}&maxResults=50`,
+    type: "GET",
+    contentType: "application/json; charset=UTF-8",
+    dataType: "json",
+    success: (data) => {
+      data.items.forEach((e) => {
+        let videoYT = new YTVideo(
+          e.snippet.title,
+          e.snippet.thumbnails.default,
+          e.snippet.position,
+          e.snippet.resourceId.videoId
+        );
+
+        arrayPlaylistVideos.push(videoYT);
+      });
+
+      playerPlayVideo(arrayPlaylistVideos, 0);
+      $("#divSong").css("display", "flex");
+    },
+    error: (xmlHttpRequest, errorThrown) => {
+      console.log(errorThrown);
+    },
+  });
 };
 
 export { GeneraEventos };
