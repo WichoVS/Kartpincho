@@ -1,9 +1,14 @@
 import { clock, delta, camera, pivot, arrayLights } from "./Inicio.js";
 import * as THREE from "../../libs/threejs/src/Three.js";
+import lights_toon_fragmentGlsl from "../../libs/threejs/src/renderers/shaders/ShaderChunk/lights_toon_fragment.glsl.js";
 var opcionMenu = 0;
 var canInput = [true, true, true, true];
 var gamepads = {};
 var gpsStateLF = []; //new GamepadState();
+var arrayPlaylistVideos = [];
+
+const APIKEY = "AIzaSyCahpRLo0SMKUbnrzzgOjZjwdZXRy6wwso";
+
 function gamepadHandler(event, connecting) {
   var gamepad = event.gamepad;
   // Note:
@@ -94,6 +99,12 @@ const GeneraEventos = () => {
       opcionMenu = 0;
       SetBotonFocus(opcionMenu);
       console.log("esc");
+    }
+
+    if (code == 32) {
+      //Input de Prueba
+      GetVideosPlaylist("PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH");
+      //playerPlayVideo("lbxfbp9KPUQ");
     }
 
     if (code == 13) {
@@ -395,6 +406,33 @@ export const OptMove = () => {
       }
     }
   }
+};
+
+const GetVideosPlaylist = (playlistID) => {
+  $.ajax({
+    url: `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistID}&key=${APIKEY}&maxResults=50`,
+    type: "GET",
+    contentType: "application/json; charset=UTF-8",
+    dataType: "json",
+    success: (data) => {
+      data.items.forEach((e) => {
+        let videoYT = new YTVideo(
+          e.snippet.title,
+          e.snippet.thumbnails.default,
+          e.snippet.position,
+          e.snippet.resourceId.videoId
+        );
+
+        arrayPlaylistVideos.push(videoYT);
+      });
+
+      playerPlayVideo(arrayPlaylistVideos, 0);
+      $("#divSong").css("display", "flex");
+    },
+    error: (xmlHttpRequest, errorThrown) => {
+      console.log(errorThrown);
+    },
+  });
 };
 
 export { GeneraEventos };

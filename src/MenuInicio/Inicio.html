@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./Inicio.css" />
     <script src="../../libs/jquery/jquery-3.6.0.js"></script>
     <script src="../Controles/Gamepad.js"></script>
+    <script src="../models/YTvideo.model.js"></script>
     <script type="module" src="./Inicio.js"></script>
 
     <title>Inicio</title>
@@ -49,6 +50,51 @@
         <label class="lbl_boton">Cerrar Sesión</label>
       </div>
     </div>
+
+    <div
+      style="
+        display: none;
+        top: 70%;
+        left: 2%;
+        position: absolute;
+        width: 100px;
+        height: 40px;
+      "
+    >
+      <div id="player"></div>
+    </div>
+
+    <div
+      style="
+        display: none;
+        justify-content: space-around;
+        align-items: center;
+        top: 90%;
+        left: 2%;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: absolute;
+        width: 260px;
+        height: 60px;
+        background-color: firebrick;
+        color: white;
+        border-radius: 3px;
+      "
+      id="divSong"
+    >
+      <img id="ytImage" style="width: 60px; height: 45px" src="" alt="" />
+      <label
+        style="height: 45px; padding-left: 5px; padding-right: 5px"
+        id="ytSong"
+      ></label>
+      <img
+        style="height: 45px; width: auto"
+        src="../../assets/images/gifs/meta.gif"
+        alt=""
+      />
+    </div>
+
+    <script src="../YTPlayer/yt.js"></script>
     <script type="module" src="./Inicio_Eventos.js"></script>
   </body>
 </html>
