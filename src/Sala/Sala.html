@@ -14,13 +14,13 @@
     <label class="lbl-titulo">MODOS DE JUEGO</label>
     <div style="width: 100%; display: flex; justify-content: center">
       <div class="div-pasos-circulos">
-        <div class="div-paso-circulo div-paso-actual">
+        <div id="divPaso1" class="div-paso-circulo div-paso-actual">
           <label>1</label>
         </div>
-        <div class="div-paso-circulo div-paso-otro">
+        <div id="divPaso2" class="div-paso-circulo div-paso-otro">
           <label> 2</label>
         </div>
-        <div class="div-paso-circulo div-paso-otro">
+        <div id="divPaso3" class="div-paso-circulo div-paso-otro">
           <label>3</label>
         </div>
       </div>
@@ -31,21 +31,33 @@
       style="
         margin-top: 80px;
         width: 100%;
-        display: none;
+        display: flex;
         justify-content: center;
       "
     >
       <div style="width: 80%; display: flex; justify-content: space-between">
         <div class="div-modojuego">
-          <img src="" alt="" />
+          <img
+            id="imgCircuito"
+            src="../../assets/images/modosJuego/circuito.png"
+            alt=""
+          />
           <label>Circuito</label>
         </div>
         <div class="div-modojuego">
-          <img src="" alt="" />
+          <img
+            id="imgEliminacion"
+            src="../../assets/images/modosJuego/eliminacion.png"
+            alt=""
+          />
           <label>Eliminación</label>
         </div>
         <div class="div-modojuego">
-          <img src="" alt="" />
+          <img
+            id="imgReyPista"
+            src="../../assets/images/modosJuego/reyPista.png"
+            alt=""
+          />
           <label>Rey de la Pista</label>
         </div>
       </div>
@@ -56,7 +68,7 @@
       style="
         margin-top: 80px;
         width: 100%;
-        display: flex;
+        display: none;
         justify-content: center;
       "
     >
@@ -227,8 +239,10 @@
     </div>
 
     <div>
-      <button class="button-pasos-back">Menú</button>
-      <button class="button-pasos-next">Siguiente</button>
+      <button id="btnBack" class="button-pasos-back">Menú</button>
+      <button id="btnNext" style="display: none" class="button-pasos-next">
+        Siguiente
+      </button>
     </div>
   </body>
 </html>
