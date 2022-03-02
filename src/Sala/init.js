@@ -52,7 +52,7 @@ const Init = () => {
         pasoActual = 3;
         break;
       case 3:
-        //Se manda a crear el juego.
+        window.location.href = "../Juego/Juego.html";
         break;
       default:
         break;
