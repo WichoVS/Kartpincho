@@ -1,0 +1,188 @@
+.wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    float: none;
+}
+
+.head-card-player {
+    display: flex;
+    justify-content: space-between;
+    height: 150px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-top: 40px;
+}
+
+.head-card-player-dataDiv {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dataDiv-top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.dataDiv-top>label {
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.dataDiv-top>button {
+    border: 1px solid #1f0a27;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: transparent;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    margin-left: 30px;
+}
+
+.dataDiv-top>button:hover {
+    background-color: #d8bbe4;
+    cursor: pointer;
+}
+
+.dataDiv-statDiv {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    align-items: center;
+}
+
+.statDiv-text {
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.statDiv-label {
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.dataDiv-bot {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.head-card-player-imgDiv {
+    width: 20%;
+    height: 100%;
+    background-image: url(../../assets/images/modosJuego/circuito.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 10px 0px 10px 0px white inset;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.body-maps-stats {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.card-map-stats {
+    width: 30%;
+    background: #e6f2ff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.card-map-stats>img {
+    width: 80%;
+    height: 48%;
+}
+
+.card-map-divStats {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+}
+
+.card-map-divStats-data {
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.card-map-divStats-label {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.button-pasos-back {
+    width: 200px;
+    height: 50px;
+    background: #405CBF;
+    border-radius: 5px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 90%;
+    left: 10%;
+    color: #FFFFFF;
+    position: fixed;
+}

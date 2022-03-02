@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./Perfil.css" />
+
+    <script src="../../libs/jquery/jquery-3.6.0.js"></script>
+    <script src="../Controles/Gamepad.js"></script>
+    <title>Perfil</title>
+  </head>
+  <body style="background-color: #1f0a27">
+    <div class="wrapper" style="display: flex; flex-direction: column">
+      <div class="head-card-player">
+        <div class="head-card-player-dataDiv">
+          <div class="dataDiv-top">
+            <label>Nombre Usuario</label>
+            <button>Modificar</button>
+          </div>
+          <div class="dataDiv-bot">
+            <div class="dataDiv-statDiv">
+              <label class="statDiv-text">10</label>
+              <label class="statDiv-label">Partidas Jugadas</label>
+            </div>
+            <div class="dataDiv-statDiv">
+              <label class="statDiv-text">0</label>
+              <label class="statDiv-label">Victorias</label>
+            </div>
+            <div class="dataDiv-statDiv">
+              <label class="statDiv-text">Rey de la Pista</label>
+              <label class="statDiv-label">Modalidad Preferida</label>
+            </div>
+          </div>
+        </div>
+        <div class="head-card-player-imgDiv"></div>
+      </div>
+
+      <div class="body-maps-stats">
+        <div class="card-map-stats">
+          <img src="../../assets/images/modosJuego/circuito.png" alt="" />
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">540</label>
+            <label class="card-map-divStats-label">Partidas Jugadas</label>
+          </div>
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">0</label>
+            <label class="card-map-divStats-label">Victorias</label>
+          </div>
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">02:20:01</label>
+            <label class="card-map-divStats-label">Vuelta mas rápida</label>
+          </div>
+        </div>
+        <div class="card-map-stats">
+          <img src="../../assets/images/modosJuego/eliminacion.png" alt="" />
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">540</label>
+            <label class="card-map-divStats-label">Partidas Jugadas</label>
+          </div>
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">0</label>
+            <label class="card-map-divStats-label">Victorias</label>
+          </div>
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">02:20:01</label>
+            <label class="card-map-divStats-label">Vuelta mas rápida</label>
+          </div>
+        </div>
+        <div class="card-map-stats">
+          <img src="../../assets/images/modosJuego/reyPista.png" alt="" />
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">540</label>
+            <label class="card-map-divStats-label">Partidas Jugadas</label>
+          </div>
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">0</label>
+            <label class="card-map-divStats-label">Victorias</label>
+          </div>
+          <div class="card-map-divStats">
+            <label class="card-map-divStats-data">02:20:01</label>
+            <label class="card-map-divStats-label">Vuelta mas rápida</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button id="btnBack" class="button-pasos-back">Menú</button>
+    <script src="./fn_ajax.js"></script>
+    <script type="module" src="./init.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
