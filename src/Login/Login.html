@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>Login</title>
+</head>
+<body>
+
+    <img src="resources/rally_racetrack 2.jpg" alt="" id="img-font">
+    <div id="oscurito"></div>
+    <img src="resources/CapibaraTransparenteLetters.png" alt="" id="letters" class="animate__animated animate__bounceInRight animate__faster">
+    
+    <div id="login" class="animate__animated">
+        <form action="" id="login-form">
+            <br><br>
+            <Label for="inputUser">Usuario</Label>
+            <br>
+            <input type="text" id="inputUser" name="Username">
+            <br>
+            <Label for="inputPass">Contraseña</Label>
+            <br>
+            <input type="password" id="inputPass" name="Password">
+            <br><br>
+            <button type="submit" id="btnLogin">INICIAR SESION</button>
+            <p>No tienes una cuenta? <span id="btn-create-account">Regístrate</span></p>
+        </form>
+    </div>
+    
+    <div id="registration-board">
+        <img src="resources/CorkBoard1.jpg" alt="" >
+        <form action="" id="form-registro">
+            <h2>Registro</h2>
+            <label for="input-sign-user">Usuario</label><input type="text" id="input-sign-user" name="Username">
+            <br>
+            <label for="input-sign-pass">Contraseña</label><input type="password" id="input-sign-pass" name="Password">
+            <br>
+            <label for="input-profile-pic">Imagen</label><input type="file" id="input-profile-pic" name="Imagen">
+            <br> 
+            <button id="btn-registrarse" type="button">REGISTRARSE</button>
+            <button id="btn-cancelar" type="button">CANCELAR</button>
+        </form>
+    </div>
+    <img src="resources/Pinchos.png" alt="" id="pinchos" class="animate__animated animate__headShake">
+</body>
+<script src="../../libs/jquery/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="fn_ajax.js"></script>
+<script type="text/javascript" src="Login.js"></script>
+<script type="text/javascript" src="Init.js"></script>
+</html>
