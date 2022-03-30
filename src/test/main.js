@@ -1,5 +1,3 @@
-import { KBInputs } from "../Controles/keyboard.js";
-
 var manager;
 //var p1;
 var terreno;
@@ -20,38 +18,45 @@ $(() => {
   );
   manager.AddJugador(p1);
   terreno = new Terreno(
-    "../../assets/modelos/PistaCircuito/PastoCentralFBX/PastoCentral.fbx",
+    "../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
     "../../assets/modelos/PistaCircuito/PastoCentralTextures/PastoCentral_BaseColor.png",
-    new CANNON.Vec3(32, 34.5, 0.01),
+    new CANNON.Vec3(400, 400, 0.01),
     "PastoCentral",
     manager.groundMaterial
   );
-  var m = new Modelo(
-    "../../assets/modelos/PistaCircuito/PastoExteriorFBX/PastoExterior.fbx",
-    "../../assets/modelos/PistaCircuito/PastoCentralTextures/PastoCentral_BaseColor.png",
-    null,
-    "PastoExterior"
+  var pista = new Modelo(
+    "../../assets/modelos/PistaNascar/PistaNascar.fbx",
+    "../../assets/modelos/PistaNascar/Pista_Color.png",
+    new CANNON.Vec3(0, 0, 0),
+    "PistaAsfalto"
   );
-  modelos.push(m);
+
+  modelos.push(pista);
+
+  //Left
   var c = new Collider(
-    new CANNON.Vec3(33, 0, 0),
-    new CANNON.Vec3(1, 10, 35),
+    new CANNON.Vec3(280, 0, -125),
+    new CANNON.Vec3(1, 10, 200),
     manager.world
   );
 
+  //Forward
   var c2 = new Collider(
-    new CANNON.Vec3(0, 0, 35),
-    new CANNON.Vec3(35, 10, 1),
+    new CANNON.Vec3(80, 0, 75),
+    new CANNON.Vec3(200, 10, 1),
     manager.world
   );
+  //Behind
   var c3 = new Collider(
-    new CANNON.Vec3(0, 0, -35),
-    new CANNON.Vec3(35, 10, 1),
+    new CANNON.Vec3(80, 0, -325),
+    new CANNON.Vec3(200, 10, 1),
     manager.world
   );
+
+  //Right
   var c4 = new Collider(
-    new CANNON.Vec3(-33, 1, 0),
-    new CANNON.Vec3(5, 10, 35),
+    new CANNON.Vec3(-120, 0, -125),
+    new CANNON.Vec3(5, 10, 200),
     manager.world
   );
 
@@ -63,119 +68,13 @@ $(() => {
 
   rampa.Rota(new CANNON.Vec3(1, 0, 0), 1.74533);
 
+  InicializaEventos(manager);
   render();
   //HacerUnaFuncionParaGenerarLosEventos
-  $(window).on("keydown", (e) => {
-    var code = e.keyCode || e.which;
-    if (code == 38) {
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(-p.engineForce, 2);
-          p.vehicle.applyEngineForce(-p.engineForce, 3);
-        }
-      }
-    }
-    if (code == 40) {
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(p.engineForce, 2);
-          p.vehicle.applyEngineForce(p.engineForce, 3);
-        }
-      }
-    }
-
-    if (code == 37) {
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(p.maxSteerVal, 2);
-          p.vehicle.setSteeringValue(p.maxSteerVal, 3);
-        }
-      }
-    }
-
-    if (code == 39) {
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(-p.maxSteerVal, 2);
-          p.vehicle.setSteeringValue(-p.maxSteerVal, 3);
-        }
-      }
-    }
-
-    if (code == 32) {
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.setBrake(2, 2);
-          p.vehicle.setBrake(2, 3);
-        }
-      }
-    }
-  });
-
-  $(window).on("keyup", (e) => {
-    var code = e.keyCode || e.which;
-
-    if (code == 38) {
-      console.log("arrowUp Up");
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(0, 2);
-          p.vehicle.applyEngineForce(0, 3);
-        }
-      }
-    }
-    if (code == 40) {
-      console.log("arrowDown Up");
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(0, 2);
-          p.vehicle.applyEngineForce(0, 3);
-        }
-      }
-    }
-
-    if (code == 37) {
-      console.log("arrowLeft Up");
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(0, 2);
-          p.vehicle.setSteeringValue(0, 3);
-        }
-      }
-    }
-
-    if (code == 39) {
-      console.log("arrowRight Up");
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(0, 2);
-          p.vehicle.setSteeringValue(0, 3);
-        }
-      }
-    }
-
-    if (code == 32) {
-      if (manager.jugadores.length > 0) {
-        let p = manager.jugadores[0];
-        if (p.loaded) {
-          p.vehicle.setBrake(0, 2);
-          p.vehicle.setBrake(0, 3);
-        }
-      }
-    }
-  });
 });
 
 const render = () => {
+  GamepadsEvent(manager);
   var countPlayers = 0;
   if (manager) {
     requestAnimationFrame(render);

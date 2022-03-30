@@ -1,0 +1,177 @@
+var gamepads = navigator.getGamepads();
+
+window.addEventListener("gamepadconnected", (event) => {
+  console.log("A gamepad connected:");
+  gamepads = navigator.getGamepads();
+  console.log(gamepads);
+  console.log(event.gamepad);
+});
+
+window.addEventListener("gamepaddisconnected", (event) => {
+  console.log("A gamepad disconnected:");
+  console.log(event.gamepad);
+});
+
+const InicializaEventos = (manager) => {
+  gamepads = navigator.getGamepads();
+  console.log(gamepads);
+  $(window).on("keydown", (e) => {
+    var code = e.keyCode || e.which;
+    if (code == 38) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.applyEngineForce(-p.engineForce, 2);
+          p.vehicle.applyEngineForce(-p.engineForce, 3);
+        }
+      }
+    }
+    if (code == 40) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.applyEngineForce(p.engineForce, 2);
+          p.vehicle.applyEngineForce(p.engineForce, 3);
+        }
+      }
+    }
+
+    if (code == 37) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setSteeringValue(p.maxSteerVal, 2);
+          p.vehicle.setSteeringValue(p.maxSteerVal, 3);
+        }
+      }
+    }
+
+    if (code == 39) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setSteeringValue(-p.maxSteerVal, 2);
+          p.vehicle.setSteeringValue(-p.maxSteerVal, 3);
+        }
+      }
+    }
+
+    if (code == 32) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setBrake(2, 2);
+          p.vehicle.setBrake(2, 3);
+        }
+      }
+    }
+  });
+
+  $(window).on("keyup", (e) => {
+    var code = e.keyCode || e.which;
+
+    if (code == 38) {
+      console.log("arrowUp Up");
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.applyEngineForce(0, 2);
+          p.vehicle.applyEngineForce(0, 3);
+        }
+      }
+    }
+    if (code == 40) {
+      console.log("arrowDown Up");
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.applyEngineForce(0, 2);
+          p.vehicle.applyEngineForce(0, 3);
+        }
+      }
+    }
+
+    if (code == 37) {
+      console.log("arrowLeft Up");
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setSteeringValue(0, 2);
+          p.vehicle.setSteeringValue(0, 3);
+        }
+      }
+    }
+
+    if (code == 39) {
+      console.log("arrowRight Up");
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setSteeringValue(0, 2);
+          p.vehicle.setSteeringValue(0, 3);
+        }
+      }
+    }
+
+    if (code == 32) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setBrake(0, 2);
+          p.vehicle.setBrake(0, 3);
+        }
+      }
+    }
+  });
+};
+
+const GamepadsEvent = (_manager) => {
+  gamepads = navigator.getGamepads();
+  gamepads.forEach((c) => {
+    if (c !== null) {
+      if (c.axes[0] > 0.1 || c.axes[0] < -0.1) {
+        let p = _manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setSteeringValue(-p.maxSteerVal * c.axes[0], 2);
+          p.vehicle.setSteeringValue(-p.maxSteerVal * c.axes[0], 3);
+        }
+      } else {
+        let p = _manager.jugadores[0];
+        if (p.loaded) {
+          p.vehicle.setSteeringValue(-p.maxSteerVal * 0, 2);
+          p.vehicle.setSteeringValue(-p.maxSteerVal * 0, 3);
+        }
+      }
+
+      c.buttons.forEach((b, i) => {
+        let p = _manager.jugadores[0];
+        if (p.loaded) {
+          if (b.pressed) {
+            if (i == 7) {
+              p.vehicle.applyEngineForce(-p.engineForce * b.value, 2);
+              p.vehicle.applyEngineForce(-p.engineForce * b.value, 3);
+            }
+            if (i == 6) {
+              p.vehicle.applyEngineForce(p.engineForce * b.value, 2);
+              p.vehicle.applyEngineForce(p.engineForce * b.value, 3);
+            }
+            if (i == 1) {
+              p.vehicle.setBrake(2, 2);
+              p.vehicle.setBrake(2, 3);
+            }
+          } else {
+            //Reseteamos todos los eventos (Mejorar la lógica de los botónes luego).
+            if (i == 7 && !c.buttons[6].pressed) {
+              p.vehicle.applyEngineForce(0, 2);
+              p.vehicle.applyEngineForce(0, 3);
+            }
+            if (i == 1) {
+              p.vehicle.setBrake(0, 2);
+              p.vehicle.setBrake(0, 3);
+            }
+          }
+        }
+      });
+    }
+  });
+};

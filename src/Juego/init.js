@@ -1,10 +1,5 @@
-import * as THREE from "../../libs/threejs/src/Three.js";
-import { RectAreaLightUniformsLib } from "../../libs/threejs/lights/RectAreaLightUniformsLib.js";
 import { FBXLoader } from "../../libs/threejs/examples/jsm/loaders/FBXLoader.js";
 import { KBInputs } from "../Controles/keyboard.js";
-import { delta } from "../MenuInicio/Inicio.js";
-import * as CANNON from "../../libs/cannon.js/src/Cannon.js";
-import { CannonHelper } from "../../libs/cannon.js/cannonhelper.js";
 
 class Init {
   camera;
