@@ -1,44 +1,59 @@
-function SignIn(inputData)
-{
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:3000/api/usuarios/registro",
-        data: inputData,
-        dataType: "json",
-        contentType: "application/json"
-      }).done(function(data)
-      {
-        alert("Success! uwu");
-        window.open("../Juego/Juego.html");
-      })
-      .fail(function()
-      {
-        alert("Fail unu");
+function SignIn(inputData) {
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:3000/api/usuarios/registro",
+    data: inputData,
+    dataType: "json",
+    contentType: "application/json",
+  })
+    .done(({ success, message, data }) => {
+      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "Registro",
+        text: "Usuario registrado con Exito.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.setItem("UsuarioLog", data._id);
+          window.location.href = "../MenuInicio/Inicio.html";
+        }
       });
+    })
+    .fail((data) => {
+      Swal.fire({
+        icon: "error",
+        text: data.responseJSON.message,
+        title: "Registro",
+      });
+    });
 }
 
-function Login(inputForm)
-{
+function Login(inputForm) {
   $.ajax({
     type: "POST",
     url: "http://localhost:3000/api/usuarios/login",
     data: inputForm,
     dataType: "json",
-    contentType: "application/json"
-  }).done(function(data)
-  {
-    console.log(data);
-    const credentials = JSON.parse(inputForm);
-    if(data)
-      if(credentials.Password == data.data.Password)
-      {
-        alert("Logged! uwu");
-        window.open("../Juego/Juego.html");
-      }
+    contentType: "application/json",
   })
-  .fail(function()
-  {
-    alert("Fail unu");
-  });
+    .done(({ success, message, data }) => {
+      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "Inicio de Sesión",
+        text: "Inicio de Sesión Correcto.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.setItem("UsuarioLog", data._id);
+          window.location.href = "../MenuInicio/Inicio.html";
+        }
+      });
+    })
+    .fail((err) => {
+      Swal.fire({
+        icon: "error",
+        title: "Inicio de Sesión",
+        text: err.responseJSON.message,
+      });
+    });
 }
-
