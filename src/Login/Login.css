@@ -1,0 +1,162 @@
+html {
+    min-height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+
+body {
+    /* background: url('resources/rally_racetrack 2.jpg'), #FFFFFF; */
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+input {
+    border: none;
+    border-radius: 5px;
+    margin: auto;
+    width: 250px;
+    height: 20px;
+}
+
+label {
+    margin: auto;
+    font-weight: 700;
+}
+
+#oscurito {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 25%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    position: absolute;
+}
+
+#img-font {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+}
+
+#letters {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 650px;
+    height: auto;
+}
+
+#pinchos {
+    position: absolute;
+    bottom: 0px;
+    right: -20px;
+    width: 700px;
+    height: auto;
+    overflow: hidden;
+}
+
+#registration-board {
+    position: absolute;
+    width: auto;
+    height: 400px;
+    /* border-radius: 20px; */
+    top: 200px;
+    margin: auto;
+    bottom: 0;
+    top: 230px;
+    left: 0;
+    right: 100vw;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+}
+
+#registration-board img {
+    width: auto;
+    height: 400px;
+    border-radius: 10px;
+}
+
+#form-registro {
+    position: relative;
+    bottom: 400px;
+    font-size: 30px;
+    font-weight: 900;
+    color: black;
+}
+
+#form-registro input {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    font-size: 25px;
+    border-bottom: 3px solid black;
+    margin-bottom: 20px;
+}
+
+#form-registro button {
+    background-color: rgba(0, 0, 0, 0);
+    border: 3px solid black;
+    color: black;
+    font-weight: 900;
+    height: 40px;
+    padding: 0 10px 0 10px;
+}
+
+input#input-profile-pic {
+    margin-left: 30px;
+    font-size: 20px;
+    height: 30px;
+    border-bottom: 0 !important;
+    border: none;
+}
+
+#login {
+    width: 500px;
+    height: 300px;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    /* color: white; */
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    padding: 0;
+}
+
+#login p, #login a {
+    font-size: 20px;
+}
+
+#btnLogin {
+    background-color: rgba(0, 0, 0, 0);
+    border: 3px solid white;
+    color: white;
+    font-weight: 900;
+    height: 40px;
+    padding: 0 10px 0 10px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+#btnLogin:hover {
+    border: 5px solid rgb(22, 186, 192);
+    color: rgb(22, 186, 192);
+}
+
+#btn-create-account {
+    cursor: pointer;
+    color: rgb(0, 0, 124);
+    text-decoration: underline;
+}
