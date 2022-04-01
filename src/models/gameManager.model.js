@@ -2,6 +2,7 @@ class GameManager {
   world;
   scene;
   sunLight;
+  ambientLight;
   cannonDebugRenderer;
   worldStep;
   groundMaterial;
@@ -16,9 +17,12 @@ class GameManager {
   InitThree() {
     this.scene = this.CrearEscena();
     //$("#game").append(renderer.domElement);
+    this.ambientLight = new THREE.AmbientLight(0x404040); // soft white light
+
     this.sunlight = new THREE.DirectionalLight(0xffffff, 1.0);
     this.sunlight.position.set(-10, 10, 0);
     this.scene.add(this.sunlight);
+    this.scene.add(this.ambientLight);
   }
 
   InitCannon() {

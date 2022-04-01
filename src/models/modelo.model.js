@@ -2,11 +2,11 @@ class Modelo {
   mesh;
   body;
   isLoaded = false;
-  constructor(_pathMesh, _pathTexture, _v3_shape, _name) {
-    this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name);
+  constructor(_pathMesh, _pathTexture, _v3_shape, _name, _side) {
+    this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side);
   }
 
-  CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name) {
+  CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side) {
     var mLoader = new THREE.FBXLoader();
     var tLoader = new THREE.TextureLoader();
 
@@ -17,6 +17,7 @@ class Modelo {
 
         let texture = new THREE.MeshStandardMaterial({
           map: color,
+          side: _side,
         });
 
         fbx.traverse((child) => {

@@ -13,8 +13,19 @@ class Jugador {
   isLoaded = false;
   loaded = false;
   cameraOffset = new THREE.Vector3(0, 3, -10);
+  totalPlayers;
 
-  constructor(_pathModel, _pathTexture, _name, _wheelMaterial, _world, _mass) {
+  constructor(
+    _pathModel,
+    _pathTexture,
+    _name,
+    _wheelMaterial,
+    _world,
+    _mass,
+    _totalPlayers,
+    _origin
+  ) {
+    this.totalPlayers = _totalPlayers;
     this.name = _name;
     this.engineForce = 1000;
     this.maxSteerVal = 0.1;
@@ -37,11 +48,20 @@ class Jugador {
       _name,
       _wheelMaterial,
       _world,
-      _mass
+      _mass,
+      _origin
     );
   }
 
-  CargaModelo(_pathModel, _pathTexture, _name, _wheelMaterial, _world, _mass) {
+  CargaModelo(
+    _pathModel,
+    _pathTexture,
+    _name,
+    _wheelMaterial,
+    _world,
+    _mass,
+    _origin
+  ) {
     var mLoader = new THREE.FBXLoader();
     var tLoader = new THREE.TextureLoader();
 
@@ -69,7 +89,7 @@ class Jugador {
         this.camera.lookAt(this.mesh.position);
         this.mesh.add(this.camera);
 
-        this.CargaFisicas(_wheelMaterial, _world, _mass);
+        this.CargaFisicas(_wheelMaterial, _world, _mass, _origin);
       },
       undefined,
       (error) => {
@@ -78,12 +98,12 @@ class Jugador {
     );
   }
 
-  CargaFisicas(_wheelMaterial, _world, _mass) {
+  CargaFisicas(_wheelMaterial, _world, _mass, _origin) {
     var chassisShape = new CANNON.Box(new CANNON.Vec3(0.5, 0.35, 1));
     var chassisBody = new CANNON.Body({ mass: _mass });
     chassisBody.addShape(chassisShape);
     chassisBody.linearDamping = 0.15;
-    chassisBody.position.set(0, 1, 4);
+    chassisBody.position.copy(_origin);
     chassisBody.angularVelocity.set(0, 0, 0); // initial velocity
 
     this.vehicle = new CANNON.RaycastVehicle({
@@ -188,7 +208,7 @@ class Jugador {
 
   CrearRenderer() {
     let renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight / 2);
     return renderer;
   }
 
@@ -196,6 +216,6 @@ class Jugador {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth, window.innerHeight / 2);
   }
 }
