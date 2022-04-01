@@ -1,0 +1,3 @@
+const LoadEstadisticas = () => {};
+
+const UpdatePerfil = () => {};

@@ -1,0 +1,104 @@
+.wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    float: none;
+}
+
+h1 {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 58px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+h3 {
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 33px;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+label {
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 33px;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+.option-div {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.button-pasos-back {
+    width: 200px;
+    height: 50px;
+    background: #405CBF;
+    border-radius: 5px;
+    position: absolute;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 90%;
+    left: 10%;
+    color: #FFFFFF;
+}
+
+.button-pasos-next {
+    width: 200px;
+    height: 50px;
+    background: #405CBF;
+    border-radius: 5px;
+    position: absolute;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 90%;
+    right: 10%;
+    color: #FFFFFF;
+}
+
+.btn-Checked {
+    height: 100%;
+    width: 45%;
+    margin: auto;
+    background-color: #9C57F7;
+    color: white;
+    outline: none;
+    border: 0px;
+}
+
+.btn-Unchecked {
+    height: 100%;
+    width: 45%;
+    margin: auto;
+    outline: none;
+    border: 0px;
+}

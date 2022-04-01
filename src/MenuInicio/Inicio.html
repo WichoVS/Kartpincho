@@ -1,14 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./Inicio.css" />
+    <script src="../../libs/jquery/jquery-3.6.0.js"></script>
+    <script src="../Controles/Gamepad.js"></script>
+    <script src="../models/YTvideo.model.js"></script>
+    <script type="module" src="./Inicio.js"></script>
+
     <title>Inicio</title>
   </head>
   <body>
-    Inicio
-    <div class="text-3xl">Hola</div>
+    <div class="div-logo" id="logo">
+      <label
+        style="
+          width: 100%;
+          height: 100%;
+          font-family: Nunito;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 60px;
+          line-height: 82px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          z-index: 1;
+          color: #000000;
+          justify-content: center;
+        "
+      >
+      </label>
+    </div>
+    <div style="position: absolute" id="fondo3d">
+      <div id="btnCrearSala" class="botonMenu btnCrearSala btnNotHover-Active">
+        <label class="lbl_boton">Crear Sala</label>
+      </div>
+      <div id="btnPerfil" class="botonMenu btnPerfil btnNotHover-Active">
+        <label class="lbl_boton">Perfil</label>
+      </div>
+      <div
+        id="btnConfiguracion"
+        class="botonMenu btnConfiguracion btnNotHover-Active"
+      >
+        <label class="lbl_boton">Configuración</label>
+      </div>
+      <div id="btnCerrarSesion" class="botonMenu btnSalir btnNotHover-Active">
+        <label class="lbl_boton">Cerrar Sesión</label>
+      </div>
+    </div>
+
+    <div
+      style="
+        display: none;
+        top: 70%;
+        left: 2%;
+        position: absolute;
+        width: 100px;
+        height: 40px;
+      "
+    >
+      <div id="player"></div>
+    </div>
+
+    <div
+      style="
+        display: none;
+        justify-content: space-around;
+        align-items: center;
+        top: 90%;
+        left: 2%;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: absolute;
+        width: 260px;
+        height: 60px;
+        background-color: firebrick;
+        color: white;
+        border-radius: 3px;
+      "
+      id="divSong"
+    >
+      <img id="ytImage" style="width: 60px; height: 45px" src="" alt="" />
+      <label
+        style="height: 45px; padding-left: 5px; padding-right: 5px"
+        id="ytSong"
+      ></label>
+      <img
+        style="height: 45px; width: auto"
+        src="../../assets/images/gifs/meta.gif"
+        alt=""
+      />
+    </div>
+
+    <script src="../YTPlayer/yt.js"></script>
+    <script type="module" src="./Inicio_Eventos.js"></script>
   </body>
 </html>
