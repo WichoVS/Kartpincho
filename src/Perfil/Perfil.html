@@ -22,7 +22,8 @@
         <div class="head-card-player-dataDiv">
           <div class="dataDiv-top">
             <label>Nombre Usuario</label>
-            <button>Modificar</button>
+            <button id="btnModificar">Modificar</button>
+            <button id="btnPlaylist">Playlist</button>
           </div>
           <div class="dataDiv-bot">
             <div class="dataDiv-statDiv">
@@ -90,6 +91,128 @@
         </div>
       </div>
     </div>
+
+    <div class="modal-card" id="modalModificar">
+      <div class="modal-content">
+        <label class="modal-title" for="">Modificacion Datos</label>
+        <div class="modal-inputs">
+          <label for="">Usuario</label>
+          <input type="text" name="" id="" />
+        </div>
+        <div class="modal-inputs">
+          <label for="">Contraseña</label>
+          <input type="password" name="" id="" />
+        </div>
+        <div class="modal-input-img">
+          <label for=""> Imagen </label>
+          <img src="../../assets/images/Pinchos.png" alt="" />
+          <label class="lbl-input-img" for="lblImagen"
+            >Selecciona Imagen
+            <input hidden type="file" name="" id="lblImagen" />
+          </label>
+        </div>
+        <div class="modal-inputs">
+          <button class="btnGuardar" id="btnSaveMods">Guardar</button>
+          <button class="btnCancelar" id="btnCancelarMods">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalPlaylist" class="modal-card">
+      <div class="modal-content">
+        <label class="modal-title" for="">Agregar Playlist</label>
+        <div class="modal-inputs">
+          <label for="">Nombre</label>
+          <input type="text" name="" id="" />
+        </div>
+        <div class="modal-inputs">
+          <label for="">Url</label>
+          <input type="text" name="" id="" />
+        </div>
+        <div class="modal-inputs">
+          <button id="btnSaveList" class="btnGuardar">Agregar</button>
+        </div>
+        <div class="modal-input-img">
+          <label for=""> Playlist Disponibles </label>
+          <table id="tblPlaylist" style="width: 80%">
+            <thead>
+              <th>Nombre</th>
+              <th>Url</th>
+              <th>Borrar</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Kartpincho1</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho2</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho3</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho4</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho5</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho6</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho7</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho8</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+              <tr>
+                <td>Kartpincho9</td>
+                <td>
+                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
+                </td>
+                <td><button>Borrar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-inputs">
+          <button class="btnCancelar" id="btnCancelarList">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
     <button id="btnBack" class="button-pasos-back">Menú</button>
     <script src="./fn_ajax.js"></script>
     <script type="module" src="./init.js"></script>

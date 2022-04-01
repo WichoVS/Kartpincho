@@ -44,6 +44,7 @@ label {
     flex-direction: row;
     width: 70%;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .button-pasos-back {
@@ -82,4 +83,22 @@ label {
     top: 90%;
     right: 10%;
     color: #FFFFFF;
+}
+
+.btn-Checked {
+    height: 100%;
+    width: 45%;
+    margin: auto;
+    background-color: #9C57F7;
+    color: white;
+    outline: none;
+    border: 0px;
+}
+
+.btn-Unchecked {
+    height: 100%;
+    width: 45%;
+    margin: auto;
+    outline: none;
+    border: 0px;
 }

@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap"
       rel="stylesheet"
@@ -24,37 +29,25 @@
         <div style="width: 25%; display: flex; justify-content: center">
           <h3>Sonido</h3>
         </div>
-        <div style="width: 25%; display: flex; justify-content: center">
-          <label><</label>
-          <label style="margin-left: 5px; margin-right: 5px">10</label>
-          <label>></label>
+        <div style="width: 30%; display: flex; justify-content: center">
+          <button id="btnSiSonido" class="btn-Checked">SI</button>
+          <button id="btnNoSonido" class="btn-Unchecked">NO</button>
         </div>
       </div>
       <div class="option-div">
         <div style="width: 25%; display: flex; justify-content: center">
           <h3>Música</h3>
         </div>
-        <div style="width: 25%; display: flex; justify-content: center">
-          <label><</label>
-          <label style="margin-left: 5px; margin-right: 5px">10</label>
-          <label>></label>
-        </div>
-      </div>
-      <div class="option-div">
-        <div style="width: 25%; display: flex; justify-content: center">
-          <h3>Tipo de Objetos</h3>
-        </div>
-        <div style="width: 25%; justify-content: center; display: flex">
-          <label><</label>
-          <label style="margin-left: 5px; margin-right: 5px">Alocados</label>
-          <label>></label>
+        <div style="width: 30%; display: flex; justify-content: center">
+          <button id="btnSiMusica" class="btn-Checked">SI</button>
+          <button id="btnNoMusica" class="btn-Unchecked">NO</button>
         </div>
       </div>
     </div>
     <button id="btnBack" class="button-pasos-back">Menú</button>
     <button id="btnNext" class="button-pasos-next">Guardar</button>
     <script src="./fn_ajax.js"></script>
-    <script type="module" src="./init.js"></script>
-    <script type="module" src="./main.js"></script>
+    <script src="./init.js"></script>
+    <script src="./main.js"></script>
   </body>
 </html>

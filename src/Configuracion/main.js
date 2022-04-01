@@ -1,4 +1,7 @@
-import { InicializaEventos } from "./init.js";
+var Configuracion = {
+  Sonido: true,
+  Musica: true,
+};
 
 $(() => {
   InicializaEventos();

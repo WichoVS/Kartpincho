@@ -56,3 +56,24 @@ const GetMapas = async () => {
     });
   }
 };
+
+const GetPlaylistUsuario = async () => {
+  var user = localStorage.getItem("UsuarioLog");
+  const resp = await fetch("http://localhost:3000/api/playlist/getByOwner", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ UsuarioOwner: user }),
+  });
+  const { success, message, data } = await resp.json();
+
+  data.forEach((p) => {
+    $("#selPlaylist").append(
+      `
+        <option value="${p._id}">${p.Nombre}</option>
+      `
+    );
+  });
+};

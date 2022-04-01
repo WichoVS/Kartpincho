@@ -8,10 +8,12 @@ var opcionesJuego = {
   Jugadores: 0,
   Dificultad: 0,
   VueltaMasRapida: 0,
+  Playlist: "",
 };
 
 $(() => {
   Init();
   GetModalidades();
   GetMapas();
+  GetPlaylistUsuario();
 });
