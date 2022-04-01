@@ -1,6 +1,5 @@
 import { clock, delta, camera, pivot, arrayLights } from "./Inicio.js";
 import * as THREE from "../../libs/threejs/src/Three.js";
-import lights_toon_fragmentGlsl from "../../libs/threejs/src/renderers/shaders/ShaderChunk/lights_toon_fragment.glsl.js";
 var opcionMenu = 0;
 var canInput = [true, true, true, true];
 var gamepads = {};
