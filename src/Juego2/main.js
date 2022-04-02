@@ -34,7 +34,7 @@ $(() => {
   );
 
   var p1 = new Jugador(
-    "../../assets/modelos/GoKartTest/GoKartTest.fbx",
+    "../../assets/karts/Cuetazo.fbx",
     "../../assets/modelos/GoKartTest/Kart_BaseColor.png",
     "Player1",
     manager.wheelMaterial,
@@ -59,37 +59,74 @@ $(() => {
   manager.AddJugador(p1);
   manager.AddJugador(p2);
   terreno = new Terreno(
-    "../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
+    //"../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
+    "../../assets/modelos/Pista2/PlanoPistaFaro.fbx",
     "../../assets/modelos/PistaCircuito/PastoCentralTextures/PastoCentral_BaseColor.png",
-    new CANNON.Vec3(400, 400, 0.01),
+    new CANNON.Vec3(4000, 4000, 0.01),
     "PastoCentral",
     manager.groundMaterial
   );
   var pista = new Modelo(
-    "../../assets/modelos/PistaNascar/PistaNascar.fbx",
-    "../../assets/modelos/PistaNascar/Pista_Color.png",
+    "../../assets/modelos/Pista2/PistaLarga.fbx",
+    "../../assets/modelos/Pista2/STREET.png",
     new CANNON.Vec3(0, 0, 0),
     "PistaAsfalto",
     THREE.FrontSide
   );
 
-  var arboles = new Modelo(
+  var faro = new Modelo(
+    "../../assets/modelos/Pista2/Faro.fbx",
+    "../../assets/modelos/Pista2/Faro.png",
+    undefined,
+    "Faro",
+    THREE.FrontSide
+  );
+
+  /*var arboles = new Modelo(
     "../../assets/modelos/PistaNascar/Arboles.fbx",
     "../../assets/modelos/PistaNascar/Arboles_Color.png",
     undefined,
     "Arboles",
     THREE.FrontSide
-  );
+  );*/
 
   var meta = new Modelo(
-    "../../assets/modelos/PistaNascar/Meta.fbx",
-    "../../assets/modelos/PistaNascar/Meta_Color.png",
+    "../../assets/modelos/Pista2/Meta.fbx",
+    "../../assets/modelos/Pista2/Meta.png",
     undefined,
     "Meta",
     THREE.DoubleSide
   );
 
-  var piedras1 = new Modelo(
+  var RocasFaro = new Modelo(
+    "../../assets/modelos/Pista2/RocasFaro.fbx",
+    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+    undefined,
+    "Piedras"
+  );
+
+  var RocasObstaculo = new Modelo(
+    "../../assets/modelos/Pista2/RocasObstaculos.fbx",
+    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+    undefined,
+    "Piedras2"
+  );
+
+  var CajasObs = new Modelo(
+    "../../assets/modelos/Pista2/CajasObstaculos.fbx",
+    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+    undefined,
+    "Cajas"
+  );
+
+  var Botes = new Modelo(
+    "../../assets/modelos/Pista2/Botes.fbx",
+    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+    undefined,
+    "BotesCarga"
+  );
+
+  /*var piedras1 = new Modelo(
     "../../assets/modelos/PistaNascar/Piedra1.fbx",
     "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
     undefined,
@@ -127,17 +164,22 @@ $(() => {
     "../../assets/modelos/PistaNascar/Piedra6_Color.jpg",
     undefined,
     "Piedras6"
-  );
+  );*/
 
-  modelos.push(piedras1);
+ /* modelos.push(piedras1);
   modelos.push(piedras2);
   modelos.push(piedras3);
   modelos.push(piedras4);
   modelos.push(piedras5);
   modelos.push(piedras6);
-  modelos.push(arboles);
+  modelos.push(arboles);*/
+  modelos.push(CajasObs);
+  modelos.push(Botes);
+  modelos.push(RocasFaro);
+  modelos.push(RocasObstaculo);
   modelos.push(pista);
   modelos.push(meta);
+  modelos.push(faro);
 
   //Left
   var c = new Collider(
@@ -147,11 +189,11 @@ $(() => {
   );
 
   //Forward
-  var c2 = new Collider(
+  /*var c2 = new Collider(
     new CANNON.Vec3(80, 0, 75),
     new CANNON.Vec3(200, 10, 1),
     manager.world
-  );
+  );*/
   //Behind
   var c3 = new Collider(
     new CANNON.Vec3(80, 0, -325),
