@@ -1,5 +1,3 @@
-import { clock, delta, camera, pivot, arrayLights } from "./Inicio.js";
-import * as THREE from "../../libs/threejs/src/Three.js";
 var opcionMenu = 0;
 var canInput = [true, true, true, true];
 var gamepads = {};
@@ -8,37 +6,7 @@ var arrayPlaylistVideos = [];
 
 const APIKEY = "AIzaSyCahpRLo0SMKUbnrzzgOjZjwdZXRy6wwso";
 
-function gamepadHandler(event, connecting) {
-  var gamepad = event.gamepad;
-  // Note:
-  // gamepad === navigator.getGamepads()[gamepad.index]
-
-  if (connecting) {
-    gamepads[gamepad.index] = gamepad;
-    let gamepadState = new GamepadState(gamepad.index);
-    gpsStateLF.push(gamepadState);
-  } else {
-    delete gamepads[gamepad.index];
-    delete gpsStateLF[gamepad.index];
-  }
-}
-
-window.addEventListener(
-  "gamepadconnected",
-  function (e) {
-    gamepadHandler(e, true);
-  },
-  false
-);
-window.addEventListener(
-  "gamepaddisconnected",
-  function (e) {
-    gamepadHandler(e, false);
-  },
-  false
-);
-
-const GeneraEventos = () => {
+const InicializaEventos = () => {
   $("#btnCrearSala").on("mouseover", () => {
     SetBotonFocus(1);
     opcionMenu = 1;
@@ -73,59 +41,6 @@ const GeneraEventos = () => {
   $("#btnCerrarSesion").on("mouseleave", () => {
     SetBotonFocus(0);
     opcionMenu = 0;
-  });
-
-  $(window).on("keydown", (e) => {
-    var code = e.keyCode || e.which;
-    if (code == 38) {
-      console.log("arrowUp");
-      ActualizaBotonFocus(-1);
-    }
-    if (code == 40) {
-      console.log("arrowDown");
-      ActualizaBotonFocus(1);
-    }
-
-    if (code == 37) {
-      console.log("arrowLeft");
-    }
-
-    if (code == 39) {
-      console.log("arrowRight");
-    }
-
-    if (code == 27) {
-      opcionMenu = 0;
-      SetBotonFocus(opcionMenu);
-      console.log("esc");
-    }
-
-    if (code == 32) {
-      //Input de Prueba
-      GetVideosPlaylist("PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH");
-      //playerPlayVideo("lbxfbp9KPUQ");
-    }
-
-    if (code == 13) {
-      console.log("entra");
-      switch (opcionMenu) {
-        case 1:
-          window.location.href = "../Sala/Sala.html";
-          break;
-        case 2:
-          window.location.href = "../Perfil/Perfil.html";
-          break;
-        case 3:
-          window.location.href = "../Configuracion/Configuracion.html";
-          break;
-        case 4:
-          //Hacer Procedimiento para cerrar la sesión
-          window.location.href = "../Login/Login.html";
-          break;
-        default:
-          break;
-      }
-    }
   });
 
   $("#btnCrearSala").on("click", () => {
@@ -300,130 +215,6 @@ const SetBotonFocus = (opcSelect) => {
   }
 };
 
-export const OptMove = () => {
-  var gamepads = navigator.getGamepads
-    ? navigator.getGamepads()
-    : navigator.webkitGetGamepads
-    ? navigator.webkitGetGamepads()
-    : [];
-  var gamepadsConnected = 0;
-  for (let index = 0; index < gamepads.length; index++) {
-    if (gamepads[index] != null) {
-      gamepadsConnected++;
-    }
-  }
-
-  if (!gamepads || gamepadsConnected == 0) {
-    return;
-  }
-
-  for (let index = 0; index < gamepads.length; index++) {
-    if (gamepads[index] != null) {
-      if (canInput[index]) {
-        if (gamepads[index].axes[0] > 0.1 || gamepads[index].axes[0] < -0.1) {
-          //pivot.translateX(gamepads[index].axes[0]);
-        }
-        if (gamepads[index].axes[1] > 0.1 || gamepads[index].axes[1] < -0.1) {
-          //pivot.translateZ(gamepads[index].axes[1]);
-
-          if (gamepads[index].axes[1] > 0.1) {
-            ActualizaBotonFocus(1);
-            canInput[index] = false;
-          } else {
-            ActualizaBotonFocus(-1);
-            canInput[index] = false;
-          }
-          setTimeout(() => {
-            canInput[index] = true;
-          }, 300);
-        }
-      }
-      if (gamepads[index].axes[2] > 0.1 || gamepads[index].axes[2] < -0.1) {
-        let yRot = THREE.Math.radToDeg(
-          pivot.rotation.y +
-            THREE.Math.degToRad(2 * -1 * gamepads[index].axes[2])
-        );
-        pivot.rotation.y = THREE.Math.degToRad(yRot);
-      }
-      if (gamepads[index].axes[3] > 0.1 || gamepads[index].axes[3] < -0.1) {
-        let xRot = THREE.Math.radToDeg(
-          pivot.rotation.x +
-            THREE.Math.degToRad(2 * -1 * gamepads[index].axes[3])
-        );
-      }
-      ///////////////////////////////////////////////////////////////////////////////
-      ////////////////////      BTN A          //////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////
-      if (
-        gamepads[index].buttons[0].pressed &&
-        gpsStateLF[index].GetBtnA() != gamepads[index].buttons[0].pressed
-      ) {
-        console.log("Button A pressed");
-        switch (opcionMenu) {
-          case 1:
-            window.location.href = "../Sala/Sala.html";
-            break;
-          case 2:
-            window.location.href = "../Perfil/Perfil.html";
-            break;
-          case 3:
-            window.location.href = "../Configuracion/Configuracion.html";
-            break;
-          case 4:
-            //Hacer Procedimiento para cerrar la sesión
-            window.location.href = "../Login/Login.html";
-            break;
-
-          default:
-            break;
-        }
-        gpsStateLF[index].SetBtnA(true);
-      } else if (!gamepads[index].buttons[0].pressed) {
-        gpsStateLF[index].SetBtnA(false);
-      }
-
-      ///////////////////////////////////////////////////////////////////////////////
-      ////////////////////      BTN B          //////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////
-      if (
-        gamepads[index].buttons[1].pressed &&
-        gpsStateLF[index].GetBtnB() != gamepads[index].buttons[1].pressed
-      ) {
-        console.log("Button B pressed");
-        gpsStateLF[index].SetBtnB(true);
-      } else if (!gamepads[index].buttons[1].pressed) {
-        gpsStateLF[index].SetBtnB(false);
-      }
-
-      ///////////////////////////////////////////////////////////////////////////////
-      ////////////////////      BTN X          //////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////
-      if (
-        gamepads[index].buttons[2].pressed &&
-        gpsStateLF[index].GetBtnX() != gamepads[index].buttons[2].pressed
-      ) {
-        console.log("Button X pressed");
-        gpsStateLF[index].SetBtnX(true);
-      } else if (!gamepads[index].buttons[2].pressed) {
-        gpsStateLF[index].SetBtnX(false);
-      }
-
-      ///////////////////////////////////////////////////////////////////////////////
-      ////////////////////      BTN Y          //////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////
-      if (
-        gamepads[index].buttons[3].pressed &&
-        gpsStateLF[index].GetBtnY() != gamepads[index].buttons[3].pressed
-      ) {
-        console.log("Button Y pressed");
-        gpsStateLF[index].SetBtnY(true);
-      } else if (!gamepads[index].buttons[3].pressed) {
-        gpsStateLF[index].SetBtnY(false);
-      }
-    }
-  }
-};
-
 const GetVideosPlaylist = (playlistID) => {
   $.ajax({
     url: `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistID}&key=${APIKEY}&maxResults=50`,
@@ -450,5 +241,3 @@ const GetVideosPlaylist = (playlistID) => {
     },
   });
 };
-
-export { GeneraEventos };

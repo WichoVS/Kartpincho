@@ -1,9 +1,7 @@
-import * as THREE from "../../libs/threejs/src/Three.js";
-import { OptMove, GeneraEventos } from "./Inicio_Eventos.js";
-import { RectAreaLightUniformsLib } from "../../libs/threejs/lights/RectAreaLightUniformsLib.js";
-
-import { OrbitControls } from "../../libs/threejs/examples/jsm/controls/OrbitControls.js";
-import { FBXLoader } from "../../libs/threejs/examples/jsm/loaders/FBXLoader.js";
+var manager;
+var terreno;
+var modelos = [];
+var colliders = [];
 
 var skyboxArray = [];
 
@@ -25,8 +23,6 @@ const arrayLightsColors = [
 var arrayLights = [];
 
 $(() => {
-  RectAreaLightUniformsLib.init();
-  GeneraEventos();
   window.addEventListener("resize", onWindowResize, false);
   $("#fondo3d").append(renderer.domElement);
   for (let index = 0; index < numOpts; index++) {
@@ -62,7 +58,6 @@ $(() => {
 
   pivot.add(camera);
 
-  scene.add(rectLight);
   CargaModelos();
   scene.add(pivot);
   pivot.rotation.order = "YXZ";
@@ -72,13 +67,13 @@ $(() => {
   camera.position.z = 300;
   camera.position.y = 200;
   camera.position.x = 0;
+  InicializaEventos();
   render();
 });
 
 function render() {
   requestAnimationFrame(render);
   renderer.render(scene, camera);
-  OptMove();
   let yRot = THREE.Math.radToDeg(
     pivot.rotation.y + THREE.Math.degToRad(0.25 + 50 * delta)
   );
@@ -109,7 +104,7 @@ const camera = CrearCamara();
 const renderer = CrearRenderer();
 
 const CargaModelos = () => {
-  const loader = new FBXLoader();
+  const loader = new THREE.FBXLoader();
   const textureLoader = new THREE.TextureLoader();
 
   loader.load(
@@ -136,6 +131,7 @@ const CargaModelos = () => {
       let color = textureLoader.load(
         "../../assets/modelos/menu-principal/suelo/floor/floor_Albedo.png"
       );
+
       let ao = textureLoader.load(
         "../../assets/modelos/menu-principal/suelo/floor/floor_AO.png"
       );
@@ -151,6 +147,8 @@ const CargaModelos = () => {
         normalMap: normal,
         roughnessMap: roughness,
       });
+
+      console.log(texture);
       fbx.traverse((child) => {
         if (child.isMesh) {
           child.material = texture;
@@ -217,5 +215,3 @@ function onWindowResize() {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
-export { clock, delta, camera, pivot, arrayLights };
