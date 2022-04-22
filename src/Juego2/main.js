@@ -67,8 +67,8 @@ $(() => {
     manager.groundMaterial
   );
   var pista = new Modelo(
-    "../../assets/modelos/Pista2/PistaLarga.fbx",
-    "../../assets/modelos/Pista2/STREET.png",
+    "../../assets/modelos/Pista2/PistaLarga3.fbx",
+    "../../assets/modelos/Pista2/STREET2.png",
     new CANNON.Vec3(0, 0, 0),
     "PistaAsfalto",
     THREE.FrontSide
@@ -77,6 +77,14 @@ $(() => {
   var faro = new Modelo(
     "../../assets/modelos/Pista2/Faro.fbx",
     "../../assets/modelos/Pista2/Faro.png",
+    undefined,
+    "Faro",
+    THREE.FrontSide
+  );
+
+  var agua = new Modelo(
+    "../../assets/modelos/Pista2/Agua.fbx",
+    "../../assets/modelos/Pista2/Agua.png",
     undefined,
     "Faro",
     THREE.FrontSide
@@ -116,6 +124,13 @@ $(() => {
     "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
     undefined,
     "BotesCarga"
+  );
+
+  var Rampas = new Modelo(
+    "../../assets/modelos/Pista2/Rampas.fbx",
+    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+    undefined,
+    "Rampita"
   );
 
   /*var piedras1 = new Modelo(
@@ -172,6 +187,8 @@ $(() => {
   modelos.push(pista);
   modelos.push(meta);
   modelos.push(faro);
+  modelos.push(agua);
+  modelos.push(Rampas);
 
   //Left
   var c = new Collider(
@@ -209,24 +226,61 @@ $(() => {
 
     ///Colliders Pista///
 
-    /*var c = new Collider(
-      new CANNON.Vec3(-43, 0, -55),
-      new CANNON.Vec3(1, 10, 30),
+    var c5 = new Collider(
+      new CANNON.Vec3(-43, 0, -10),
+      new CANNON.Vec3(1, 10, 80),
+      manager.world
+    );
+
+    /*var c6 = new Collider(
+      new CANNON.Vec3(-54, 0, -19),
+      new CANNON.Vec3(1, 10, 68),
       manager.world
     );*/
 
-    
+    var c7 = new Collider(
+      new CANNON.Vec3(-18, 0, 45),
+      new CANNON.Vec3(1, 10, 44),
+      manager.world
+    );
 
+    var c8 = new Collider(
+      new CANNON.Vec3(-29, 0, 45),
+      new CANNON.Vec3(1, 10, 55),
+      manager.world
+    );
+
+    
 
     /////////////////////
 
-  var rampa = new Collider(
-    new CANNON.Vec3(5, -0.5, 0),
-    new CANNON.Vec3(5, 3, 1),
+  var rampa0 = new Collider(
+    new CANNON.Vec3(-48, -1, -2),
+    new CANNON.Vec3(5, 1, 1),
     manager.world
   );
+  rampa0.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
-  rampa.Rota(new CANNON.Vec3(1, 0, 0), 1.74533);
+  var rampa1 = new Collider(
+    new CANNON.Vec3(-48, -1, 21.5),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+  rampa1.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+  
+  var rampa2 = new Collider(
+    new CANNON.Vec3(-61.5, -1, 78.5),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+  rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+
+  var rampa6 = new Collider(
+    new CANNON.Vec3(-53, -1, -107),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+  rampa6.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
   InicializaEventos(manager);
   render();
