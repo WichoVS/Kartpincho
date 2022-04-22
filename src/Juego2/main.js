@@ -41,7 +41,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(15, 1, -140)
+    new CANNON.Vec3(-50, 1, -75)
   );
 
   var p2 = new Jugador(
@@ -52,7 +52,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(20, 1, -140)
+    new CANNON.Vec3(-46, 1, -75)
   );
 
   manager.scene.add(sb.skyBox);
@@ -175,17 +175,18 @@ $(() => {
 
   //Left
   var c = new Collider(
-    new CANNON.Vec3(280, 0, -125),
+    new CANNON.Vec3(100, 0, -125),
     new CANNON.Vec3(1, 10, 200),
     manager.world
   );
 
   //Forward
-  /*var c2 = new Collider(
-    new CANNON.Vec3(80, 0, 75),
+  var c2 = new Collider(
+    new CANNON.Vec3(80, 0, 160),
     new CANNON.Vec3(200, 10, 1),
     manager.world
-  );*/
+  );
+
   //Behind
   var c3 = new Collider(
     new CANNON.Vec3(80, 0, -325),
@@ -193,12 +194,31 @@ $(() => {
     manager.world
   );
 
+
   //Right
   var c4 = new Collider(
     new CANNON.Vec3(-120, 0, -125),
-    new CANNON.Vec3(5, 10, 200),
+    new CANNON.Vec3(1, 10, 200),
     manager.world
   );
+  
+  
+
+  //c4.Rota(new CANNON.Vec3(0, 1, 0), 1);
+
+
+    ///Colliders Pista///
+
+    /*var c = new Collider(
+      new CANNON.Vec3(-43, 0, -55),
+      new CANNON.Vec3(1, 10, 30),
+      manager.world
+    );*/
+
+    
+
+
+    /////////////////////
 
   var rampa = new Collider(
     new CANNON.Vec3(5, -0.5, 0),
