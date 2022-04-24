@@ -41,7 +41,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(38/*-50*/, 1, -100/*-75*/)
+    new CANNON.Vec3(20/*-50*/, 1, -80/*-75*/)
   );
 
   var p2 = new Jugador(
@@ -275,13 +275,40 @@ $(() => {
   );
   rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
-  var rampa4 = new Collider(
-    new CANNON.Vec3(38/*-50*/, 1, -92),
+  var rampa3 = new Collider(
+    new CANNON.Vec3(-2/*-50*/, -1, -22),
     new CANNON.Vec3(5, 1, 1),
     manager.world
   );
-  //rampa4.Rota(new CANNON.Vec3(0, 1, 0), -1.0472);
-  rampa4.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
+
+  var rampa4 = new Collider(
+    new CANNON.Vec3(18/*-50*/, -1, -42),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+
+  var rampa5 = new Collider(
+    new CANNON.Vec3(30/*-50*/, -1, -55),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+
+  var quatX = new CANNON.Quaternion();
+  var quatY = new CANNON.Quaternion();
+  var quatZ = new CANNON.Quaternion();
+  quatX.setFromAxisAngle(new CANNON.Vec3(0,1,0),THREE.Math.degToRad(-45));
+  quatY.setFromAxisAngle(new CANNON.Vec3(1,0,0),THREE.Math.degToRad(45));
+  quatZ.setFromAxisAngle(new CANNON.Vec3(0,0,1),THREE.Math.degToRad(35));
+  var quaternion = quatY.mult(quatX.mult(quatZ));
+  quaternion.normalize();
+  rampa5.body.quaternion.copy(quaternion);
+  rampa4.body.quaternion.copy(quaternion);
+  rampa3.body.quaternion.copy(quaternion);
+
+  
+  //var ramp4 = rampa4//.Rota(new CANNON.Vec3(0, 1, 0), -1.0472);
+  //ramp4.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
+  //rampa4.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
 
 
   var rampa5 = new Collider(
