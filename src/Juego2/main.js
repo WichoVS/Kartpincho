@@ -41,7 +41,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(-50, 1, -75)
+    new CANNON.Vec3(38/*-50*/, 1, -100/*-75*/)
   );
 
   var p2 = new Jugador(
@@ -232,11 +232,11 @@ $(() => {
       manager.world
     );
 
-    /*var c6 = new Collider(
+    var c6 = new Collider(
       new CANNON.Vec3(-54, 0, -19),
       new CANNON.Vec3(1, 10, 68),
       manager.world
-    );*/
+    );
 
     var c7 = new Collider(
       new CANNON.Vec3(-18, 0, 45),
@@ -274,6 +274,24 @@ $(() => {
     manager.world
   );
   rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+
+  var rampa4 = new Collider(
+    new CANNON.Vec3(38/*-50*/, 1, -92),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+  //rampa4.Rota(new CANNON.Vec3(0, 1, 0), -1.0472);
+  rampa4.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
+
+
+  var rampa5 = new Collider(
+    new CANNON.Vec3(38/*-50*/, -1, -92),
+    new CANNON.Vec3(5, 1, 1),
+    manager.world
+  );
+  rampa5.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
+  
+
 
   var rampa6 = new Collider(
     new CANNON.Vec3(-53, -1, -107),
