@@ -41,7 +41,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(-5/*-50*/, 1, 80/*-75*/)
+    new CANNON.Vec3(-13/*-50*/, 1, -175/*-75*/)
   );
 
   var p2 = new Jugador(
@@ -190,6 +190,11 @@ $(() => {
   modelos.push(agua);
   modelos.push(Rampas);
 
+
+/////////////////////////////////////    
+///////////Limites Mapa//////////////
+/////////////////////////////////////
+
   //Left
   var c = new Collider(
     new CANNON.Vec3(100, 0, -125),
@@ -223,8 +228,9 @@ $(() => {
 
   //c4.Rota(new CANNON.Vec3(0, 1, 0), 1);
 
-
-    ///Colliders Pista///
+/////////////////////////////////////    
+///////////Colliders Pista///////////
+/////////////////////////////////////    
 
     var c5 = new Collider(
       new CANNON.Vec3(-43, 0, -10),
@@ -284,8 +290,70 @@ $(() => {
       new CANNON.Vec3(28, 10, 1),
       manager.world
     );
-    
-    //////////RAMPAS///////////
+
+    var c14 = new Collider(
+      new CANNON.Vec3(33.5, 0, -92),
+      new CANNON.Vec3(1, 10, 27),
+      manager.world
+    );
+
+    var c15 = new Collider(
+      new CANNON.Vec3(44, 0, -93),
+      new CANNON.Vec3(1, 10, 32),
+      manager.world
+    );
+
+    var c16 = new Collider(
+      new CANNON.Vec3(-47.5, 0, -115),
+      new CANNON.Vec3(1, 10, 20),
+      manager.world
+    );
+
+    var c17 = new Collider(
+      new CANNON.Vec3(-58.5, 0, -115),
+      new CANNON.Vec3(1, 10, 25),
+      manager.world
+    );
+
+    var c18 = new Collider(
+      new CANNON.Vec3(85.2, 0, 108),
+      new CANNON.Vec3(1, 10, 7),
+      manager.world
+    );
+
+    var c19 = new Collider(
+      new CANNON.Vec3(96.2, 0, 108),
+      new CANNON.Vec3(1, 10, 11),
+      manager.world
+    );
+
+    var c20 = new Collider(
+      new CANNON.Vec3(65.5, 0, 95.5),
+      new CANNON.Vec3(13.5, 10, 1),
+      manager.world
+    );
+
+    var c21 = new Collider(
+      new CANNON.Vec3(65.5, 0, 84.5),
+      new CANNON.Vec3(18, 10, 1),
+      manager.world
+    );
+
+    var c22 = new Collider(
+      new CANNON.Vec3(-15.3, 0, -155.7),
+      new CANNON.Vec3(11.3, 10, 1),
+      manager.world
+    );
+
+    var c23 = new Collider(
+      new CANNON.Vec3(-15.3, 0, -167),
+      new CANNON.Vec3(15.5, 10, 1),
+      manager.world
+    );
+
+/////////////////////////////////////    
+///////////////RAMPAS////////////////
+/////////////////////////////////////    
 
   var rampa0 = new Collider(
     new CANNON.Vec3(-48, -1, -2),
