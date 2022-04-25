@@ -2,6 +2,7 @@ class Modelo {
   mesh;
   body;
   isLoaded = false;
+  worldReady = false;
   constructor(_pathMesh, _pathTexture, _v3_shape, _name, _side) {
     this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side);
   }

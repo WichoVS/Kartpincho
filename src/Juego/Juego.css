@@ -1,0 +1,61 @@
+.div-loading {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.loaded {
+    display: none;
+}
+
+.loading {
+    display: block;
+}
+
+.div-player-ui {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    font-family: 'Kanit', sans-serif;
+}
+
+.player-ui-top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 50%;
+}
+
+.player-ui-top>label:first-child {
+    width: 20%;
+    padding: 20px;
+    color: white;
+    font-size: x-large;
+    text-align: start;
+}
+
+.player-ui-top>label {
+    width: 20%;
+    padding: 20px;
+    color: white;
+    font-size: x-large;
+    text-align: end;
+}
+
+.player-ui-bot {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    height: 50%;
+    align-items: flex-end;
+}
+
+.player-item {
+    width: 100px;
+    height: 100px;
+    margin: 20px
+}

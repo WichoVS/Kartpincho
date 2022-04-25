@@ -5,11 +5,14 @@ var partida = {
   Vueltas: 4,
   Bots: false,
   NoBots: 0,
-  Jugadores: 2,
+  Jugadores: 1,
   Dificultad: 1,
   VueltaMasRapida: -1,
   Playlist: "",
 };
+
+const JUGADORESGPO = 2;
+const TRIGGERGPO = 4;
 
 var manager;
 //var p1;
@@ -18,11 +21,95 @@ var terreno;
 
 var modelos = [];
 var colliders = [];
+var worldLoaded = false;
+
+// Aca cargar los jugadores obteniendo la información desde el API
+// Por ahora lo dejaré en código duro
+const LoadPlayers = (pManager) => {
+  var pType1 = new Jugador(
+    "../../assets/modelos/GoKartTest/GoKartTest.fbx",
+    "../../assets/modelos/GoKartTest/Kart_BaseColor.png",
+    "Player1",
+    pManager.wheelMaterial,
+    pManager.world,
+    150,
+    partida.Jugadores,
+    new CANNON.Vec3(15, 1, -140)
+  );
+
+  if (partida.Jugadores > 1) {
+    var pType2 = new Jugador(
+      "../../assets/karts/Avocarro.fbx",
+      "../../assets/karts/AvocarroTextLite.png",
+      "Player2",
+      pManager.wheelMaterial,
+      pManager.world,
+      150,
+      partida.Jugadores,
+      new CANNON.Vec3(20, 1, -140)
+    );
+    if (partida.Jugadores > 2) {
+      var pType3 = new Jugador(
+        "../../assets/modelos/GoKartTest/GoKartTest.fbx",
+        "../../assets/modelos/GoKartTest/Kart_BaseColor.png",
+        "Player3",
+        pManager.wheelMaterial,
+        pManager.world,
+        150,
+        partida.Jugadores,
+        new CANNON.Vec3(15, 1, -155)
+      );
+      if (partida.Jugadores > 3) {
+        var pType4 = new Jugador(
+          "../../assets/karts/Avocarro.fbx",
+          "../../assets/karts/AvocarroTextLite.png",
+          "Player4",
+          pManager.wheelMaterial,
+          pManager.world,
+          150,
+          partida.Jugadores,
+          new CANNON.Vec3(20, 1, -155)
+        );
+      }
+    }
+  }
+
+  var arrayTypeKarts = [];
+  arrayTypeKarts.push(pType1);
+  arrayTypeKarts.push(pType2);
+  arrayTypeKarts.push(pType3);
+  arrayTypeKarts.push(pType4);
+
+  for (let index = 0; index < partida.Jugadores; index++) {
+    pManager.AddJugador(arrayTypeKarts[index]);
+  }
+};
 
 $(() => {
   //Aqui una funcion para cargar los datos necesarios para la partida
 
   manager = new GameManager();
+
+  var triggerBody = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+  });
+  triggerBody.position.set(20, 0, -127.5);
+  triggerBody.collisionResponse = false;
+  triggerBody.addEventListener("collide", (e) => {
+    let player = manager.jugadores.find(
+      (ele) => ele.name === e.body.userData.name
+    );
+    if (!player.flagTrigger) {
+      console.log(e, player);
+      player.flagTrigger = true;
+      player.FlagCollisionReset();
+    }
+  });
+  manager.world.add(triggerBody);
+  //
+  //world.add(triggerBody);
+
+  LoadPlayers(manager);
 
   var sb = new SkyBox(
     "../../assets/images/skybox/Dia/meadow_ft.jpg",
@@ -32,32 +119,8 @@ $(() => {
     "../../assets/images/skybox/Dia/meadow_rt.jpg",
     "../../assets/images/skybox/Dia/meadow_lf.jpg"
   );
-
-  var p1 = new Jugador(
-    "../../assets/modelos/GoKartTest/GoKartTest.fbx",
-    "../../assets/modelos/GoKartTest/Kart_BaseColor.png",
-    "Player1",
-    manager.wheelMaterial,
-    manager.world,
-    150,
-    partida.Jugadores,
-    new CANNON.Vec3(15, 1, -140)
-  );
-
-  var p2 = new Jugador(
-    "../../assets/karts/Avocarro.fbx",
-    "../../assets/karts/AvocarroTextLite.png",
-    "Player2",
-    manager.wheelMaterial,
-    manager.world,
-    150,
-    partida.Jugadores,
-    new CANNON.Vec3(20, 1, -140)
-  );
-
   manager.scene.add(sb.skyBox);
-  manager.AddJugador(p1);
-  manager.AddJugador(p2);
+
   terreno = new Terreno(
     "../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
     "../../assets/modelos/PistaCircuito/PastoCentralTextures/PastoCentral_BaseColor.png",
@@ -93,40 +156,46 @@ $(() => {
     "../../assets/modelos/PistaNascar/Piedra1.fbx",
     "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
     undefined,
-    "Piedras1"
+    "Piedras1",
+    THREE.FrontSide
   );
 
   var piedras2 = new Modelo(
     "../../assets/modelos/PistaNascar/Piedra2.fbx",
     "../../assets/modelos/PistaNascar/Piedra2_Color.jpg",
     undefined,
-    "Piedras2"
+    "Piedras2",
+    THREE.FrontSide
   );
 
   var piedras3 = new Modelo(
     "../../assets/modelos/PistaNascar/Piedra3.fbx",
     "../../assets/modelos/PistaNascar/Piedra3_Color.jpg",
     undefined,
-    "Piedras3"
+    "Piedras3",
+    THREE.FrontSide
   );
 
   var piedras4 = new Modelo(
     "../../assets/modelos/PistaNascar/Piedra4.fbx",
     "../../assets/modelos/PistaNascar/Piedra4_Color.jpg",
     undefined,
-    "Piedras4"
+    "Piedras4",
+    THREE.FrontSide
   );
   var piedras5 = new Modelo(
     "../../assets/modelos/PistaNascar/Piedra5.fbx",
     "../../assets/modelos/PistaNascar/Piedra5_Color.jpg",
     undefined,
-    "Piedras5"
+    "Piedras5",
+    THREE.FrontSide
   );
   var piedras6 = new Modelo(
     "../../assets/modelos/PistaNascar/Piedra6.fbx",
     "../../assets/modelos/PistaNascar/Piedra6_Color.jpg",
     undefined,
-    "Piedras6"
+    "Piedras6",
+    THREE.FrontSide
   );
 
   modelos.push(piedras1);
@@ -141,38 +210,74 @@ $(() => {
 
   //Left
   var c = new Collider(
-    new CANNON.Vec3(280, 0, -125),
+    new CANNON.Vec3(170, 0, -125),
     new CANNON.Vec3(1, 10, 200),
     manager.world
   );
 
   //Forward
   var c2 = new Collider(
-    new CANNON.Vec3(80, 0, 75),
+    new CANNON.Vec3(80, 0, 50),
     new CANNON.Vec3(200, 10, 1),
     manager.world
   );
   //Behind
   var c3 = new Collider(
-    new CANNON.Vec3(80, 0, -325),
+    new CANNON.Vec3(80, 0, -300),
     new CANNON.Vec3(200, 10, 1),
     manager.world
   );
 
   //Right
   var c4 = new Collider(
-    new CANNON.Vec3(-120, 0, -125),
+    new CANNON.Vec3(-20, 0, -125),
     new CANNON.Vec3(5, 10, 200),
     manager.world
   );
 
-  var rampa = new Collider(
-    new CANNON.Vec3(5, -0.5, 0),
-    new CANNON.Vec3(5, 3, 1),
+  //inner collider right
+  var iCR = new Collider(
+    new CANNON.Vec3(41, 0, -125),
+    new CANNON.Vec3(5, 10, 50),
     manager.world
   );
 
-  rampa.Rota(new CANNON.Vec3(1, 0, 0), 1.74533);
+  //inner collider left
+  var iCL = new Collider(
+    new CANNON.Vec3(125, 0, -125),
+    new CANNON.Vec3(5, 10, 50),
+    manager.world
+  );
+
+  var iCL1 = new Collider(
+    new CANNON.Vec3(120, 0, -195),
+    new CANNON.Vec3(5, 10, 25),
+    manager.world
+  );
+  iCL1.Rota(new CANNON.Vec3(0, 1, 0), THREE.MathUtils.degToRad(8));
+
+  var iCL2 = new Collider(
+    new CANNON.Vec3(115, 0, -220),
+    new CANNON.Vec3(5, 10, 10),
+    manager.world
+  );
+  iCL2.Rota(new CANNON.Vec3(0, 1, 0), THREE.MathUtils.degToRad(25));
+  // var rampa = new Collider(
+  //   new CANNON.Vec3(5, -0.5, 0),
+  //   new CANNON.Vec3(5, 3, 1),
+  //   manager.world
+  // );
+
+  // rampa.Rota(new CANNON.Vec3(1, 0, 0), 1.74533);
+
+  // var quatX = new CANNON.Quaternion();
+  // var quatY = new CANNON.Quaternion();
+  // quatX.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), (40 * 3.1415) / 180);
+  // quatY.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), (90 * 3.1415) / 180);
+  // var quaternion = quatY.mult(quatX);
+  // quaternion.normalize();
+
+  // rampa.body.quaternion.copy(quaternion);
 
   InicializaEventos(manager);
   render();
@@ -183,7 +288,6 @@ const render = () => {
   GamepadsEvent(manager);
   var countPlayers = 0;
   if (manager) {
-    requestAnimationFrame(render);
     manager.jugadores.forEach((e) => {
       e.renderer.render(manager.scene, e.camera);
     });
@@ -192,6 +296,7 @@ const render = () => {
       terreno.isLoaded = false;
       manager.scene.add(terreno.mesh);
       manager.world.add(terreno.body);
+      terreno.worldReady = true;
     }
 
     manager.jugadores.forEach((e) => {
@@ -202,6 +307,7 @@ const render = () => {
         e.wheelsVisual.forEach((w) => {
           manager.scene.add(w);
         });
+        e.worldReady = true;
         countPlayers++;
       } else if (e.loaded) {
         countPlayers++;
@@ -213,12 +319,18 @@ const render = () => {
         manager.scene.add(m.mesh);
         if (m.body !== undefined && m.body !== null) manager.world.add(m.body);
         m.isLoaded = false;
+        m.worldReady = true;
       }
     });
   }
+
+  if (!worldLoaded) {
+    worldLoaded = CheckModelsLoaded(modelos, manager.jugadores, terreno);
+  }
+  requestAnimationFrame(render);
 };
 
-//Cada Kart tendrá su propio metodo
+//Cada Kart tendrá su propio metodo o tal vez no
 const updatePhysics = () => {
   manager.world.step(manager.worldStep);
   // update the chassis position

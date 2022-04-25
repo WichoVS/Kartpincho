@@ -10,10 +10,18 @@ class Jugador {
   wheelBodies = [];
   wheelsVisual = [];
   vehicle;
+  // En el render lo uso si está cargado lo agrego al mundo.
   isLoaded = false;
+  // Si ya está agregado al mundo y quiero saber si está el jugador.
+  // Esto para agregarlo a un array de los jugadores actuales e ir actualizando
+  // Las físicas del mismo en la web.
   loaded = false;
+  worldReady = false;
   cameraOffset = new THREE.Vector3(0, 3, -10);
   totalPlayers;
+  vueltas = [];
+  tiempoActual;
+  flagTrigger = false;
 
   constructor(
     _pathModel,
@@ -33,7 +41,11 @@ class Jugador {
     this.camera.position.set(0, 2, -10);
     this.camera.lookAt(0, 0, 0);
     this.renderer = this.CrearRenderer();
-    $("#game").append(this.renderer.domElement);
+    $("#game").append(
+      `<div id="${this.name}" style="position:relative"></div>`
+    );
+    this.AddUIPlayer();
+    $(`#${this.name}`).append(this.renderer.domElement);
     window.addEventListener(
       "resize",
       () => {
@@ -101,6 +113,7 @@ class Jugador {
   CargaFisicas(_wheelMaterial, _world, _mass, _origin) {
     var chassisShape = new CANNON.Box(new CANNON.Vec3(0.5, 0.35, 1));
     var chassisBody = new CANNON.Body({ mass: _mass });
+    chassisBody.userData = { name: this.name };
     chassisBody.addShape(chassisShape);
     chassisBody.linearDamping = 0.15;
     chassisBody.position.copy(_origin);
@@ -206,16 +219,74 @@ class Jugador {
     );
   }
 
+  FlagCollisionReset() {
+    setTimeout(() => {
+      this.flagTrigger = false;
+    }, 1000);
+  }
+
   CrearRenderer() {
-    let renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight / 2);
+    let renderer;
+    switch (this.totalPlayers) {
+      case 1:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        break;
+      case 2:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight / 2);
+        break;
+      case 3:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
+      case 4:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
+      default:
+        break;
+    }
     return renderer;
   }
 
   OnWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
+    switch (this.totalPlayers) {
+      case 1:
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        break;
+      case 2:
+        this.renderer.setSize(window.innerWidth, window.innerHeight / 2);
+        break;
+      case 3:
+        this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
+      case 4:
+        this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight / 2);
+      default:
+        break;
+    }
+  }
+
+  AddUIPlayer() {
+    $(`#${this.name}`).append(`
+      <div class="div-player-ui">
+        <div class="player-ui-top">
+          <label>Vueltas: 1/3</label>
+          <label>Tiempo: 02:10:50</label>
+        </div>
+        <div class="player-ui-bot">
+          <img
+            class="player-item"
+            src="../../assets/images/modosJuego/circuito.png"
+            alt=""
+          />
+        </div>
+      </div>
+    `);
   }
 }
