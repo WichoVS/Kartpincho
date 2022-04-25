@@ -340,8 +340,8 @@ $(() => {
     );
 
     var c22 = new Collider(
-      new CANNON.Vec3(-15.3, 0, -155.7),
-      new CANNON.Vec3(11.3, 10, 1),
+      new CANNON.Vec3(-15.3, 0, -156),
+      new CANNON.Vec3(11.1, 10, 1),
       manager.world
     );
 
