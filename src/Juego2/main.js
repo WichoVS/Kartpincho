@@ -41,7 +41,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(-13/*-50*/, 1, -175/*-75*/)
+    new CANNON.Vec3(-50/*-50*/, 1, -100/*-75*/)
   );
 
   var p2 = new Jugador(
@@ -263,7 +263,7 @@ $(() => {
     );
     var c10 = new Collider(
       new CANNON.Vec3(-5, 0, 104.5),
-      new CANNON.Vec3(40, 10, 1),
+      new CANNON.Vec3(42, 10, 1),
       manager.world
     );
     
@@ -281,7 +281,7 @@ $(() => {
 
     var c12 = new Collider(
       new CANNON.Vec3(7, 0, 100),
-      new CANNON.Vec3(35, 10, 1),
+      new CANNON.Vec3(37, 10, 1),
       manager.world
     );
 
@@ -350,6 +350,138 @@ $(() => {
       new CANNON.Vec3(15.5, 10, 1),
       manager.world
     );
+
+    var c23 = new Collider(
+      new CANNON.Vec3(65.5, 0, 139),
+      new CANNON.Vec3(11, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(65.5, 0, 127.9),
+      new CANNON.Vec3(7, 10, 1),
+      manager.world
+    );
+//////////////girados/////////////
+var c24 = new Collider(
+  new CANNON.Vec3(13.5, 0, -30.2),
+  new CANNON.Vec3(1, 10, 44.5),
+  manager.world
+);
+c24.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+var c25 = new Collider(
+  new CANNON.Vec3(2, 0, -34),
+  new CANNON.Vec3(1, 10, 45),
+  manager.world
+);
+c25.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+var c26 = new Collider(
+  new CANNON.Vec3(82.5, 0, 98.5),
+  new CANNON.Vec3(4, 10, 1),
+  manager.world
+);
+c26.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+var c27 = new Collider(
+  new CANNON.Vec3(90, 0, 91),
+  new CANNON.Vec3(8, 10, 1),
+  manager.world
+);
+c27.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+
+var c28 = new Collider(
+  new CANNON.Vec3(46.7, 0, 98),
+  new CANNON.Vec3(6, 10, 1),
+  manager.world
+);
+c28.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(24));
+var c29 = new Collider(
+  new CANNON.Vec3(45, 0, 85.7),
+  new CANNON.Vec3(8, 10, 1),
+  manager.world
+);
+c29.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(24));
+
+var c30 = new Collider(
+  new CANNON.Vec3(15, 0, -137),
+  new CANNON.Vec3(26, 10, 1),
+  manager.world
+);
+c30.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+var c31 = new Collider(
+  new CANNON.Vec3(-4, 0, -155),
+  new CANNON.Vec3(1, 10, 1),
+  manager.world
+);
+c31.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+var c32 = new Collider(
+  new CANNON.Vec3(20, 0, -147.5),
+  new CANNON.Vec3(40, 10, 1),
+  manager.world
+);
+c32.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+
+var c33 = new Collider(
+  new CANNON.Vec3(-44.2, 0, -91.8),
+  new CANNON.Vec3(5, 10, 1),
+  manager.world
+);
+c33.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+var c34 = new Collider(
+  new CANNON.Vec3(-57.3, 0, -89),
+  new CANNON.Vec3(5, 10, 1),
+  manager.world
+);
+c34.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+/////////////////////////////////////    
+//////////////Obstaculos/////////////
+/////////////////////////////////////    
+
+  var c23 = new Collider(
+    new CANNON.Vec3(-24.5, 0, 107),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(-9.8, 0, 112.8),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(1.5, 0, 108.2),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(22.3, 0, 113.8),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(-7, 0, 97.3),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(38.5, 0, 92),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(-28.7, 0, 63.5),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(-27.3, 0, 37),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  var c23 = new Collider(
+    new CANNON.Vec3(-19.5, 0, 16),
+    new CANNON.Vec3(1, 10, 1),
+    manager.world
+  );
+  
+
 
 /////////////////////////////////////    
 ///////////////RAMPAS////////////////
