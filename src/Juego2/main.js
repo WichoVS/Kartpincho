@@ -41,7 +41,7 @@ $(() => {
     manager.world,
     150,
     partida.Jugadores,
-    new CANNON.Vec3(-50/*-50*/, 1, -100/*-75*/)
+    new CANNON.Vec3(-50, 1,-75)
   );
 
   var p2 = new Jugador(
@@ -275,7 +275,7 @@ $(() => {
 
     var c11 = new Collider(
       new CANNON.Vec3(-55.8, 0, 81),
-      new CANNON.Vec3(1, 10, 14.5),
+      new CANNON.Vec3(1, 10, 14.8),
       manager.world
     );
 
@@ -345,18 +345,18 @@ $(() => {
       manager.world
     );
 
-    var c23 = new Collider(
+    var c23a = new Collider(
       new CANNON.Vec3(-15.3, 0, -167),
       new CANNON.Vec3(15.5, 10, 1),
       manager.world
     );
 
-    var c23 = new Collider(
+    var c23b = new Collider(
       new CANNON.Vec3(65.5, 0, 139),
       new CANNON.Vec3(11, 10, 1),
       manager.world
     );
-    var c23 = new Collider(
+    var c23c = new Collider(
       new CANNON.Vec3(65.5, 0, 127.9),
       new CANNON.Vec3(7, 10, 1),
       manager.world
@@ -431,6 +431,77 @@ var c34 = new Collider(
   manager.world
 );
 c34.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+
+var c35 = new Collider(
+  new CANNON.Vec3(-57.3, 0, 108.7),
+  new CANNON.Vec3(20, 10, 1),
+  manager.world
+);
+c35.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-42));
+var c36 = new Collider(
+  new CANNON.Vec3(-51.1, 0, 100),
+  new CANNON.Vec3(6.8, 10, 1),
+  manager.world
+);
+c36.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+
+var c37 = new Collider(
+  new CANNON.Vec3(-48, 0, 58.5),
+  new CANNON.Vec3(11.4, 10, 1),
+  manager.world
+);
+c37.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+var c38 = new Collider(
+  new CANNON.Vec3(-60, 0, 54.6),
+  new CANNON.Vec3(8.9, 10, 1),
+  manager.world
+);
+c38.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+
+var c39 = new Collider(
+  new CANNON.Vec3(43, 0, 127.8),
+  new CANNON.Vec3(18.8, 10, 1),
+  manager.world
+);
+c39.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-44));
+var c40 = new Collider(
+  new CANNON.Vec3(45, 0, 114.5),
+  new CANNON.Vec3(19.7, 10, 1),
+  manager.world
+);
+c40.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-44));
+
+var c41 = new Collider(
+  new CANNON.Vec3(85, 0, 130),
+  new CANNON.Vec3(15, 10, 1),
+  manager.world
+);
+c41.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+var c42 = new Collider(
+  new CANNON.Vec3(78.5, 0, 121.5),
+  new CANNON.Vec3(9.5, 10, 1),
+  manager.world
+);
+c42.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+
+var c43 = new Collider(
+  new CANNON.Vec3(-37.2, 0, -144.9),
+  new CANNON.Vec3(15, 10, 1),
+  manager.world
+);
+c43.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+var c44 = new Collider(
+  new CANNON.Vec3(-34, 0, -148),
+  new CANNON.Vec3(11.5, 10, 1),
+  manager.world
+);
+c44.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
+var c45 = new Collider(
+  new CANNON.Vec3(-43, 0, -154.5),
+  new CANNON.Vec3(25, 10, 1),
+  manager.world
+);
+c45.Rota(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(45));
 /////////////////////////////////////    
 //////////////Obstaculos/////////////
 /////////////////////////////////////    
