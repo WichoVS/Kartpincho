@@ -23,6 +23,13 @@ var modelos = [];
 var colliders = [];
 var worldLoaded = false;
 
+const TimerTiempos = (_manager) => {
+  _manager.jugadores.forEach((j) => {
+    j.AddTimeVuelta();
+  });
+  setTimeout(TimerTiempos, 100, manager);
+};
+
 // Aca cargar los jugadores obteniendo la información desde el API
 // Por ahora lo dejaré en código duro
 const LoadPlayers = (pManager) => {
@@ -90,24 +97,87 @@ $(() => {
 
   manager = new GameManager();
 
-  var triggerBody = new CANNON.Body({
+  var metaTrigger = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
   });
-  triggerBody.position.set(20, 0, -127.5);
-  triggerBody.collisionResponse = false;
-  triggerBody.addEventListener("collide", (e) => {
+  metaTrigger.position.set(20, 0, -127.5);
+  metaTrigger.collisionResponse = false;
+  var totalCheckpoints = 4;
+  metaTrigger.addEventListener("collide", (e) => {
     let player = manager.jugadores.find(
       (ele) => ele.name === e.body.userData.name
     );
     if (!player.flagTrigger) {
-      console.log(e, player);
+      player.AddVuelta(totalCheckpoints);
       player.flagTrigger = true;
       player.FlagCollisionReset();
     }
   });
-  manager.world.add(triggerBody);
-  //
-  //world.add(triggerBody);
+  manager.world.add(metaTrigger);
+
+  /* Inicio Bloque de Código que genera los checkpoints de la Pista*/
+
+  var triggerChecker4 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+  });
+  triggerChecker4.position.set(20, 0, -200);
+  triggerChecker4.collisionResponse = false;
+  triggerChecker4.addEventListener("collide", (e) => {
+    let player = manager.jugadores.find(
+      (ele) => ele.name === e.body.userData.name
+    );
+    if (player.checkpoints === 3) player.checkpoints = 4;
+  });
+  manager.world.add(triggerChecker4);
+
+  var triggerChecker3 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+  });
+  triggerChecker3.position.set(100, 0, -273);
+  triggerChecker3.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker3.collisionResponse = false;
+  triggerChecker3.addEventListener("collide", (e) => {
+    let player = manager.jugadores.find(
+      (ele) => ele.name === e.body.userData.name
+    );
+    if (player.checkpoints === 2) player.checkpoints = 3;
+  });
+  manager.world.add(triggerChecker3);
+
+  var triggerChecker2 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+  });
+  triggerChecker2.position.set(150, 0, -130);
+  triggerChecker2.collisionResponse = false;
+  triggerChecker2.addEventListener("collide", (e) => {
+    let player = manager.jugadores.find(
+      (ele) => ele.name === e.body.userData.name
+    );
+    if (player.checkpoints === 1) player.checkpoints = 2;
+  });
+  manager.world.add(triggerChecker2);
+
+  var triggerChecker1 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+  });
+  triggerChecker1.position.set(100, 0, 13);
+  triggerChecker1.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker1.collisionResponse = false;
+  triggerChecker1.addEventListener("collide", (e) => {
+    let player = manager.jugadores.find(
+      (ele) => ele.name === e.body.userData.name
+    );
+    if (player.checkpoints === 0) player.checkpoints = 1;
+  });
+  manager.world.add(triggerChecker1);
+
+  /* Fin Bloque de Código que genera los checkpoints de la Pista*/
 
   LoadPlayers(manager);
 
@@ -262,6 +332,8 @@ $(() => {
     manager.world
   );
   iCL2.Rota(new CANNON.Vec3(0, 1, 0), THREE.MathUtils.degToRad(25));
+
+  setTimeout(TimerTiempos, 100, manager);
   // var rampa = new Collider(
   //   new CANNON.Vec3(5, -0.5, 0),
   //   new CANNON.Vec3(5, 3, 1),
@@ -290,6 +362,7 @@ const render = () => {
   if (manager) {
     manager.jugadores.forEach((e) => {
       e.renderer.render(manager.scene, e.camera);
+      e.UpdateUIPlayer();
     });
     manager.cannonDebugRenderer.update();
     if (terreno.isLoaded) {

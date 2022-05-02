@@ -10,6 +10,7 @@ class Jugador {
   wheelBodies = [];
   wheelsVisual = [];
   vehicle;
+  checkpoints;
   // En el render lo uso si está cargado lo agrego al mundo.
   isLoaded = false;
   // Si ya está agregado al mundo y quiero saber si está el jugador.
@@ -22,6 +23,7 @@ class Jugador {
   vueltas = [];
   tiempoActual;
   flagTrigger = false;
+  fastestTime;
 
   constructor(
     _pathModel,
@@ -33,6 +35,10 @@ class Jugador {
     _totalPlayers,
     _origin
   ) {
+    this.vueltas = 0;
+    this.checkpoints = 0;
+    this.tiempoActual = 0;
+    this.fastestTime = -1;
     this.totalPlayers = _totalPlayers;
     this.name = _name;
     this.engineForce = 1000;
@@ -225,6 +231,30 @@ class Jugador {
     }, 1000);
   }
 
+  AddTimeVuelta() {
+    this.tiempoActual++;
+  }
+
+  AddVuelta(pTotalChecks) {
+    if (this.fastestTime !== -1) {
+      if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
+        this.fastestTime = this.tiempoActual;
+        this.tiempoActual = 0;
+      }
+      if (this.checkpoints == pTotalChecks) {
+        this.vueltas++;
+        this.tiempoActual = 0;
+        this.checkpoints = 0;
+      }
+    } else {
+      this.fastestTime = 0;
+    }
+  }
+
+  AddCheckpoint() {
+    this.checkpoints++;
+  }
+
   CrearRenderer() {
     let renderer;
     switch (this.totalPlayers) {
@@ -276,8 +306,9 @@ class Jugador {
     $(`#${this.name}`).append(`
       <div class="div-player-ui">
         <div class="player-ui-top">
-          <label>Vueltas: 1/3</label>
-          <label>Tiempo: 02:10:50</label>
+          <label id="${this.name}vueltas">Vueltas: ${this.vueltas}</label>
+          <label id="${this.name}tiempo">Tiempo: ${this.tiempoActual}</label>
+          <label id="${this.name}fastest">Vuelta más Rápida: ${this.fastestTime}</label>
         </div>
         <div class="player-ui-bot">
           <img
@@ -288,5 +319,11 @@ class Jugador {
         </div>
       </div>
     `);
+  }
+
+  UpdateUIPlayer() {
+    $(`#${this.name}vueltas`).text(`Vueltas: ${this.vueltas}`);
+    $(`#${this.name}tiempo`).text(`Tiempo: ${this.tiempoActual}`);
+    $(`#${this.name}fastest`).text(`Vuelta más Rápida: ${this.fastestTime}`);
   }
 }
