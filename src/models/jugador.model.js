@@ -24,6 +24,7 @@ class Jugador {
   tiempoActual;
   flagTrigger = false;
   fastestTime;
+  startedRace;
 
   constructor(
     _pathModel,
@@ -38,7 +39,7 @@ class Jugador {
     this.vueltas = 0;
     this.checkpoints = 0;
     this.tiempoActual = 0;
-    this.fastestTime = -1;
+    this.fastestTime = 0;
     this.totalPlayers = _totalPlayers;
     this.name = _name;
     this.engineForce = 1000;
@@ -47,6 +48,7 @@ class Jugador {
     this.camera.position.set(0, 2, -10);
     this.camera.lookAt(0, 0, 0);
     this.renderer = this.CrearRenderer();
+    this.startedRace = false;
     $("#game").append(
       `<div id="${this.name}" style="position:relative"></div>`
     );
@@ -236,7 +238,7 @@ class Jugador {
   }
 
   AddVuelta(pTotalChecks) {
-    if (this.fastestTime !== -1) {
+    if (this.startedRace) {
       if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
         this.fastestTime = this.tiempoActual;
         this.tiempoActual = 0;
@@ -247,12 +249,8 @@ class Jugador {
         this.checkpoints = 0;
       }
     } else {
-      this.fastestTime = 0;
+      this.startedRace = true;
     }
-  }
-
-  AddCheckpoint() {
-    this.checkpoints++;
   }
 
   CrearRenderer() {
