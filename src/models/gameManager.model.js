@@ -8,10 +8,12 @@ class GameManager {
   groundMaterial;
   wheelMaterial;
   jugadores = [];
+  isGameStarted;
   constructor() {
     this.worldStep = 1 / 60;
     this.InitThree();
     this.InitCannon();
+    this.isGameStarted = false;
   }
 
   InitThree() {
@@ -31,7 +33,9 @@ class GameManager {
       this.scene,
       this.world
     );
-    this.world.broadphase = new CANNON.SAPBroadphase(this.world);
+    //this.world.broadphase = new CANNON.SAPBroadphase(this.world);
+    this.world.broadphase = new CANNON.NaiveBroadphase();
+    this.world.solver.iterations = 5;
     this.world.gravity.set(0, -9.82, 0);
     this.world.defaultContactMaterial.friction = 0;
 

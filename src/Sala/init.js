@@ -1,6 +1,15 @@
 var pasoActual = 1;
+var playersSkin = [];
 
 const Init = () => {
+  for (let index = 0; index < 4; index++) {
+    var playerSkin = {
+      kart: 1,
+      corredor: 1,
+    };
+    playersSkin.push(playerSkin);
+  }
+
   $("#btnBack").on("click", () => {
     switch (pasoActual) {
       case 1:
@@ -63,12 +72,78 @@ const Init = () => {
             `
           <div class="div-player-selection">
             <div style="background-color: gray; width: 200px; height: 150px">
-              J${index + 1}
+              <img
+                id="${index}-skin"
+                style="width: 100%; height: 100%"
+                src="../../assets/images/playersStyles/opt${playersSkin[index].kart}_${playersSkin[index].corredor}.png"
+                alt=""
+              />
             </div>
-            <label class="lbl-playername">Jugador ${index + 1}</label>
+            <label class="lbl-playername">Jugador Prueba</label>
+            <label class="lbl-playersettings">Kart</label>
+            <div class="div-player-buttons">
+              <button id="${index}-kb" class="btn-player-back">Anterior</button>
+              <button id="${index}-kn" class="btn-player-next">Siguiente</button>
+            </div>
+            <label style="margin-top: 10px" class="lbl-playersettings"
+              >Corredor</label
+            >
+            <div class="div-player-buttons">
+              <button id="${index}-cb" class="btn-player-back">Anterior</button>
+              <button id="${index}-cn" class="btn-player-next">Siguiente</button>
+            </div>
           </div>
           `
           );
+
+          $(`#${index}-kb`).on("click", () => {
+            if (playersSkin[index].kart == 1) {
+              playersSkin[index].kart = 3;
+            } else {
+              playersSkin[index].kart--;
+            }
+            console.log(playersSkin[index]);
+            $(`#${index}-skin`).attr(
+              "src",
+              `../../assets/images/playersStyles/opt${playersSkin[index].kart}_${playersSkin[index].corredor}.png`
+            );
+          });
+          $(`#${index}-kn`).on("click", () => {
+            if (playersSkin[index].kart == 3) {
+              playersSkin[index].kart = 1;
+            } else {
+              playersSkin[index].kart++;
+            }
+            console.log(playersSkin[index]);
+            $(`#${index}-skin`).attr(
+              "src",
+              `../../assets/images/playersStyles/opt${playersSkin[index].kart}_${playersSkin[index].corredor}.png`
+            );
+          });
+          $(`#${index}-cb`).on("click", () => {
+            if (playersSkin[index].corredor == 1) {
+              playersSkin[index].corredor = 3;
+            } else {
+              playersSkin[index].corredor--;
+            }
+            console.log(playersSkin[index]);
+            $(`#${index}-skin`).attr(
+              "src",
+              `../../assets/images/playersStyles/opt${playersSkin[index].kart}_${playersSkin[index].corredor}.png`
+            );
+          });
+          $(`#${index}-cn`).on("click", () => {
+            if (playersSkin[index].corredor == 3) {
+              playersSkin[index].corredor = 1;
+            } else {
+              playersSkin[index].corredor++;
+            }
+            console.log(playersSkin[index]);
+            $(`#${index}-skin`).attr(
+              "src",
+              `../../assets/images/playersStyles/opt${playersSkin[index].kart}_${playersSkin[index].corredor}.png`
+            );
+          });
         }
 
         $("#paso2").css("display", "none");
