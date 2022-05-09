@@ -1,0 +1,178 @@
+.div-loading {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.loaded {
+    display: none;
+}
+
+.loading {
+    display: block;
+}
+
+.div-player-ui {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    font-family: 'Kanit', sans-serif;
+}
+
+.player-ui-top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 50%;
+}
+
+.player-ui-top>label:first-child {
+    width: 20%;
+    padding: 20px;
+    color: white;
+    font-size: x-large;
+    text-align: start;
+}
+
+.player-ui-top>label {
+    width: 20%;
+    padding: 20px;
+    color: white;
+    font-size: x-large;
+    text-align: end;
+}
+
+.player-ui-bot {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    height: 50%;
+    align-items: flex-end;
+}
+
+.player-item {
+    width: 100px;
+    height: 100px;
+    margin: 20px
+}
+
+.div-controller-setup {
+    box-sizing: border-box;
+    width: 800px;
+    height: 400px;
+    background: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    right: 0;
+    padding: 10px 20px;
+}
+
+.h2-controller-setup {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: #000000;
+}
+
+.h4-controller-setup {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    color: #000000;
+}
+
+.div-players-controller-setup {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div-card-player-controller {
+    width: 23%;
+    display: flex;
+    flex-direction: column;
+}
+
+.img-player-controller-setup {
+    width: 100%;
+    height: auto
+}
+
+.label-player-controller-setup {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: #000000;
+}
+
+.label-player-controller-setup-vincular {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+    color: #de1010;
+}
+
+.display-none {
+    display: none;
+}
+
+
+.button-pasos-back {
+    width: 200px;
+    height: 50px;
+    background: #405CBF;
+    border-radius: 5px;
+    position: absolute;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 90%;
+    left: 10%;
+    color: #FFFFFF;
+}
+
+.button-pasos-next {
+    width: 200px;
+    height: 50px;
+    background: #405CBF;
+    border-radius: 5px;
+    position: absolute;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 90%;
+    right: 10%;
+    color: #FFFFFF;
+}

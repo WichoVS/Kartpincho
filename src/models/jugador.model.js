@@ -10,10 +10,21 @@ class Jugador {
   wheelBodies = [];
   wheelsVisual = [];
   vehicle;
+  checkpoints;
+  // En el render lo uso si está cargado lo agrego al mundo.
   isLoaded = false;
+  // Si ya está agregado al mundo y quiero saber si está el jugador.
+  // Esto para agregarlo a un array de los jugadores actuales e ir actualizando
+  // Las físicas del mismo en la web.
   loaded = false;
+  worldReady = false;
   cameraOffset = new THREE.Vector3(0, 3, -10);
   totalPlayers;
+  vueltas = [];
+  tiempoActual;
+  flagTrigger = false;
+  fastestTime;
+  startedRace;
 
   constructor(
     _pathModel,
@@ -25,6 +36,10 @@ class Jugador {
     _totalPlayers,
     _origin
   ) {
+    this.vueltas = 0;
+    this.checkpoints = 0;
+    this.tiempoActual = 0;
+    this.fastestTime = 0;
     this.totalPlayers = _totalPlayers;
     this.name = _name;
     this.engineForce = 1000;
@@ -33,7 +48,12 @@ class Jugador {
     this.camera.position.set(0, 2, -10);
     this.camera.lookAt(0, 0, 0);
     this.renderer = this.CrearRenderer();
-    $("#game").append(this.renderer.domElement);
+    this.startedRace = false;
+    $("#game").append(
+      `<div id="${this.name}" style="position:relative"></div>`
+    );
+    this.AddUIPlayer();
+    $(`#${this.name}`).append(this.renderer.domElement);
     window.addEventListener(
       "resize",
       () => {
@@ -101,6 +121,7 @@ class Jugador {
   CargaFisicas(_wheelMaterial, _world, _mass, _origin) {
     var chassisShape = new CANNON.Box(new CANNON.Vec3(0.5, 0.35, 1));
     var chassisBody = new CANNON.Body({ mass: _mass });
+    chassisBody.userData = { name: this.name };
     chassisBody.addShape(chassisShape);
     chassisBody.linearDamping = 0.15;
     chassisBody.position.copy(_origin);
@@ -206,16 +227,101 @@ class Jugador {
     );
   }
 
+  FlagCollisionReset() {
+    setTimeout(() => {
+      this.flagTrigger = false;
+    }, 1000);
+  }
+
+  AddTimeVuelta(_manager) {
+    if (_manager.isGameStarted) this.tiempoActual++;
+  }
+
+  AddVuelta(pTotalChecks) {
+    if (this.startedRace) {
+      if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
+        this.fastestTime = this.tiempoActual;
+        this.tiempoActual = 0;
+      }
+      if (this.checkpoints == pTotalChecks) {
+        this.vueltas++;
+        this.tiempoActual = 0;
+        this.checkpoints = 0;
+      }
+    } else {
+      this.startedRace = true;
+    }
+  }
+
   CrearRenderer() {
-    let renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight / 2);
+    let renderer;
+    switch (this.totalPlayers) {
+      case 1:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        break;
+      case 2:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight / 2);
+        break;
+      case 3:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
+      case 4:
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
+      default:
+        break;
+    }
     return renderer;
   }
 
   OnWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
+    switch (this.totalPlayers) {
+      case 1:
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        break;
+      case 2:
+        this.renderer.setSize(window.innerWidth, window.innerHeight / 2);
+        break;
+      case 3:
+        this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
+      case 4:
+        this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        break;
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight / 2);
+      default:
+        break;
+    }
+  }
+
+  AddUIPlayer() {
+    $(`#${this.name}`).append(`
+      <div class="div-player-ui">
+        <div class="player-ui-top">
+          <label id="${this.name}vueltas">Vueltas: ${this.vueltas}</label>
+          <label id="${this.name}tiempo">Tiempo: ${this.tiempoActual}</label>
+          <label id="${this.name}fastest">Vuelta más Rápida: ${this.fastestTime}</label>
+        </div>
+        <div class="player-ui-bot">
+          <img
+            class="player-item"
+            src="../../assets/images/modosJuego/circuito.png"
+            alt=""
+          />
+        </div>
+      </div>
+    `);
+  }
+
+  UpdateUIPlayer() {
+    $(`#${this.name}vueltas`).text(`Vueltas: ${this.vueltas}`);
+    $(`#${this.name}tiempo`).text(`Tiempo: ${this.tiempoActual}`);
+    $(`#${this.name}fastest`).text(`Vuelta más Rápida: ${this.fastestTime}`);
   }
 }

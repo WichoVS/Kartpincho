@@ -82,14 +82,6 @@ $(() => {
     THREE.FrontSide
   );
 
-  /*var arboles = new Modelo(
-    "../../assets/modelos/PistaNascar/Arboles.fbx",
-    "../../assets/modelos/PistaNascar/Arboles_Color.png",
-    undefined,
-    "Arboles",
-    THREE.FrontSide
-  );*/
-
   var meta = new Modelo(
     "../../assets/modelos/Pista2/Meta.fbx",
     "../../assets/modelos/Pista2/Meta.png",
@@ -166,7 +158,7 @@ $(() => {
     "Piedras6"
   );*/
 
- /* modelos.push(piedras1);
+  /* modelos.push(piedras1);
   modelos.push(piedras2);
   modelos.push(piedras3);
   modelos.push(piedras4);

@@ -3,6 +3,7 @@ class Terreno {
   mesh;
   isLoaded = false;
   gMaterial;
+  worldReady = false;
   constructor(_pathMesh, _pathTexture, _v3_shape, _name, _gMaterial) {
     this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name);
     this.gMaterial = _gMaterial;

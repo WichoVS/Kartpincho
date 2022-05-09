@@ -182,3 +182,58 @@
     letter-spacing: 0.01em;
     color: #ffffff;
 }
+
+.lbl-playersettings {
+    font-family: Montserrat;
+    font-style: normal;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: smaller;
+}
+
+.div-player-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.btn-player-back {
+    border-radius: 5px;
+    width: 48%;
+    padding: 5px 0px;
+    outline: none;
+    border: none;
+    background: #F2CE1B;
+}
+
+.btn-player-back:hover {
+    background-color: #C9AC16;
+}
+
+.btn-player-back:active {
+    background-color: #F23847;
+    color: white;
+}
+
+.btn-player-next {
+    border-radius: 5px;
+    width: 48%;
+    padding: 5px 0px;
+    outline: none;
+    border: none;
+    background: #F28705;
+}
+
+.btn-player-next:hover {
+    background-color: #CC7204;
+}
+
+.btn-player-next:active {
+    background-color: #F23847;
+    color: white;
+}
