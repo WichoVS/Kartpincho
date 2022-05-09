@@ -233,8 +233,8 @@ class Jugador {
     }, 1000);
   }
 
-  AddTimeVuelta() {
-    this.tiempoActual++;
+  AddTimeVuelta(_manager) {
+    if (_manager.isGameStarted) this.tiempoActual++;
   }
 
   AddVuelta(pTotalChecks) {

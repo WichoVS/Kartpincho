@@ -28,9 +28,9 @@ var worldLoaded = false;
 
 const TimerTiempos = (_manager) => {
   _manager.jugadores.forEach((j) => {
-    j.AddTimeVuelta();
+    j.AddTimeVuelta(_manager);
   });
-  setTimeout(TimerTiempos, 100, manager);
+  setTimeout(TimerTiempos, 100, _manager);
 };
 
 // Aca cargar los jugadores obteniendo la información desde el API
@@ -162,6 +162,12 @@ $(() => {
   // quaternion.normalize();
 
   // rampa.body.quaternion.copy(quaternion);
+
+  $("#btnRetry").on("click", () => {});
+  $("#btnStart").on("click", () => {
+    manager.isGameStarted = true;
+    $("#controllerSetup").addClass("display-none");
+  });
 
   InicializaEventos(manager);
   render();

@@ -32,7 +32,7 @@ const InicializaEventos = (manager) => {
   gamepads = navigator.getGamepads();
   $(window).on("keydown", (e) => {
     var code = e.keyCode || e.which;
-    if (code == 38 && worldLoaded) {
+    if (code == 38 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -41,7 +41,7 @@ const InicializaEventos = (manager) => {
         }
       }
     }
-    if (code == 40 && worldLoaded) {
+    if (code == 40 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -51,7 +51,7 @@ const InicializaEventos = (manager) => {
       }
     }
 
-    if (code == 37 && worldLoaded) {
+    if (code == 37 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -61,7 +61,7 @@ const InicializaEventos = (manager) => {
       }
     }
 
-    if (code == 39 && worldLoaded) {
+    if (code == 39 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -71,7 +71,7 @@ const InicializaEventos = (manager) => {
       }
     }
 
-    if (code == 32 && worldLoaded) {
+    if (code == 32 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -85,7 +85,7 @@ const InicializaEventos = (manager) => {
   $(window).on("keyup", (e) => {
     var code = e.keyCode || e.which;
 
-    if (code == 38 && worldLoaded) {
+    if (code == 38 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -94,7 +94,7 @@ const InicializaEventos = (manager) => {
         }
       }
     }
-    if (code == 40 && worldLoaded) {
+    if (code == 40 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -104,7 +104,7 @@ const InicializaEventos = (manager) => {
       }
     }
 
-    if (code == 37 && worldLoaded) {
+    if (code == 37 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -114,7 +114,7 @@ const InicializaEventos = (manager) => {
       }
     }
 
-    if (code == 39 && worldLoaded) {
+    if (code == 39 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {
@@ -124,7 +124,7 @@ const InicializaEventos = (manager) => {
       }
     }
 
-    if (code == 32 && worldLoaded) {
+    if (code == 32 && worldLoaded && manager.isGameStarted) {
       if (manager.jugadores.length > 0) {
         let p = manager.jugadores[0];
         if (p.loaded) {

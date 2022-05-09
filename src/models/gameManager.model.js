@@ -8,10 +8,12 @@ class GameManager {
   groundMaterial;
   wheelMaterial;
   jugadores = [];
+  isGameStarted;
   constructor() {
     this.worldStep = 1 / 60;
     this.InitThree();
     this.InitCannon();
+    this.isGameStarted = false;
   }
 
   InitThree() {
