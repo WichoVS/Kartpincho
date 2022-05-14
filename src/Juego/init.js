@@ -29,6 +29,13 @@ const CheckModelsLoaded = (pModelos, pJugadores, pTerreno) => {
 };
 
 const InicializaEventos = (manager) => {
+  $("#btnRetry").on("click", () => {});
+  $("#btnStart").on("click", () => {
+    manager.isGameStarted = true;
+    $("#controllerSetup").addClass("display-none");
+    if (player) player.playVideo();
+  });
+
   gamepads = navigator.getGamepads();
   $(window).on("keydown", (e) => {
     var code = e.keyCode || e.which;

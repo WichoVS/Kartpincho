@@ -8,7 +8,7 @@ var partida = {
   Jugadores: 1,
   Dificultad: 1,
   VueltaMasRapida: -1,
-  Playlist: "",
+  Playlist: "PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH",
 };
 
 const JUGADORESGPO = 2;
@@ -162,12 +162,6 @@ $(() => {
   // quaternion.normalize();
 
   // rampa.body.quaternion.copy(quaternion);
-
-  $("#btnRetry").on("click", () => {});
-  $("#btnStart").on("click", () => {
-    manager.isGameStarted = true;
-    $("#controllerSetup").addClass("display-none");
-  });
 
   InicializaEventos(manager);
   render();
