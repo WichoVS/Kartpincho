@@ -37,7 +37,7 @@
     >
       <div
         id="divModalidades"
-        style="width: 80%; display: flex; justify-content: space-between"
+        style="width: 80%; display: flex; justify-content: space-around"
       ></div>
     </div>
 
@@ -91,12 +91,14 @@
         >
           <div class="div-options-col">
             <label class="lbl-option">Vueltas</label>
-            <select class="sel-option" id="selVueltas" style="width: 100%">
-              <option value="1">1 Vuelta</option>
-              <option value="2">2 Vueltas</option>
-              <option value="3">3 Vueltas</option>
-              <option value="4">4 Vueltas</option>
-            </select>
+            <input
+              value="3"
+              type="number"
+              class="inp-option"
+              style="width: 100%"
+              name="Vueltas"
+              id="inpVueltas"
+            />
           </div>
           <div
             class="div-options-col"
@@ -104,9 +106,8 @@
           >
             <label class="lbl-option">Dificultad</label>
             <select class="sel-option" id="selDificultad" style="width: 100%">
-              <option value="1">50 cc</option>
-              <option value="2">100 cc</option>
-              <option value="3">150 cc</option>
+              <option value="0">Fácil</option>
+              <option value="1">Difícil</option>
             </select>
           </div>
         </div>

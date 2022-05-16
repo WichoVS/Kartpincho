@@ -135,7 +135,7 @@
 }
 
 .display-none {
-    display: none;
+    display: none !important;
 }
 
 
@@ -175,4 +175,33 @@
     top: 90%;
     right: 10%;
     color: #FFFFFF;
+}
+
+.div-countdown {
+    box-sizing: border-box;
+    width: 800px;
+    text-align: center;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.h1-countdown {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Koulen';
+    font-size: 8em;
+    margin: 0;
+    color: white;
 }

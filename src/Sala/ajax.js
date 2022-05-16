@@ -77,3 +77,39 @@ const GetPlaylistUsuario = async () => {
     );
   });
 };
+
+const CrearPartida = async (partida, jugadores) => {
+  const resp = await fetch("http://localhost:3000/api/partida/createPartida", {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(partida),
+  });
+
+  const { success, message, data } = await resp.json();
+  console.log(data);
+  jugadores.forEach((j) => {
+    j.Partida = data._id;
+  });
+  AddJugadoresAPartida(jugadores);
+};
+
+const AddJugadoresAPartida = async (jugadores) => {
+  const resp = await fetch(
+    "http://localhost:3000/api/jugadorPartida/createJugadores",
+    {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Jugadores: jugadores }),
+    }
+  );
+
+  const { success, message, data } = await resp.json();
+  window.location.href = `../Juego/Juego.html?p=${jugadores[0].Partida}`;
+  return success;
+};

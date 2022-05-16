@@ -43,14 +43,18 @@ function playerPlayVideo(arrayVideos, index) {
   currentPlaying = index;
   videosPlaylist = arrayVideos;
   player.loadVideoById(arrayVideos[index]);
+  player.stopVideo();
   $("#ytImage").attr("src", videosPlaylist[index].thumbnail.url);
   $("#ytSong").text(videosPlaylist[index].title);
-  player.setVolume(100);
+  player.setVolume(10);
 }
 
 function onPlayerReady(event) {
   player.setPlaybackQuality("small");
-  GetVideosPlaylist(partida.Playlist);
+  const url = partida.Playlist.Url;
+  const index = url.indexOf("?list=");
+  const list = url.slice(index + 6);
+  GetVideosPlaylist(list);
 }
 
 var done = false;

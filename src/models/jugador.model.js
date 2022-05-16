@@ -25,6 +25,9 @@ class Jugador {
   flagTrigger = false;
   fastestTime;
   startedRace;
+  isKeyboardControl = false;
+  controllerIndex = -1;
+  imagen;
 
   constructor(
     _pathModel,
@@ -34,7 +37,8 @@ class Jugador {
     _world,
     _mass,
     _totalPlayers,
-    _origin
+    _origin,
+    _imagen = ""
   ) {
     this.vueltas = 0;
     this.checkpoints = 0;
@@ -49,6 +53,8 @@ class Jugador {
     this.camera.lookAt(0, 0, 0);
     this.renderer = this.CrearRenderer();
     this.startedRace = false;
+    this.imagen = _imagen;
+    this.mass = _mass;
     $("#game").append(
       `<div id="${this.name}" style="position:relative"></div>`
     );
