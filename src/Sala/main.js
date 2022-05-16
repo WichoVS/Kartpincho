@@ -1,4 +1,5 @@
 var opcionesJuego = {
+  _id: "",
   Modalidad: "",
   Pista: "",
   Ganador: "",
@@ -7,9 +8,14 @@ var opcionesJuego = {
   NoBots: 0,
   Jugadores: 0,
   Dificultad: 0,
-  VueltaMasRapida: 0,
+  VueltaMasRapida: -1,
   Playlist: "",
+  CreadaPor: "",
+  Iniciada: false,
+  Finalizada: false,
 };
+
+var jugadoresArray = [];
 
 $(() => {
   Init();

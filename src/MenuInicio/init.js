@@ -214,30 +214,3 @@ const SetBotonFocus = (opcSelect) => {
       break;
   }
 };
-
-const GetVideosPlaylist = (playlistID) => {
-  $.ajax({
-    url: `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistID}&key=${APIKEY}&maxResults=50`,
-    type: "GET",
-    contentType: "application/json; charset=UTF-8",
-    dataType: "json",
-    success: (data) => {
-      data.items.forEach((e) => {
-        let videoYT = new YTVideo(
-          e.snippet.title,
-          e.snippet.thumbnails.default,
-          e.snippet.position,
-          e.snippet.resourceId.videoId
-        );
-
-        arrayPlaylistVideos.push(videoYT);
-      });
-
-      playerPlayVideo(arrayPlaylistVideos, 0);
-      $("#divSong").css("display", "flex");
-    },
-    error: (xmlHttpRequest, errorThrown) => {
-      console.log(errorThrown);
-    },
-  });
-};

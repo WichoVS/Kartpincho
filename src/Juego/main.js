@@ -1,23 +1,14 @@
-var partida = {
-  Modalidad: "",
-  Pista: "",
-  Ganador: "",
-  Vueltas: 4,
-  Bots: false,
-  NoBots: 0,
-  Jugadores: 1,
-  Dificultad: 1,
-  VueltaMasRapida: -1,
-  Playlist: "",
-};
+var partida = {};
+var jugadoresData = {};
+var countDownLabels = 3;
 
 const JUGADORESGPO = 2;
 const TRIGGERGPO = 4;
 
+var controlesAsignados = 0;
+
 var manager;
-//var p1;
 var terreno;
-//Mapa
 
 var rendererAerea;
 var cameraAerea;
@@ -33,66 +24,32 @@ const TimerTiempos = (_manager) => {
   setTimeout(TimerTiempos, 100, _manager);
 };
 
-// Aca cargar los jugadores obteniendo la información desde el API
-// Por ahora lo dejaré en código duro
-const LoadPlayers = (pManager) => {
-  var pType1 = new Jugador(
-    "../../assets/modelos/GoKartTest/GoKartTest.fbx",
-    "../../assets/modelos/GoKartTest/Kart_BaseColor.png",
-    "Player1",
-    pManager.wheelMaterial,
-    pManager.world,
-    150,
-    partida.Jugadores,
-    new CANNON.Vec3(15, 1, -140)
-  );
+const AsignaControles = () => {};
 
-  if (partida.Jugadores > 1) {
-    var pType2 = new Jugador(
-      "../../assets/karts/Avocarro.fbx",
-      "../../assets/karts/AvocarroTextLite.png",
-      "Player2",
+// Donde se Cargan los datos de la partida se cargan los jugadores y se almacenan en la variable jugadoresData
+const LoadPlayers = (pManager) => {
+  var arrayTypeKarts = [];
+  jugadoresData.forEach((j, i) => {
+    var p = new Jugador(
+      j.Modelo,
+      j.Modelo.replace("fbx", "png"),
+      j.Nombre,
       pManager.wheelMaterial,
       pManager.world,
       150,
       partida.Jugadores,
-      new CANNON.Vec3(20, 1, -140)
+      new CANNON.Vec3(15 + (i % 2) * 5, 1, -140 - (i % 2) * 5),
+      j.Imagen
     );
-    if (partida.Jugadores > 2) {
-      var pType3 = new Jugador(
-        "../../assets/modelos/GoKartTest/GoKartTest.fbx",
-        "../../assets/modelos/GoKartTest/Kart_BaseColor.png",
-        "Player3",
-        pManager.wheelMaterial,
-        pManager.world,
-        150,
-        partida.Jugadores,
-        new CANNON.Vec3(15, 1, -155)
-      );
-      if (partida.Jugadores > 3) {
-        var pType4 = new Jugador(
-          "../../assets/karts/Avocarro.fbx",
-          "../../assets/karts/AvocarroTextLite.png",
-          "Player4",
-          pManager.wheelMaterial,
-          pManager.world,
-          150,
-          partida.Jugadores,
-          new CANNON.Vec3(20, 1, -155)
-        );
-      }
-    }
-  }
 
-  var arrayTypeKarts = [];
-  arrayTypeKarts.push(pType1);
-  arrayTypeKarts.push(pType2);
-  arrayTypeKarts.push(pType3);
-  arrayTypeKarts.push(pType4);
+    $(`#player${i + 1}ControllerSetup`).removeClass("display-none");
 
-  for (let index = 0; index < partida.Jugadores; index++) {
-    pManager.AddJugador(arrayTypeKarts[index]);
-  }
+    arrayTypeKarts.push(p);
+  });
+
+  arrayTypeKarts.forEach((j) => {
+    pManager.AddJugador(j);
+  });
 };
 
 const CamaraParaAcomodarColliders = (pManager) => {
@@ -116,11 +73,10 @@ const CamaraParaAcomodarColliders = (pManager) => {
   pManager.scene.add(cameraAerea);
 };
 
-$(() => {
+$(async () => {
   //Aqui una funcion para cargar los datos necesarios para la partida
-
+  await GetPartida();
   manager = new GameManager();
-  //CamaraParaAcomodarColliders(manager);
   LoadPlayers(manager);
 
   var sb = new SkyBox(
@@ -140,38 +96,12 @@ $(() => {
     "PastoCentral",
     manager.groundMaterial
   );
-
-  loadColliders(manager);
-  loadTriggers(manager);
-  loadModelos();
+  LoadMap(manager);
 
   setTimeout(TimerTiempos, 100, manager);
-  // var rampa = new Collider(
-  //   new CANNON.Vec3(5, -0.5, 0),
-  //   new CANNON.Vec3(5, 3, 1),
-  //   manager.world
-  // );
-
-  // rampa.Rota(new CANNON.Vec3(1, 0, 0), 1.74533);
-
-  // var quatX = new CANNON.Quaternion();
-  // var quatY = new CANNON.Quaternion();
-  // quatX.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), (40 * 3.1415) / 180);
-  // quatY.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), (90 * 3.1415) / 180);
-  // var quaternion = quatY.mult(quatX);
-  // quaternion.normalize();
-
-  // rampa.body.quaternion.copy(quaternion);
-
-  $("#btnRetry").on("click", () => {});
-  $("#btnStart").on("click", () => {
-    manager.isGameStarted = true;
-    $("#controllerSetup").addClass("display-none");
-  });
 
   InicializaEventos(manager);
   render();
-  //HacerUnaFuncionParaGenerarLosEventos
 });
 
 const render = () => {
@@ -234,7 +164,7 @@ const updatePhysics = () => {
   });
 };
 
-const loadColliders = (pManager) => {
+const loadCollidersNascar = (pManager) => {
   //Left
   var c = new Collider(
     new CANNON.Vec3(170, 0, -125),
@@ -375,7 +305,7 @@ const loadColliders = (pManager) => {
   iCL3.Rota(new CANNON.Vec3(0, 1, 0), THREE.MathUtils.degToRad(-10));
 };
 
-const loadTriggers = (pManager) => {
+const loadTriggersNascar = (pManager) => {
   var metaTrigger = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
   });
@@ -464,7 +394,7 @@ const loadTriggers = (pManager) => {
   /* Fin Bloque de Código que genera los checkpoints de la Pista*/
 };
 
-const loadModelos = () => {
+const loadModelosNascar = () => {
   var pista = new Modelo(
     "../../assets/modelos/PistaNascar/PistaNascar.fbx",
     "../../assets/modelos/PistaNascar/Pista_Color.png",
@@ -545,3 +475,15 @@ const loadModelos = () => {
   modelos.push(pista);
   modelos.push(meta);
 };
+
+const LoadMap = (manager) => {
+  if (partida.Pista == "624544f2558f73e5aa3d340f") LoadMapaNascar(manager);
+};
+
+const LoadMapaNascar = (manager) => {
+  loadCollidersNascar(manager);
+  loadTriggersNascar(manager);
+  loadModelosNascar();
+};
+
+const LoadMapaMar = () => {};

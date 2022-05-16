@@ -1,5 +1,6 @@
 class Collider {
   body;
+  mesh;
   constructor(position, _v3_shape, world) {
     this.body = new CANNON.Body({
       type: CANNON.Body.STATIC,

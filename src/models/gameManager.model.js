@@ -8,7 +8,10 @@ class GameManager {
   groundMaterial;
   wheelMaterial;
   jugadores = [];
+  gamePadsAsignados = [];
+  isKeyboardAsignado = false;
   isGameStarted;
+  isAsignandoControles = true;
   constructor() {
     this.worldStep = 1 / 60;
     this.InitThree();

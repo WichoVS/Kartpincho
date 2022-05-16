@@ -1,4 +1,10 @@
 var passiveEvent = false;
+var videosPlaylist;
+var currentPlaying;
+const APIKEY = "AIzaSyCahpRLo0SMKUbnrzzgOjZjwdZXRy6wwso";
+var player;
+var arrayPlaylistVideos = [];
+
 try {
   var opts = Object.defineProperty({}, "passive", {
     get: function () {
@@ -6,9 +12,6 @@ try {
     },
   });
 } catch (e) {}
-
-var videosPlaylist;
-var currentPlaying;
 
 passiveEvent = passiveEvent ? { capture: false, passive: true } : true;
 
@@ -19,8 +22,6 @@ var tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-var player;
 
 window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player("player", {
@@ -42,14 +43,18 @@ function playerPlayVideo(arrayVideos, index) {
   currentPlaying = index;
   videosPlaylist = arrayVideos;
   player.loadVideoById(arrayVideos[index]);
+  player.stopVideo();
   $("#ytImage").attr("src", videosPlaylist[index].thumbnail.url);
   $("#ytSong").text(videosPlaylist[index].title);
+  player.setVolume(10);
 }
 
 function onPlayerReady(event) {
   player.setPlaybackQuality("small");
-  player.loadPlaylist("PLGINh0aYNOJu3CagVb3s0HgW7otaHHmAJ");
-  console.log(player);
+  const url = partida.Playlist.Url;
+  const index = url.indexOf("?list=");
+  const list = url.slice(index + 6);
+  GetVideosPlaylist(list);
 }
 
 var done = false;
@@ -68,3 +73,30 @@ function onPlayerStateChange(event) {
 function stopVideo() {
   player.stopVideo();
 }
+
+const GetVideosPlaylist = (playlistID) => {
+  $.ajax({
+    url: `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistID}&key=${APIKEY}&maxResults=50`,
+    type: "GET",
+    contentType: "application/json; charset=UTF-8",
+    dataType: "json",
+    success: (data) => {
+      console.log(data);
+      data.items.forEach((e) => {
+        let videoYT = new YTVideo(
+          e.snippet.title,
+          e.snippet.thumbnails.default,
+          e.snippet.position,
+          e.snippet.resourceId.videoId
+        );
+
+        arrayPlaylistVideos.push(videoYT);
+      });
+      playerPlayVideo(arrayPlaylistVideos, 0);
+      $("#divSong").css("display", "none");
+    },
+    error: (xmlHttpRequest, errorThrown) => {
+      console.log(errorThrown);
+    },
+  });
+};
