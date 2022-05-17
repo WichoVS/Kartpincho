@@ -259,6 +259,58 @@ class Jugador {
     }
   }
 
+  TurnLeftOn(valueFactor = 1) {
+    this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 2);
+    this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 3);
+  }
+
+  TurnLeftOff() {
+    this.vehicle.setSteeringValue(0, 2);
+    this.vehicle.setSteeringValue(0, 3);
+  }
+
+  TurnRightOn(valueFactor = 1) {
+    this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 2);
+    this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 3);
+  }
+
+  TurnRightOff() {
+    this.vehicle.setSteeringValue(0, 2);
+    this.vehicle.setSteeringValue(0, 3);
+  }
+
+  AccelerateOn(valueFactor = 1) {
+    this.vehicle.applyEngineForce(-this.engineForce * valueFactor, 2);
+    this.vehicle.applyEngineForce(-this.engineForce * valueFactor, 3);
+  }
+
+  AccelerateOff() {
+    this.vehicle.applyEngineForce(0, 2);
+    this.vehicle.applyEngineForce(0, 3);
+  }
+
+  BrakeOn(valueFactor = 1) {
+    this.vehicle.setBrake(2 * valueFactor, 2);
+    this.vehicle.setBrake(2 * valueFactor, 3);
+  }
+
+  BrakeOff() {
+    this.vehicle.setBrake(0, 2);
+    this.vehicle.setBrake(0, 3);
+  }
+
+  ReverseOn(valueFactor = 1) {
+    this.vehicle.applyEngineForce(this.engineForce * valueFactor, 2);
+    this.vehicle.applyEngineForce(this.engineForce * valueFactor, 3);
+  }
+
+  ReverseOff() {
+    this.vehicle.applyEngineForce(0, 2);
+    this.vehicle.applyEngineForce(0, 3);
+  }
+
+  ActiveItem() {}
+
   CrearRenderer() {
     let renderer;
     switch (this.totalPlayers) {
