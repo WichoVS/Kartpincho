@@ -37,6 +37,7 @@ const InicializaEventos = (manager) => {
 
   gamepads = navigator.getGamepads();
   $(window).on("keydown", (e) => {
+    // En este pedazo de código es del modal donde se configura de que jugador es que control.
     if (!manager.isGameStarted) {
       var code = e.keyCode || e.which;
       if (code == 32 && worldLoaded) {
@@ -58,86 +59,41 @@ const InicializaEventos = (manager) => {
         }
       }
     }
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
+    var playerController = -1;
+    manager.jugadores.forEach((j, i) => {
+      if (j.isKeyboardControl) {
+        playerController = i;
+      }
+    });
+
+    var p = manager.jugadores[playerController];
+
+    if (playerController == -1) return;
     var code = e.keyCode || e.which;
-    if (code == 38 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        console.log(playerController);
-        let p = manager.jugadores[playerController];
-        console.log(p);
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(-p.engineForce, 2);
-          p.vehicle.applyEngineForce(-p.engineForce, 3);
-        }
+    if (manager.jugadores.length > 0) {
+      if (code == 38 && worldLoaded && manager.isGameStarted) {
+        p.AccelerateOn();
       }
-    }
-    if (code == 40 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(p.engineForce, 2);
-          p.vehicle.applyEngineForce(p.engineForce, 3);
-        }
+      if (code == 40 && worldLoaded && manager.isGameStarted) {
+        p.ReverseOn();
       }
-    }
 
-    if (code == 37 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(p.maxSteerVal, 2);
-          p.vehicle.setSteeringValue(p.maxSteerVal, 3);
-        }
+      if (code == 37 && worldLoaded && manager.isGameStarted) {
+        p.TurnLeftOn();
       }
-    }
 
-    if (code == 39 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(-p.maxSteerVal, 2);
-          p.vehicle.setSteeringValue(-p.maxSteerVal, 3);
-        }
+      if (code == 39 && worldLoaded && manager.isGameStarted) {
+        p.TurnRightOn();
       }
-    }
 
-    if (code == 32 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.setBrake(2, 2);
-          p.vehicle.setBrake(2, 3);
-        }
+      if (code == 32 && worldLoaded && manager.isGameStarted) {
+        p.BrakeOn();
       }
     }
   });
@@ -145,82 +101,32 @@ const InicializaEventos = (manager) => {
   $(window).on("keyup", (e) => {
     var code = e.keyCode || e.which;
 
-    if (code == 38 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(0, 2);
-          p.vehicle.applyEngineForce(0, 3);
-        }
+    var playerController = -1;
+    manager.jugadores.forEach((j, i) => {
+      if (j.isKeyboardControl) {
+        playerController = i;
       }
-    }
-    if (code == 40 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.applyEngineForce(0, 2);
-          p.vehicle.applyEngineForce(0, 3);
-        }
-      }
-    }
+    });
+    var p = manager.jugadores[playerController];
 
-    if (code == 37 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(0, 2);
-          p.vehicle.setSteeringValue(0, 3);
-        }
+    if (manager.jugadores.length > 0) {
+      if (code == 38 && worldLoaded && manager.isGameStarted) {
+        p.AccelerateOff();
       }
-    }
-
-    if (code == 39 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.setSteeringValue(0, 2);
-          p.vehicle.setSteeringValue(0, 3);
-        }
+      if (code == 40 && worldLoaded && manager.isGameStarted) {
+        p.ReverseOff();
       }
-    }
 
-    if (code == 32 && worldLoaded && manager.isGameStarted) {
-      if (manager.jugadores.length > 0) {
-        let playerController = -1;
-        manager.jugadores.forEach((j, i) => {
-          if (j.isKeyboardControl) {
-            playerController = i;
-          }
-        });
-        let p = manager.jugadores[playerController];
-        if (p.loaded) {
-          p.vehicle.setBrake(0, 2);
-          p.vehicle.setBrake(0, 3);
-        }
+      if (code == 37 && worldLoaded && manager.isGameStarted) {
+        p.TurnLeftOff();
+      }
+
+      if (code == 39 && worldLoaded && manager.isGameStarted) {
+        p.TurnRightOff();
+      }
+
+      if (code == 32 && worldLoaded && manager.isGameStarted) {
+        p.BrakeOff();
       }
     }
   });
@@ -253,35 +159,28 @@ const GamepadsEvent = (_manager) => {
           }
         });
 
+      var p = _manager.jugadores[playerController];
       if (c.axes[0] > 0.1 || c.axes[0] < -0.1) {
-        let p = _manager.jugadores[playerController];
         if (p.loaded) {
-          p.vehicle.setSteeringValue(-p.maxSteerVal * c.axes[0], 2);
-          p.vehicle.setSteeringValue(-p.maxSteerVal * c.axes[0], 3);
+          p.TurnRightOn(c.axes[0]);
         }
       } else {
-        let p = _manager.jugadores[playerController];
         if (p.loaded) {
-          p.vehicle.setSteeringValue(-p.maxSteerVal * 0, 2);
-          p.vehicle.setSteeringValue(-p.maxSteerVal * 0, 3);
+          p.TurnRightOff();
         }
       }
 
       c.buttons.forEach((b, i) => {
-        let p = _manager.jugadores[playerController];
         if (p.loaded) {
           if (b.pressed) {
             if (i == 7 && _manager.isGameStarted) {
-              p.vehicle.applyEngineForce(-p.engineForce * b.value, 2);
-              p.vehicle.applyEngineForce(-p.engineForce * b.value, 3);
+              p.AccelerateOn(b.value);
             }
             if (i == 6 && _manager.isGameStarted) {
-              p.vehicle.applyEngineForce(p.engineForce * b.value, 2);
-              p.vehicle.applyEngineForce(p.engineForce * b.value, 3);
+              p.ReverseOn(b.value);
             }
             if (i == 1 && _manager.isGameStarted) {
-              p.vehicle.setBrake(2, 2);
-              p.vehicle.setBrake(2, 3);
+              p.BrakeOn();
             }
             if (i == 0) {
               if (_manager.isAsignandoControles) {
@@ -313,12 +212,10 @@ const GamepadsEvent = (_manager) => {
           } else {
             //Reseteamos todos los eventos (Mejorar la lógica de los botónes luego).
             if (i == 7 && !c.buttons[6].pressed) {
-              p.vehicle.applyEngineForce(0, 2);
-              p.vehicle.applyEngineForce(0, 3);
+              p.AccelerateOff();
             }
             if (i == 1) {
-              p.vehicle.setBrake(0, 2);
-              p.vehicle.setBrake(0, 3);
+              p.BrakeOff();
             }
           }
         }
@@ -356,3 +253,7 @@ const CountDown = (manager) => {
   countDownLabels--;
   setTimeout(CountDown, 1000, manager);
 };
+
+const IsAsignandoControles = () => {};
+
+const IsGameStarted = () => {};

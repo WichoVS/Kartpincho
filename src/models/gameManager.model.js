@@ -12,6 +12,11 @@ class GameManager {
   isKeyboardAsignado = false;
   isGameStarted;
   isAsignandoControles = true;
+  ItemsDisponibles = {
+    STUN_ITEM: "STUN_ITEM",
+    SLOW_ITEM: "SLOW_ITEM",
+    DRUNK_ITEM: "DRUNK_ITEM",
+  };
   constructor() {
     this.worldStep = 1 / 60;
     this.InitThree();
