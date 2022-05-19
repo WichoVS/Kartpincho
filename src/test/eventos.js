@@ -65,6 +65,16 @@ const InicializaEventos = (manager) => {
         }
       }
     }
+
+    if (code == 69) {
+      if (manager.jugadores.length > 0) {
+        let p = manager.jugadores[0];
+        if (p.loaded) {
+          p.ActiveItem();
+        }
+      }
+    }
+
   });
 
   $(window).on("keyup", (e) => {

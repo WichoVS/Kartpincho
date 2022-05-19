@@ -30,6 +30,44 @@ const AsignaControles = () => {};
 const LoadPlayers = (pManager) => {
   var arrayTypeKarts = [];
   jugadoresData.forEach((j, i) => {
+
+    var shell = new Modelo(
+      "../../assets/modelos/items/untitled.fbx",
+      "../../assets/modelos/items/Shell.png",
+      undefined,
+      `${j.Nombre}Shell`,
+      THREE.DoubleSide, 
+      0, 0, 0,
+      1/2, 1/2, 1/2
+    )
+
+    var shellbody = new CANNON.Body({
+      mass: 1,
+      shape: new CANNON.Box(new CANNON.Vec3(1,1,1)),
+      position: new CANNON.Vec3(0,0,0)
+    })
+
+    shell.body = shellbody
+
+    shell.body.addEventListener("collide", (e) => {
+      if(e.body.userData != undefined) {
+        let owner = pManager.jugadores.find(
+          (owner) => shell.owner === owner.name
+        );
+
+        let player = pManager.jugadores.find(
+          (p) => p.name === e.body.userData.name
+        );
+        
+        if(e.body.userData.name != shell.owner) {
+            console.log(player)
+            player.isStuned = true;
+            player.stunTime = 180;
+            owner.deleteShell()
+        }
+      }
+    });
+
     var p = new Jugador(
       j.Modelo,
       j.Modelo.replace("fbx", "png"),
@@ -39,7 +77,9 @@ const LoadPlayers = (pManager) => {
       150,
       partida.Jugadores,
       new CANNON.Vec3(15 + (i % 2) * 5, 1, -140 - (i % 2) * 5),
-      j.Imagen
+      j.Imagen,
+      manager,
+      shell,
     );
 
     $(`#player${i + 1}ControllerSetup`).removeClass("display-none");
@@ -96,6 +136,7 @@ $(async () => {
     "PastoCentral",
     manager.groundMaterial
   );
+
   LoadMap(manager);
 
   setTimeout(TimerTiempos, 100, manager);
@@ -313,19 +354,21 @@ const loadTriggersNascar = (pManager) => {
   metaTrigger.collisionResponse = false;
   var totalCheckpoints = 4;
   metaTrigger.addEventListener("collide", (e) => {
-    let player = pManager.jugadores.find(
-      (ele) => ele.name === e.body.userData.name
-    );
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
 
-    if (!player.flagTrigger) {
-      player.AddVuelta(totalCheckpoints);
-      player.flagTrigger = true;
-      player.FlagCollisionReset();
+      if (!player.flagTrigger) {
+        player.AddVuelta(totalCheckpoints);
+        player.flagTrigger = true;
+        player.FlagCollisionReset();
+      }
     }
   });
   pManager.world.add(metaTrigger);
 
-  /* Inicio Bloque de Código que genera los checkpoints de la Pista*/
+  //#region Inicio Bloque de Código que genera los checkpoints de la Pista
 
   var triggerChecker4 = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
@@ -333,11 +376,13 @@ const loadTriggersNascar = (pManager) => {
   triggerChecker4.position.set(20, 0, -200);
   triggerChecker4.collisionResponse = false;
   triggerChecker4.addEventListener("collide", (e) => {
-    let player = pManager.jugadores.find(
-      (ele) => ele.name === e.body.userData.name
-    );
-    if (player.checkpoints === 3) player.checkpoints = 4;
-    console.log(player.checkpoints);
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 3) player.checkpoints = 4;
+      console.log(player.checkpoints);
+    }
   });
   pManager.world.add(triggerChecker4);
 
@@ -351,11 +396,13 @@ const loadTriggersNascar = (pManager) => {
   );
   triggerChecker3.collisionResponse = false;
   triggerChecker3.addEventListener("collide", (e) => {
-    let player = pManager.jugadores.find(
-      (ele) => ele.name === e.body.userData.name
-    );
-    if (player.checkpoints === 2) player.checkpoints = 3;
-    console.log(player.checkpoints);
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 2) player.checkpoints = 3;
+      console.log(player.checkpoints);
+    }
   });
   pManager.world.add(triggerChecker3);
 
@@ -365,11 +412,13 @@ const loadTriggersNascar = (pManager) => {
   triggerChecker2.position.set(150, 0, -130);
   triggerChecker2.collisionResponse = false;
   triggerChecker2.addEventListener("collide", (e) => {
-    let player = pManager.jugadores.find(
-      (ele) => ele.name === e.body.userData.name
-    );
-    if (player.checkpoints === 1) player.checkpoints = 2;
-    console.log(player.checkpoints);
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 1) player.checkpoints = 2;
+      console.log(player.checkpoints);
+    }
   });
   pManager.world.add(triggerChecker2);
 
@@ -383,15 +432,113 @@ const loadTriggersNascar = (pManager) => {
   );
   triggerChecker1.collisionResponse = false;
   triggerChecker1.addEventListener("collide", (e) => {
-    let player = pManager.jugadores.find(
-      (ele) => ele.name === e.body.userData.name
-    );
-    if (player.checkpoints === 0) player.checkpoints = 1;
-    console.log(player.checkpoints);
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 0) player.checkpoints = 1;
+      console.log(player.checkpoints);
+    }
   });
   pManager.world.add(triggerChecker1);
 
-  /* Fin Bloque de Código que genera los checkpoints de la Pista*/
+  //#endregion Fin del bloque que genera los checkpoints de la pista
+
+  //#region Comienzan triggers de ITEM BLOCKS
+
+  var ITEMS = ["STUN_ITEM", "SLOW_ITEM", "DRUNK_ITEM"]
+
+  var itembox1Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox1Trigger.collisionResponse = false
+  itembox1Trigger.position.set(20,0,-200)
+  itembox1Trigger.addEventListener("collide", (e) => {
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if(player.item == "NONE") {
+        var i = randomIntFromInterval(1,3)-1
+        player.item = ITEMS[i]
+        console.log(ITEMS[i])
+      }
+    }
+  });
+  pManager.world.add(itembox1Trigger);
+
+  // 2
+  var itembox2Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox2Trigger.collisionResponse = false
+  itembox2Trigger.position.set(100,0,13)
+  itembox2Trigger.addEventListener("collide", (e) => {
+    
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if(player.item == "NONE") {
+        var i = randomIntFromInterval(1,3)-1
+        player.item = ITEMS[i]
+        console.log(ITEMS[i])
+      }
+    }
+
+    });
+  pManager.world.add(itembox2Trigger);
+
+  // 3
+  var itembox3Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox3Trigger.collisionResponse = false
+  itembox3Trigger.position.set(140,0,-130)
+  itembox3Trigger.addEventListener("collide", (e) => {
+    
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if(player.item == "NONE") {
+        var i = randomIntFromInterval(1,3)-1
+        player.item = ITEMS[i]
+        console.log(ITEMS[i])
+      }
+    }
+
+    });
+  pManager.world.add(itembox3Trigger);
+
+  // 4
+  var itembox4Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox4Trigger.collisionResponse = false
+  itembox4Trigger.position.set(155,0,-130)
+  itembox4Trigger.addEventListener("collide", (e) => {
+    
+    if(e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if(player.item == "NONE") {
+        var i = randomIntFromInterval(1,3)-1
+        player.item = ITEMS[i]
+        console.log(ITEMS[i])
+      }
+    }
+
+    });
+  pManager.world.add(itembox4Trigger);
+
+  //#endregion
+
 };
 
 const loadModelosNascar = () => {
@@ -465,15 +612,63 @@ const loadModelosNascar = () => {
     THREE.FrontSide
   );
 
+  /* ITEM BOXES */
+  var itembox1 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    20, 0, -200,      // (x, y, z) position
+    1/32, 1/32, 1/32  // (x, y, z) scale
+  )
+
+  var itembox2 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    100, 0, 13,      // (x, y, z) position
+    1/32, 1/32, 1/32  // (x, y, z) scale
+  )
+
+  var itembox3 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    140, 0, -130,      // (x, y, z) position
+    1/32, 1/32, 1/32  // (x, y, z) scale
+  )
+
+  var itembox4 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    155, 0, -130,      // (x, y, z) position
+    1/32, 1/32, 1/32  // (x, y, z) scale
+  )
+
   modelos.push(piedras1);
   modelos.push(piedras2);
   modelos.push(piedras3);
   modelos.push(piedras4);
   modelos.push(piedras5);
   modelos.push(piedras6);
+
+  modelos.push(itembox1);
+  modelos.push(itembox2);
+  modelos.push(itembox3);
+  modelos.push(itembox4);
+
   modelos.push(arboles);
   modelos.push(pista);
   modelos.push(meta);
+  
 };
 
 const LoadMap = (manager) => {
@@ -487,3 +682,7 @@ const LoadMapaNascar = (manager) => {
 };
 
 const LoadMapaMar = () => {};
+
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
