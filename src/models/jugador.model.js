@@ -355,8 +355,8 @@ class Jugador {
   }
 
   BrakeOn(valueFactor = 1) {
-    this.vehicle.setBrake(2 * valueFactor, 2);
-    this.vehicle.setBrake(2 * valueFactor, 3);
+    this.vehicle.setBrake(10 * valueFactor, 2);
+    this.vehicle.setBrake(10 * valueFactor, 3);
   }
 
   BrakeOff() {

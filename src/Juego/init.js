@@ -215,12 +215,30 @@ const GamepadsEvent = (_manager) => {
           if (b.pressed) {
             if (i == 7 && _manager.isGameStarted) {
               p.AccelerateOn(b.value);
+              c.vibrationActuator.playEffect("dual-rumble", {
+                startDelay: 0,
+                duration: 100,
+                weakMagnitude: 0.5,
+                strongMagnitude: 0.7,
+              });
             }
             if (i == 6 && _manager.isGameStarted) {
               p.ReverseOn(b.value);
+              c.vibrationActuator.playEffect("dual-rumble", {
+                startDelay: 0,
+                duration: 100,
+                weakMagnitude: 0.5,
+                strongMagnitude: 0.7,
+              });
             }
             if (i == 1 && _manager.isGameStarted) {
               p.BrakeOn();
+              c.vibrationActuator.playEffect("dual-rumble", {
+                startDelay: 0,
+                duration: 100,
+                weakMagnitude: 0.6,
+                strongMagnitude: 0.1,
+              });
             }
 
             if (i == 3 && _manager.isGameStarted) {
