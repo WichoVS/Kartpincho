@@ -103,7 +103,7 @@ const LoadPlayers = (pManager) => {
     arrayTypeKarts.push(p);
 
     //#region Moles
-    if(partida.Dificultad == 1) {
+    if(partida.Dificultad == 1 && partida.Pista == "624544f2558f73e5aa3d340f") {
       if(molesCount <= manager.molesPositions.length) {
         if(!molesAdded) {
           molesCount = Math.round(manager.molesPositions.length / 2)
@@ -822,6 +822,7 @@ const LoadMapaMar = (manager) => {
 };
 
 const loadCollidersMar = (manager) => {
+  
   /////////////////////////////////////
   ///////////Limites Mapa//////////////
   /////////////////////////////////////
@@ -1205,19 +1206,19 @@ const loadCollidersMar = (manager) => {
     rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
     var rampa3 = new Collider(
-      new CANNON.Vec3(-2 /*-50*/, -1, -22),
+      new CANNON.Vec3(-2 , -1, -22),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
 
     var rampa4 = new Collider(
-      new CANNON.Vec3(18 /*-50*/, -1, -42),
+      new CANNON.Vec3(18 , -1, -42),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
 
     var rampa5 = new Collider(
-      new CANNON.Vec3(30 /*-50*/, -1, -55),
+      new CANNON.Vec3(30 , -1, -55),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
@@ -1235,7 +1236,7 @@ const loadCollidersMar = (manager) => {
     rampa3.body.quaternion.copy(quaternion);
 
     var rampa5 = new Collider(
-      new CANNON.Vec3(38 /*-50*/, -1, -92),
+      new CANNON.Vec3(38 , -1, -92),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
@@ -1249,9 +1250,221 @@ const loadCollidersMar = (manager) => {
     rampa6.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
   }
 };
-const loadTriggersMar = (manager) => {};
+
+const loadTriggersMar = (pManager) => {
+  
+  var factor = 0;
+  if (mode == "Eliminación") factor = -1000;
+
+  var metaTrigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  metaTrigger.position.set(-48, 0 + factor, -69);
+  metaTrigger.collisionResponse = false;
+  var totalCheckpoints = 4;
+  metaTrigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (!player.flagTrigger) {
+        player.AddVuelta(totalCheckpoints);
+        player.flagTrigger = true;
+        player.FlagCollisionReset();
+        player.checkpTime -= 1;
+        checkPlacements(pManager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  pManager.world.add(metaTrigger);
+  
+  //#region Inicio Bloque de Código que genera los checkpoints de la Pista
+
+  var triggerChecker4 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker4.position.set(-35, 0 + factor, 111);
+  triggerChecker4.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker4.collisionResponse = false;
+  triggerChecker4.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 3) {
+        player.checkpoints = 4;
+        player.checkpTime -= 1;
+        checkPlacements(pManager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  pManager.world.add(triggerChecker4);
+
+  var triggerChecker3 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker3.position.set(-15, 0 + factor, 95);
+  triggerChecker3.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker3.collisionResponse = false;
+  triggerChecker3.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 2) {
+        player.checkpoints = 3;
+        player.checkpTime -= 1;
+        checkPlacements(pManager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  pManager.world.add(triggerChecker3);
+
+  var triggerChecker2 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker2.position.set(39, 0 + factor, -69);
+  triggerChecker2.collisionResponse = false;
+  triggerChecker2.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 1) {
+        player.checkpoints = 2;
+        player.checkpTime -= 1;
+        checkPlacements(pManager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  pManager.world.add(triggerChecker2);
+
+  var triggerChecker1 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker1.position.set(-25, 0 + factor, -162);
+  triggerChecker1.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker1.collisionResponse = false;
+  triggerChecker1.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 0) {
+        player.checkpoints = 1;
+        player.checkpTime -= 1;
+        checkPlacements(pManager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  pManager.world.add(triggerChecker1);
+
+  //#endregion Fin del bloque que genera los checkpoints de la pista
+  
+  //#region Comienzan triggers de ITEM BLOCKS
+
+  var ITEMS = ["STUN_ITEM", "SLOW_ITEM", "DRUNK_ITEM"];
+
+  var itembox1Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox1Trigger.collisionResponse = false;
+  itembox1Trigger.position.set(-50, 0, 50);
+  itembox1Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  pManager.world.add(itembox1Trigger);
+
+  // 2
+  var itembox2Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox2Trigger.collisionResponse = false;
+  itembox2Trigger.position.set(88, 0, 118);
+  itembox2Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  pManager.world.add(itembox2Trigger);
+
+  // 3
+  var itembox3Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox3Trigger.collisionResponse = false;
+  itembox3Trigger.position.set(5, 0, -30);
+  itembox3Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  pManager.world.add(itembox3Trigger);
+
+  // 4
+  var itembox4Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox4Trigger.collisionResponse = false;
+  itembox4Trigger.position.set(0, 0, -160);
+  itembox4Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = pManager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  pManager.world.add(itembox4Trigger);
+
+  //#endregion
+
+};
 
 const loadModelosMar = () => {
+  //#region Modelos
   terreno = new Terreno(
     //"../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
     "../../assets/modelos/Pista2/PlanoPistaFaro.fbx",
@@ -1331,6 +1544,69 @@ const loadModelosMar = () => {
     modelos.push(Rampas);
     modelos.push(RocasObstaculo);
   }
+  //#endregion
+
+  /* ITEM BOXES */
+  var itembox1 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    -50,
+    0,
+    50, // (x, y, z) position
+    1 / 32,
+    1 / 32,
+    1 / 32 // (x, y, z) scale
+  );
+
+  var itembox2 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    88,
+    0,
+    118, // (x, y, z) position
+    1 / 32,
+    1 / 32,
+    1 / 32 // (x, y, z) scale
+  );
+
+  var itembox3 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    5,
+    0,
+    -30, // (x, y, z) position
+    1 / 32,
+    1 / 32,
+    1 / 32 // (x, y, z) scale
+  );
+
+  var itembox4 = new Modelo(
+    "../../assets/modelos/Itembox/itembox.fbx",
+    "../../assets/modelos/Itembox/itembox.jpg",
+    new CANNON.Vec3(1, 1, 1),
+    "Itembox1",
+    THREE.DoubleSide,
+    0,
+    0,
+    -160, // (x, y, z) position
+    1 / 32,
+    1 / 32,
+    1 / 32 // (x, y, z) scale
+  );
+
+  modelos.push(itembox1)
+  modelos.push(itembox2)
+  modelos.push(itembox3)
+  modelos.push(itembox4)
 
   modelos.push(pista);
   modelos.push(faro);
@@ -1407,7 +1683,9 @@ function checkPlacements(_pManager) {
           `<h2 class='h2-controller-setup'>EL GANADOR ES: ${winner.name}</h2>`
         );
         $("#controllerSetup2").append(
-          `<h4 class="h4-controller-setup">Felicidades\n Puntuación ${winner.kills} kills</h4>`
+          `<h4 class="h4-controller-setup">Felicidades</h4>
+          <h4 class="h4-controller-setup">Felicidades\n Puntuación ${winner.kills} kills</h4>
+          <hr>`
         );
         $("#controllerSetup2").append(
           `<h4 class="h4-controller-setup">Vidas Restantes ${winner.lives} ♥</h4>`
