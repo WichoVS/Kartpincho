@@ -6,6 +6,7 @@ const JUGADORESGPO = 2;
 const TRIGGERGPO = 4;
 
 var controlesAsignados = 0;
+var Moles = []
 
 var manager;
 var terreno;
@@ -95,6 +96,33 @@ const LoadPlayers = (pManager) => {
     $(`#player${i + 1}ControllerSetup`).removeClass("display-none");
 
     arrayTypeKarts.push(p);
+
+    //#region Moles
+    var sc = 0.25
+
+    var mole1 = new Mole(
+      "../../assets/modelos/Mole/mole.fbx",
+      "../../assets/modelos/Mole/mole.png",
+      undefined,
+      "Mole1",
+      THREE.DoubleSide,
+      -20, 2.75, 100,       // (x, y, z) position
+      sc, sc, sc            // (x, y, z) scale
+    )
+    var mole1body = new CANNON.Body({
+      type: CANNON.Body.STATIC,
+      shape: new CANNON.Box(new CANNON.Vec3(1,1,1)),
+      position: new CANNON.Vec3(-20, 2.75, 100)
+    })
+    mole1.body = mole1body
+
+    if(!mole1.isListed) {
+      Moles.push(mole1)
+      mole1.isListed = true
+    }
+
+    //#endregion
+
   });
 
   arrayTypeKarts.forEach((j) => {
@@ -165,6 +193,12 @@ const render = () => {
       e.renderer.render(manager.scene, e.camera);
       e.UpdateUIPlayer();
     });
+
+    Moles.forEach((mole) => {
+      mole.UpdateMole();
+    });
+
+
     manager.cannonDebugRenderer.update();
     if (terreno.isLoaded) {
       terreno.isLoaded = false;
@@ -187,6 +221,18 @@ const render = () => {
         countPlayers++;
       }
     });
+
+    Moles.forEach((mole) => {
+      if (mole.isLoaded) {
+        mole.isLoaded = false
+        mole.body.position.set = new CANNON.Vec3(0,2.75,0)
+
+        manager.scene.add(mole.mesh);
+        manager.world.add(mole.body);
+        mole.worldReady = true;
+      }
+    })
+
     if (countPlayers > 0) updatePhysics();
     modelos.forEach((m) => {
       if (m.isLoaded) {
@@ -651,7 +697,7 @@ const loadModelosNascar = () => {
     "Itembox1",
     THREE.DoubleSide,
     20, 0, -200,      // (x, y, z) position
-    1/32, 1/32, 1/32  // (x, y, z) scale
+    0, 0, 0  // (x, y, z) scale
   )
 
   var itembox2 = new Modelo(
