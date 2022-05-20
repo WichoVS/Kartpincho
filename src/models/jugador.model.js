@@ -61,7 +61,7 @@ class Jugador {
     _shell,
     _gameMode
   ) {
-    this.gameMode = _gameMode
+    this.gameMode = _gameMode;
     this.world = _world;
     this.manager = _manager;
     this.vueltas = 0;
@@ -266,15 +266,15 @@ class Jugador {
   }
 
   AddTimeVuelta(_manager) {
-    if(!this.isGameOver) if (_manager.isGameStarted) this.tiempoActual++;
+    if (!this.isGameOver) if (_manager.isGameStarted) this.tiempoActual++;
   }
 
   AddTimeCheckp(_manager) {
-    if(!this.isGameOver) if (_manager.isGameStarted) this.checkpTime++;
+    if (!this.isGameOver) if (_manager.isGameStarted) this.checkpTime++;
   }
 
   AddVuelta(pTotalChecks) {
-    if(!this.isGameOver) {
+    if (!this.isGameOver) {
       if (this.startedRace) {
         if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
           this.fastestTime = this.tiempoActual;
@@ -292,8 +292,8 @@ class Jugador {
   }
 
   TurnLeftOn(valueFactor = 1) {
-    if(!this.isGameOver) {
-      if(!this.isDrunk) {
+    if (!this.isGameOver) {
+      if (!this.isDrunk) {
         this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 2);
         this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 3);
       } else {
@@ -309,8 +309,8 @@ class Jugador {
   }
 
   TurnRightOn(valueFactor = 1) {
-    if(!this.isGameOver) {
-      if(!this.isDrunk) {
+    if (!this.isGameOver) {
+      if (!this.isDrunk) {
         this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 2);
         this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 3);
       } else {
@@ -320,17 +320,32 @@ class Jugador {
     }
   }
 
+  ResetPosition() {
+    console.log("entra");
+    this.vehicle.chassisBody.quaternion.setFromAxisAngle(
+      new CANNON.Vec3(0, 1, 0),
+      Math.PI / 2
+    );
+  }
+
   TurnRightOff() {
     this.vehicle.setSteeringValue(0, 2);
     this.vehicle.setSteeringValue(0, 3);
   }
 
   AccelerateOn(valueFactor = 1) {
-    if(!this.isGameOver) {
-      this.vehicle.applyEngineForce(-this.engineForce * valueFactor * (this.slowDownFactor), 2);
-      this.vehicle.applyEngineForce(-this.engineForce * valueFactor * (this.slowDownFactor), 3);
+    if (!this.isGameOver) {
+      this.vehicle.applyEngineForce(
+        -this.engineForce * valueFactor * this.slowDownFactor,
+        2
+      );
+      this.vehicle.applyEngineForce(
+        -this.engineForce * valueFactor * this.slowDownFactor,
+        3
+      );
 
-      if(this.slowDownFactor < 1) this.engineForce = Math.max(this.engineForce, 250)
+      if (this.slowDownFactor < 1)
+        this.engineForce = Math.max(this.engineForce, 250);
     }
   }
 
@@ -350,7 +365,7 @@ class Jugador {
   }
 
   ReverseOn(valueFactor = 1) {
-    if(!this.isGameOver) {
+    if (!this.isGameOver) {
       this.vehicle.applyEngineForce(this.engineForce * valueFactor, 2);
       this.vehicle.applyEngineForce(this.engineForce * valueFactor, 3);
     }
@@ -362,35 +377,42 @@ class Jugador {
   }
 
   ActiveItem() {
-    if(!this.isGameOver) {
-      this.shell.body.force = new CANNON.Vec3(0,0,0)
-      var localForward = new CANNON.Vec3(0,0,1)
-      var worldvector = new CANNON.Vec3()
-      var fVector = this.vehicle.chassisBody.vectorToWorldFrame(localForward,worldvector)
-      var fx = Math.floor(fVector.x * 100)/100
-      var fy = Math.floor(fVector.y * 100)/100
-      var fz = Math.floor(fVector.z * 100)/100
+    if (!this.isGameOver) {
+      this.shell.body.force = new CANNON.Vec3(0, 0, 0);
+      var localForward = new CANNON.Vec3(0, 0, 1);
+      var worldvector = new CANNON.Vec3();
+      var fVector = this.vehicle.chassisBody.vectorToWorldFrame(
+        localForward,
+        worldvector
+      );
+      var fx = Math.floor(fVector.x * 100) / 100;
+      var fy = Math.floor(fVector.y * 100) / 100;
+      var fz = Math.floor(fVector.z * 100) / 100;
 
-      var minVel = Math.max(this.vehicle.currentVehicleSpeedKmHour*15,1)
-      var force = 1000 + minVel
+      var minVel = Math.max(this.vehicle.currentVehicleSpeedKmHour * 15, 1);
+      var force = 1000 + minVel;
 
       this.shellsThrow += 1;
-      this.world.add(this.shell.body)
-      this.manager.scene.add(this.shell.mesh)
-      this.shell.body.position.x = this.mesh.position.x + fx*2
-      this.shell.body.position.y = this.mesh.position.y + 1.5
-      this.shell.body.position.z = this.mesh.position.z + fz*2
+      this.world.add(this.shell.body);
+      this.manager.scene.add(this.shell.mesh);
+      this.shell.body.position.x = this.mesh.position.x + fx * 2;
+      this.shell.body.position.y = this.mesh.position.y + 1.5;
+      this.shell.body.position.z = this.mesh.position.z + fz * 2;
 
-      this.shell.body.force = new CANNON.Vec3(fx * force, fy * force, fz * force)
+      this.shell.body.force = new CANNON.Vec3(
+        fx * force,
+        fy * force,
+        fz * force
+      );
 
-      this.shell.owner = this.name
+      this.shell.owner = this.name;
 
       this.shell.body.quaternion.setFromAxisAngle(
         new CANNON.Vec3(1, 0, 0),
         THREE.MathUtils.degToRad(270)
       );
 
-      this.shell.body.angularVelocity.set(0,10,0)
+      this.shell.body.angularVelocity.set(0, 10, 0);
 
       /*shell.body.addEventListener("collide", (e) => {
         if(e.body.userData != undefined) {
@@ -411,12 +433,12 @@ class Jugador {
   }
 
   deleteShell() {
-    var _shell = this.shell
-    var _world = this.world
-    setTimeout(function() {
-      _world.removeBody(_shell.body)
-      this.manager.scene.remove(_shell.mesh)
-    }, 0)
+    var _shell = this.shell;
+    var _world = this.world;
+    setTimeout(function () {
+      _world.removeBody(_shell.body);
+      this.manager.scene.remove(_shell.mesh);
+    }, 0);
   }
 
   CrearRenderer() {
@@ -433,7 +455,8 @@ class Jugador {
       case 3:
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
-        break;8
+        break;
+        8;
       case 4:
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
@@ -467,8 +490,8 @@ class Jugador {
   }
 
   AddUIPlayer() {
-    if(this.gameMode == "Circuito") {
-    $(`#${this.name}`).append(`
+    if (this.gameMode == "Circuito") {
+      $(`#${this.name}`).append(`
       <div id="${this.name}UI" class="div-player-ui">
         <div class="player-ui-top">
           <label id="${this.name}vueltas">Vueltas: ${this.vueltas}</label>
@@ -504,7 +527,7 @@ class Jugador {
         </div>
       </div>
     `);
-    } else if(this.gameMode == "Eliminación") {
+    } else if (this.gameMode == "Eliminación") {
       $(`#${this.name}`).append(`
       <div class="div-player-ui">
         <div class="player-ui-top">
@@ -562,82 +585,89 @@ class Jugador {
   }
 
   UpdateUIPlayer() {
-    if(!this.isGameOver) {
-      //#region UI PLAYER & ITEM STATES 
-      $(`#${this.name}Item`).attr('src', `../../assets/images/items/${this.item}.png`)
-      if(this.gameMode == "Circuito") {
+    if (!this.isGameOver) {
+      //#region UI PLAYER & ITEM STATES
+      $(`#${this.name}Item`).attr(
+        "src",
+        `../../assets/images/items/${this.item}.png`
+      );
+      if (this.gameMode == "Circuito") {
         $(`#${this.name}vueltas`).text(`Vueltas: ${this.vueltas}`);
         $(`#${this.name}tiempo`).text(`Tiempo: ${this.tiempoActual}`);
-        $(`#${this.name}fastest`).text(`Vuelta más Rápida: ${this.fastestTime}`);
+        $(`#${this.name}fastest`).text(
+          `Vuelta más Rápida: ${this.fastestTime}`
+        );
         $(`#${this.name}placement`).text(`${this.placement}° Lugar`);
-      } else if(this.gameMode == "Eliminación") {
-
+      } else if (this.gameMode == "Eliminación") {
         for (let i = 0; i < 3; i++) {
-          $(`#${this.name}lives${i+1}`).attr('display','none');
+          $(`#${this.name}lives${i + 1}`).attr("display", "none");
         }
-        
+
         for (let i = 0; i < this.lives; i++) {
-          $(`#${this.name}lives${i+1}`).attr('display','block');
+          $(`#${this.name}lives${i + 1}`).attr("display", "block");
         }
       }
 
-      if(this.slowDownTime > 0) {
-        this.engineForce = Math.max(this.engineForce, 250)
-        $(`#${this.name}slowed`).attr('display','block');
-        this.slowDownTime -= 1
+      if (this.slowDownTime > 0) {
+        this.engineForce = Math.max(this.engineForce, 250);
+        $(`#${this.name}slowed`).attr("display", "block");
+        this.slowDownTime -= 1;
       } else {
-        $(`#${this.name}slowed`).attr('display','none');
-        this.slowDownFactor = 1
+        $(`#${this.name}slowed`).attr("display", "none");
+        this.slowDownFactor = 1;
       }
-      
-      if(this.drunkTime > 0) {
-        $(`#${this.name}drunk`).attr('display','block');
-        this.drunkTime -= 1
+
+      if (this.drunkTime > 0) {
+        $(`#${this.name}drunk`).attr("display", "block");
+        this.drunkTime -= 1;
       } else {
-        $(`#${this.name}drunk`).attr('display','none');
-        this.isDrunk = false
+        $(`#${this.name}drunk`).attr("display", "none");
+        this.isDrunk = false;
       }
-      
-      if(this.stunTime > 0) {
-        $(`#${this.name}stuned`).attr('display','block');
+
+      if (this.stunTime > 0) {
+        $(`#${this.name}stuned`).attr("display", "block");
         this.vehicle.engineForce = 0;
         this.BrakeOn(500);
-        this.stunTime -= 1
+        this.stunTime -= 1;
       } else {
-        $(`#${this.name}stuned`).attr('display','none');
-        this.isStuned = false
-        this.stunTime = 0
-        if(this.vehicle != undefined) this.BrakeOff();
+        $(`#${this.name}stuned`).attr("display", "none");
+        this.isStuned = false;
+        this.stunTime = 0;
+        if (this.vehicle != undefined) this.BrakeOff();
       }
-    //#endregion
-      
+      //#endregion
+
       // Shell Mesh position
-      if(this.shell.mesh != undefined && this.shell.body != undefined) {
-        var adjustedPos = new CANNON.Vec3(this.shell.body.position.x + 1, this.shell.body.position.y, this.shell.body.position.z)
-        this.shell.mesh.position.copy(adjustedPos)
-        this.shell.mesh.quaternion.copy(this.shell.body.quaternion)
+      if (this.shell.mesh != undefined && this.shell.body != undefined) {
+        var adjustedPos = new CANNON.Vec3(
+          this.shell.body.position.x + 1,
+          this.shell.body.position.y,
+          this.shell.body.position.z
+        );
+        this.shell.mesh.position.copy(adjustedPos);
+        this.shell.mesh.quaternion.copy(this.shell.body.quaternion);
       }
     }
   }
 
   GameOver() {
     for (let i = 0; i < 3; i++) {
-      $(`#${this.name}lives${i+1}`).attr('display','none');
+      $(`#${this.name}lives${i + 1}`).attr("display", "none");
     }
-    $(`${this.name}UI`).attr('gameover', 'true');
-    this.isGameOver = true
+    $(`${this.name}UI`).attr("gameover", "true");
+    this.isGameOver = true;
   }
 
   Hit() {
-    if(this.gameMode == "Eliminación" && this.stunTime <= 90) {
-      this.lives -= 1 
+    if (this.gameMode == "Eliminación" && this.stunTime <= 90) {
+      this.lives -= 1;
 
-      if(this.lives == 0) {
-        this.GameOver()
-        return true
+      if (this.lives == 0) {
+        this.GameOver();
+        return true;
       }
-      return false
+      return false;
     }
   }
-
 }

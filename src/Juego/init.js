@@ -95,10 +95,14 @@ const InicializaEventos = (manager) => {
       if (code == 32 && worldLoaded && manager.isGameStarted) {
         p.BrakeOn();
       }
+      if (code == 49 && worldLoaded && manager.isGameStarted) {
+        p.ResetPosition();
+      }
+
       if (code == 69 && worldLoaded && manager.isGameStarted) {
         switch (p.item) {
           case "STUN_ITEM":
-            p.ActiveItem()
+            p.ActiveItem();
             /*manager.jugadores.forEach(otherPlayer => {
               if (otherPlayer.name != p.name) {
                 otherPlayer.isStuned = true;
@@ -106,30 +110,30 @@ const InicializaEventos = (manager) => {
               }
             });*/
             break;
-          
+
           case "SLOW_ITEM":
-            manager.jugadores.forEach(otherPlayer => {
+            manager.jugadores.forEach((otherPlayer) => {
               if (otherPlayer.name != p.name) {
                 otherPlayer.slowDownFactor = 0.2;
                 otherPlayer.slowDownTime = 560;
               }
             });
             break;
-    
+
           case "DRUNK_ITEM":
-            manager.jugadores.forEach(otherPlayer => {
+            manager.jugadores.forEach((otherPlayer) => {
               if (otherPlayer.name != p.name) {
                 otherPlayer.isDrunk = true;
                 otherPlayer.drunkTime = 560;
               }
             });
             break;
-        
+
           default:
             break;
         }
-    
-        p.item = "NONE"
+
+        p.item = "NONE";
       }
     }
   });
@@ -218,6 +222,10 @@ const GamepadsEvent = (_manager) => {
             if (i == 1 && _manager.isGameStarted) {
               p.BrakeOn();
             }
+
+            if (i == 3 && _manager.isGameStarted) {
+              p.ResetPosition();
+            }
             if (i == 0) {
               if (_manager.isAsignandoControles) {
                 var contador = 0;
@@ -244,18 +252,17 @@ const GamepadsEvent = (_manager) => {
                 contador = 0;
               }
 
-              if(_manager.isGameStarted) {
+              if (_manager.isGameStarted) {
                 p.willActivateItem = true;
               }
             }
           } else {
+            if (i == 0 && p.willActivateItem) {
+              p.willActivateItem = false;
 
-            if(i == 0 && p.willActivateItem) {
-              p.willActivateItem = false
-              
               switch (p.item) {
                 case "STUN_ITEM":
-                  p.ActiveItem()
+                  p.ActiveItem();
                   /*manager.jugadores.forEach(otherPlayer => {
                     if (otherPlayer.name != p.name) {
                       otherPlayer.isStuned = true;
@@ -263,33 +270,32 @@ const GamepadsEvent = (_manager) => {
                     }
                   });*/
                   break;
-                
+
                 case "SLOW_ITEM":
-                  manager.jugadores.forEach(otherPlayer => {
+                  manager.jugadores.forEach((otherPlayer) => {
                     if (otherPlayer.name != p.name) {
                       otherPlayer.slowDownFactor = 0.2;
                       otherPlayer.slowDownTime = 560;
                     }
                   });
                   break;
-          
+
                 case "DRUNK_ITEM":
-                  manager.jugadores.forEach(otherPlayer => {
+                  manager.jugadores.forEach((otherPlayer) => {
                     if (otherPlayer.name != p.name) {
                       otherPlayer.isDrunk = true;
                       otherPlayer.drunkTime = 560;
                     }
                   });
                   break;
-              
+
                 default:
                   break;
               }
-          
-              p.item = "NONE"
-              
+
+              p.item = "NONE";
             }
-            
+
             //Reseteamos todos los eventos (Mejorar la lógica de los botónes luego).
             if (i == 7 && !c.buttons[6].pressed) {
               p.AccelerateOff();

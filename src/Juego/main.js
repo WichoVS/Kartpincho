@@ -1178,8 +1178,8 @@ const loadModelosMar = () => {
   );
 
   var pista = new Modelo(
-    "../../assets/modelos/Pista2/PistaLarga.fbx",
-    "../../assets/modelos/Pista2/STREET.png",
+    "../../assets/modelos/Pista2/PistaLarga3.fbx",
+    "../../assets/modelos/Pista2/STREET2.png",
     new CANNON.Vec3(0, 0, 0),
     "PistaAsfalto",
     THREE.FrontSide
