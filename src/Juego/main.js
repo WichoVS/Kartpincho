@@ -9,6 +9,9 @@ var controlesAsignados = 0;
 
 var manager;
 var terreno;
+var mode;
+var playersLeft;
+var winnerFound = false;
 
 var rendererAerea;
 var cameraAerea;
@@ -20,6 +23,7 @@ var worldLoaded = false;
 const TimerTiempos = (_manager) => {
   _manager.jugadores.forEach((j) => {
     j.AddTimeVuelta(_manager);
+    j.AddTimeCheckp(_manager)
   });
   setTimeout(TimerTiempos, 100, _manager);
 };
@@ -60,10 +64,15 @@ const LoadPlayers = (pManager) => {
         );
         
         if(e.body.userData.name != shell.owner) {
-            console.log(player)
+            owner.deleteShell()
+            var playerDefeated = player.Hit();
             player.isStuned = true;
             player.stunTime = 180;
-            owner.deleteShell()
+            if(playerDefeated) {
+              owner.kills += 1
+              playersLeft -= 1;
+            }
+            checkPlacements(pManager)
         }
       }
     });
@@ -80,6 +89,7 @@ const LoadPlayers = (pManager) => {
       j.Imagen,
       manager,
       shell,
+      mode
     );
 
     $(`#player${i + 1}ControllerSetup`).removeClass("display-none");
@@ -116,6 +126,7 @@ const CamaraParaAcomodarColliders = (pManager) => {
 $(async () => {
   //Aqui una funcion para cargar los datos necesarios para la partida
   await GetPartida();
+  getGameMode();
   manager = new GameManager();
   LoadPlayers(manager);
 
@@ -347,10 +358,15 @@ const loadCollidersNascar = (pManager) => {
 };
 
 const loadTriggersNascar = (pManager) => {
+
+  var factor = 0;
+  if(mode == "Eliminación") factor = -1000
+
+
   var metaTrigger = new CANNON.Body({
-    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+    shape: new CANNON.Box(new CANNON.Vec3(20, 1, 1)),
   });
-  metaTrigger.position.set(20, 0, -127.5);
+  metaTrigger.position.set(20, 0+factor, -127.5);
   metaTrigger.collisionResponse = false;
   var totalCheckpoints = 4;
   metaTrigger.addEventListener("collide", (e) => {
@@ -363,6 +379,9 @@ const loadTriggersNascar = (pManager) => {
         player.AddVuelta(totalCheckpoints);
         player.flagTrigger = true;
         player.FlagCollisionReset();
+        player.checkpTime -= 1;
+        checkPlacements(pManager)
+        player.checkpTime = 0;
       }
     }
   });
@@ -371,25 +390,29 @@ const loadTriggersNascar = (pManager) => {
   //#region Inicio Bloque de Código que genera los checkpoints de la Pista
 
   var triggerChecker4 = new CANNON.Body({
-    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+    shape: new CANNON.Box(new CANNON.Vec3(20, 1, 1)),
   });
-  triggerChecker4.position.set(20, 0, -200);
+  triggerChecker4.position.set(20, 0+factor, -200);
   triggerChecker4.collisionResponse = false;
   triggerChecker4.addEventListener("collide", (e) => {
     if(e.body.userData != undefined) {
       let player = pManager.jugadores.find(
         (ele) => ele.name === e.body.userData.name
       );
-      if (player.checkpoints === 3) player.checkpoints = 4;
-      console.log(player.checkpoints);
+      if (player.checkpoints === 3) {
+        player.checkpoints = 4;
+        player.checkpTime -= 1;
+        checkPlacements(pManager)
+        player.checkpTime = 0;
+      }
     }
   });
   pManager.world.add(triggerChecker4);
 
   var triggerChecker3 = new CANNON.Body({
-    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+    shape: new CANNON.Box(new CANNON.Vec3(20, 1, 1)),
   });
-  triggerChecker3.position.set(100, 0, -273);
+  triggerChecker3.position.set(100, 0+factor, -273);
   triggerChecker3.quaternion.setFromAxisAngle(
     new CANNON.Vec3(0, 1, 0),
     THREE.MathUtils.degToRad(90)
@@ -400,32 +423,40 @@ const loadTriggersNascar = (pManager) => {
       let player = pManager.jugadores.find(
         (ele) => ele.name === e.body.userData.name
       );
-      if (player.checkpoints === 2) player.checkpoints = 3;
-      console.log(player.checkpoints);
+      if (player.checkpoints === 2) {
+        player.checkpoints = 3;
+        player.checkpTime -= 1;
+        checkPlacements(pManager)
+        player.checkpTime = 0;
+      }
     }
   });
   pManager.world.add(triggerChecker3);
 
   var triggerChecker2 = new CANNON.Body({
-    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+    shape: new CANNON.Box(new CANNON.Vec3(20, 1, 1)),
   });
-  triggerChecker2.position.set(150, 0, -130);
+  triggerChecker2.position.set(150, 0+factor, -130);
   triggerChecker2.collisionResponse = false;
   triggerChecker2.addEventListener("collide", (e) => {
     if(e.body.userData != undefined) {
       let player = pManager.jugadores.find(
         (ele) => ele.name === e.body.userData.name
       );
-      if (player.checkpoints === 1) player.checkpoints = 2;
-      console.log(player.checkpoints);
+      if (player.checkpoints === 1) {
+        player.checkpoints = 2;
+        player.checkpTime -= 1;
+        checkPlacements(pManager)
+        player.checkpTime = 0;
+      }
     }
   });
   pManager.world.add(triggerChecker2);
 
   var triggerChecker1 = new CANNON.Body({
-    shape: new CANNON.Box(new CANNON.Vec3(16, 1, 1)),
+    shape: new CANNON.Box(new CANNON.Vec3(20, 1, 1)),
   });
-  triggerChecker1.position.set(100, 0, 13);
+  triggerChecker1.position.set(100, 0+factor, 13);
   triggerChecker1.quaternion.setFromAxisAngle(
     new CANNON.Vec3(0, 1, 0),
     THREE.MathUtils.degToRad(90)
@@ -436,8 +467,12 @@ const loadTriggersNascar = (pManager) => {
       let player = pManager.jugadores.find(
         (ele) => ele.name === e.body.userData.name
       );
-      if (player.checkpoints === 0) player.checkpoints = 1;
-      console.log(player.checkpoints);
+      if (player.checkpoints === 0) {
+        player.checkpoints = 1;
+        player.checkpTime -= 1;
+        checkPlacements(pManager)
+        player.checkpTime = 0;
+      }
     }
   });
   pManager.world.add(triggerChecker1);
@@ -462,7 +497,6 @@ const loadTriggersNascar = (pManager) => {
       if(player.item == "NONE") {
         var i = randomIntFromInterval(1,3)-1
         player.item = ITEMS[i]
-        console.log(ITEMS[i])
       }
     }
   });
@@ -484,7 +518,6 @@ const loadTriggersNascar = (pManager) => {
       if(player.item == "NONE") {
         var i = randomIntFromInterval(1,3)-1
         player.item = ITEMS[i]
-        console.log(ITEMS[i])
       }
     }
 
@@ -507,7 +540,6 @@ const loadTriggersNascar = (pManager) => {
       if(player.item == "NONE") {
         var i = randomIntFromInterval(1,3)-1
         player.item = ITEMS[i]
-        console.log(ITEMS[i])
       }
     }
 
@@ -530,7 +562,6 @@ const loadTriggersNascar = (pManager) => {
       if(player.item == "NONE") {
         var i = randomIntFromInterval(1,3)-1
         player.item = ITEMS[i]
-        console.log(ITEMS[i])
       }
     }
 
@@ -675,6 +706,14 @@ const LoadMap = (manager) => {
   if (partida.Pista == "624544f2558f73e5aa3d340f") LoadMapaNascar(manager);
 };
 
+const getGameMode = (manager) => {
+  if(partida.Modalidad == "62453ce32e269b0dd8e45c89") mode = "Circuito"
+  if(partida.Modalidad == "62453d552e269b0dd8e45c8c") {
+    mode = "Eliminación"
+    playersLeft = partida.Jugadores;
+  }
+}
+
 const LoadMapaNascar = (manager) => {
   loadCollidersNascar(manager);
   loadTriggersNascar(manager);
@@ -685,4 +724,171 @@ const LoadMapaMar = () => {};
 
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function checkPlacements(_pManager) {
+
+  if(mode == "Eliminación") {
+    //#region Placements Elimination
+      var playersResults = [{}];
+    _pManager.jugadores.forEach((player) => {
+      playersResults.push({name:`${player.name}`, lives:`${player.lives}`, kills:`${player.kills}`})
+    });
+
+    playersResults.sort(function(a, b) {
+
+      if(a.lives > b.lives) {
+        return -2
+      }
+  
+      if(a.lives < b.lives) {
+        return 2
+      }
+  
+      if(a.lives == b.lives) {
+        if(a.kills > b.kills) {
+          return -1
+        }
+  
+        if(a.kills < b.kills) {
+          return 1
+        }
+  
+        if(a.kills == b.kills) {
+          return 0
+        }
+      }
+  
+    })
+
+    playersResults.forEach((playerRacing, i) => {
+      if(playerRacing.name != undefined) {
+        let thisPlayer = _pManager.jugadores.find(
+          (player) => player.name === playerRacing.name
+        );
+        thisPlayer.placement = i
+      }
+    })
+
+    if(playersLeft == 1) {
+      let winner = _pManager.jugadores.find(
+        (winner) => winner.isGameOver === false
+      );
+        // Si se encuentra, hay un ganador!
+      if(winner != undefined && !winnerFound) {
+        winnerFound = true;
+        winner.isGameOver = true;
+        $("body").append(`<div id="controllerSetup2" class="div-controller-setup"><div/>`)
+
+        $("#controllerSetup2").append(`<h2 class='h2-controller-setup'>EL GANADOR ES: ${winner.name}</h2>`)
+        $("#controllerSetup2").append(`<h4 class="h4-controller-setup">Felicidades\n Puntuación ${winner.kills} kills</h4>`)
+        $("#controllerSetup2").append(`<h4 class="h4-controller-setup">Vidas Restantes ${winner.lives} ♥</h4>`)
+        $("#controllerSetup2").append(`<div class="div-players-controller-setup">
+                                        <div id="player1ControllerSetup" class="div-card-player-controller"></div>
+    
+                                        <div id="player2ControllerSetup" class="div-card-player-controller">
+                                          <img id="p2ImgAsign" class="img-player-controller-setup" src="${winner.Imagen}" alt="">
+                                          <label id="p2LabelName" class="label-player-controller-setup" for="">${winner.name}</label>
+                                        </div>
+                                        
+                                        <div id="player4ControllerSetup" class="div-card-player-controller"></div>
+                                      </div>`)
+        $("#controllerSetup2").append(`<div> <button id="btnWinReturn" class="button-win-return" onclick="goToMainMenu();">Menú Principal</button> </div>`)
+    
+        console.log("El ganador es: " + winner.name)
+
+      } else if(winner == undefined) {
+        console.log("Ha ocurrido un error...")
+      }
+    }
+
+    //#endregion
+  }
+
+  if(mode == "Circuito") {
+  //#region Placements Race
+  var playersResults = [{}];
+  _pManager.jugadores.forEach((player) => {
+    playersResults.push({name:`${player.name}`, laps:`${player.vueltas}`, checkpoints:`${player.checkpoints}`, checkpTime:`${player.checkpTime}`})
+  });
+
+  playersResults.sort(function(a, b) {
+
+    if(a.laps > b.laps) {
+      return -3
+    }
+
+    if(a.laps < b.laps) {
+      return 3
+    }
+
+    if(a.laps == b.laps) {
+      if(a.checkpoints > b.checkpoints) {
+        return -2
+      }
+
+      if(a.checkpoints < b.checkpoints) {
+        return 2
+      }
+
+      if(a.checkpoints == b.checkpoints) {
+        if(a.checkpTime < b.checkpTime) {
+          return -1
+        }
+
+        if(a.checkpTime > b.checkpTime) {
+          return 1
+        }
+
+        if(a.checkpTime == b.checkpTime) {
+          return 0
+        }
+      }
+    }
+
+  })
+
+  playersResults.forEach((playerRacing, i) => {
+    if(playerRacing.name != undefined) {
+      let thisPlayer = _pManager.jugadores.find(
+        (player) => player.name === playerRacing.name
+      );
+      thisPlayer.placement = i
+    }
+  })
+
+
+  let winner = _pManager.jugadores.find(
+    (winner) => winner.vueltas === partida.Vueltas
+  );
+    // Si se encuentra, hay un ganador!
+  if(winner != undefined) {
+    _pManager.jugadores.forEach((player) => {
+      player.GameOver()
+    });
+
+    $("body").append(`<div id="controllerSetup2" class="div-controller-setup"><div/>`)
+
+    $("#controllerSetup2").append(`<h2 class='h2-controller-setup'>EL GANADOR ES: ${winner.name}</h2>`)
+    $("#controllerSetup2").append(`<h4 class="h4-controller-setup">Felicidades\nMejor tiempo ${winner.fastestTime}</h4>`)
+    $("#controllerSetup2").append(`<div class="div-players-controller-setup">
+                                    <div id="player1ControllerSetup" class="div-card-player-controller"></div>
+
+                                    <div id="player2ControllerSetup" class="div-card-player-controller">
+                                      <img id="p2ImgAsign" class="img-player-controller-setup" src="${winner.Imagen}" alt="">
+                                      <label id="p2LabelName" class="label-player-controller-setup" for="">${winner.name}</label>
+                                    </div>
+                                    
+                                    <div id="player4ControllerSetup" class="div-card-player-controller"></div>
+                                  </div>`)
+    $("#controllerSetup2").append(`<div> <button id="btnWinReturn" class="button-win-return" onclick="goToMainMenu();">Menú Principal</button> </div>`)
+
+    console.log("El ganador es: " + winner.name)
+  }
+  //#endregion
+  }
+}
+
+function goToMainMenu() {
+  window.location.href = "../MenuInicio/Inicio.html";
 }

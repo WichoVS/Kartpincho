@@ -23,6 +23,10 @@
     font-family: 'Kanit', sans-serif;
 }
 
+div[gameover="true"] {
+    background: rgba(1, 1, 1, 0.75);
+}
+
 .player-ui-top {
     display: flex;
     width: 100%;
@@ -189,6 +193,25 @@ img[display="block"] {
     justify-content: center;
     top: 90%;
     right: 10%;
+    color: #FFFFFF;
+}
+
+.button-win-return {
+    width: 200px;
+    height: 50px;
+    background: #405CBF;
+    border-radius: 5px;
+    position: absolute;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 90%;
+    left: 38%;
     color: #FFFFFF;
 }
 

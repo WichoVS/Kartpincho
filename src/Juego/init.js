@@ -242,7 +242,6 @@ const GamepadsEvent = (_manager) => {
                   }
                 }
                 contador = 0;
-                console.log(_manager.jugadores);
               }
 
               if(_manager.isGameStarted) {
