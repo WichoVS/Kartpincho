@@ -3,11 +3,47 @@ class Modelo {
   body;
   isLoaded = false;
   worldReady = false;
-  constructor(_pathMesh, _pathTexture, _v3_shape, _name, _side, _x=0,_y=0,_z=0,_xs=1,_ys=1,_zs=1) {
-    this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side, _x,_y,_z,_xs,_ys,_zs);
+  constructor(
+    _pathMesh,
+    _pathTexture,
+    _v3_shape,
+    _name,
+    _side,
+    _x = 0,
+    _y = 0,
+    _z = 0,
+    _xs = 1,
+    _ys = 1,
+    _zs = 1
+  ) {
+    this.CargaModelo(
+      _pathMesh,
+      _pathTexture,
+      _v3_shape,
+      _name,
+      _side,
+      _x,
+      _y,
+      _z,
+      _xs,
+      _ys,
+      _zs
+    );
   }
 
-  CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side, _x,_y,_z,_xs,_ys,_zs) {
+  CargaModelo(
+    _pathMesh,
+    _pathTexture,
+    _v3_shape,
+    _name,
+    _side,
+    _x,
+    _y,
+    _z,
+    _xs,
+    _ys,
+    _zs
+  ) {
     var mLoader = new THREE.FBXLoader();
     var tLoader = new THREE.TextureLoader();
 
@@ -37,7 +73,7 @@ class Modelo {
                 type: CANNON.Body.STATIC,
                 shape: new CANNON.Box(_v3_shape),
               });
-            } 
+            }
           }
         });
       },

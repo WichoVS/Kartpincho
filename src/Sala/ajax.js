@@ -18,6 +18,8 @@ const GetModalidades = async () => {
           `);
     });
     $(".div-modojuego").on("click", (e) => {
+      var opt = $("#selMapa option:selected").attr("attr-imagen");
+      $("#imgMapa").attr("src", opt);
       opcionesJuego.Modalidad = e.target.id;
       pasoActual = 2;
       $("#btnNext").css("display", "flex");
@@ -64,14 +66,13 @@ const GetMapas = async () => {
 const GetPlaylistUsuario = async () => {
   var user = localStorage.getItem("UsuarioLog");
   const resp = await fetch(
-    "https://kartpinchoapi.onrender.com/api/playlist/getByOwner",
+    `https://kartpinchoapi.onrender.com/api/playlist/getByOwner/${user}`,
     {
-      method: "POST",
+      method: "GET",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ UsuarioOwner: user }),
     }
   );
   const { success, message, data } = await resp.json();

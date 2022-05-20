@@ -21,21 +21,24 @@
       <div class="head-card-player">
         <div class="head-card-player-dataDiv">
           <div class="dataDiv-top">
-            <label>Nombre Usuario</label>
-            <button id="btnModificar">Modificar</button>
+            <label id="lblUsername">...</label>
             <button id="btnPlaylist">Playlist</button>
           </div>
           <div class="dataDiv-bot">
             <div class="dataDiv-statDiv">
-              <label class="statDiv-text">10</label>
+              <label id="lblPartidasTotales" class="statDiv-text">...</label>
               <label class="statDiv-label">Partidas Jugadas</label>
             </div>
             <div class="dataDiv-statDiv">
-              <label class="statDiv-text">Pista 1</label>
+              <label id="lblPistaPreferidaTotal" class="statDiv-text"
+                >...</label
+              >
               <label class="statDiv-label">Pista Preferida</label>
             </div>
             <div class="dataDiv-statDiv">
-              <label class="statDiv-text">Rey de la Pista</label>
+              <label id="lblModalidadPreferidaTotal" class="statDiv-text"
+                >...</label
+              >
               <label class="statDiv-label">Modalidad Preferida</label>
             </div>
           </div>
@@ -45,47 +48,46 @@
 
       <div class="body-maps-stats">
         <div class="card-map-stats">
+          <h1 class="h1-tipoJuego">Circuito</h1>
           <img src="../../assets/images/modosJuego/circuito.png" alt="" />
           <div class="card-map-divStats">
-            <label class="card-map-divStats-data">540</label>
+            <label id="lblPartidasJugadasCirc" class="card-map-divStats-data"
+              >...</label
+            >
             <label class="card-map-divStats-label">Partidas Jugadas</label>
           </div>
           <div class="card-map-divStats">
-            <label class="card-map-divStats-data">Pista 1</label>
+            <label id="lblPistaPreferidaCirc" class="card-map-divStats-data"
+              >...</label
+            >
             <label class="card-map-divStats-label">Pista Preferida</label>
           </div>
           <div class="card-map-divStats">
-            <label class="card-map-divStats-data">02:20:01</label>
+            <label id="lblVueltaMasRapidaCirc" class="card-map-divStats-data"
+              >...</label
+            >
             <label class="card-map-divStats-label">Vuelta mas rápida</label>
           </div>
         </div>
         <div class="card-map-stats">
+          <h1 class="h1-tipoJuego">Eliminación</h1>
           <img src="../../assets/images/modosJuego/eliminacion.png" alt="" />
           <div class="card-map-divStats">
-            <label class="card-map-divStats-data">540</label>
+            <label id="lblPartidasJugadasElim" class="card-map-divStats-data"
+              >...</label
+            >
             <label class="card-map-divStats-label">Partidas Jugadas</label>
           </div>
           <div class="card-map-divStats">
-            <label class="card-map-divStats-data">Pista 3</label>
+            <label id="lblPistaPreferidaElim" class="card-map-divStats-data"
+              >...</label
+            >
             <label class="card-map-divStats-label">Pista Preferida</label>
           </div>
           <div class="card-map-divStats">
-            <label class="card-map-divStats-data">02:20:01</label>
-            <label class="card-map-divStats-label">Vuelta mas rápida</label>
-          </div>
-        </div>
-        <div class="card-map-stats">
-          <img src="../../assets/images/modosJuego/reyPista.png" alt="" />
-          <div class="card-map-divStats">
-            <label class="card-map-divStats-data">540</label>
-            <label class="card-map-divStats-label">Partidas Jugadas</label>
-          </div>
-          <div class="card-map-divStats">
-            <label class="card-map-divStats-data">Pista 1</label>
-            <label class="card-map-divStats-label">Pista Preferida</label>
-          </div>
-          <div class="card-map-divStats">
-            <label class="card-map-divStats-data">02:20:01</label>
+            <label id="lblVueltaMasRapidaElim" class="card-map-divStats-data"
+              >...</label
+            >
             <label class="card-map-divStats-label">Vuelta mas rápida</label>
           </div>
         </div>
@@ -123,11 +125,11 @@
         <label class="modal-title" for="">Agregar Playlist</label>
         <div class="modal-inputs">
           <label for="">Nombre</label>
-          <input type="text" name="" id="" />
+          <input type="text" name="" id="lblPlaylistName" />
         </div>
         <div class="modal-inputs">
           <label for="">Url</label>
-          <input type="text" name="" id="" />
+          <input type="text" name="" id="lblPlaylistUrl" />
         </div>
         <div class="modal-inputs">
           <button id="btnSaveList" class="btnGuardar">Agregar</button>
@@ -140,71 +142,7 @@
               <th>Url</th>
               <th>Borrar</th>
             </thead>
-            <tbody>
-              <tr>
-                <td>Kartpincho1</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho2</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho3</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho4</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho5</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho6</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho7</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho8</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-              <tr>
-                <td>Kartpincho9</td>
-                <td>
-                  https://www.youtube.com/playlist?list=PLGINh0aYNOJu2tZeqW8Yzcjo02WSQc4OH
-                </td>
-                <td><button>Borrar</button></td>
-              </tr>
-            </tbody>
+            <tbody id="tblPlaylistBody"></tbody>
           </table>
         </div>
         <div class="modal-inputs">
@@ -215,7 +153,7 @@
 
     <button id="btnBack" class="button-pasos-back">Menú</button>
     <script src="./fn_ajax.js"></script>
-    <script type="module" src="./init.js"></script>
-    <script type="module" src="./main.js"></script>
+    <script src="./init.js"></script>
+    <script src="./main.js"></script>
   </body>
 </html>

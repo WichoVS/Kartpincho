@@ -276,11 +276,10 @@ class Jugador {
   AddVuelta(pTotalChecks) {
     if (!this.isGameOver) {
       if (this.startedRace) {
-        if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
-          this.fastestTime = this.tiempoActual;
-          this.tiempoActual = 0;
-        }
         if (this.checkpoints == pTotalChecks) {
+          if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
+            this.fastestTime = this.tiempoActual;
+          }
           this.vueltas++;
           this.tiempoActual = 0;
           this.checkpoints = 0;
