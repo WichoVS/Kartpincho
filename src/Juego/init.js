@@ -95,6 +95,42 @@ const InicializaEventos = (manager) => {
       if (code == 32 && worldLoaded && manager.isGameStarted) {
         p.BrakeOn();
       }
+      if (code == 69 && worldLoaded && manager.isGameStarted) {
+        switch (p.item) {
+          case "STUN_ITEM":
+            p.ActiveItem()
+            /*manager.jugadores.forEach(otherPlayer => {
+              if (otherPlayer.name != p.name) {
+                otherPlayer.isStuned = true;
+                otherPlayer.stunTime = 180;
+              }
+            });*/
+            break;
+          
+          case "SLOW_ITEM":
+            manager.jugadores.forEach(otherPlayer => {
+              if (otherPlayer.name != p.name) {
+                otherPlayer.slowDownFactor = 0.2;
+                otherPlayer.slowDownTime = 560;
+              }
+            });
+            break;
+    
+          case "DRUNK_ITEM":
+            manager.jugadores.forEach(otherPlayer => {
+              if (otherPlayer.name != p.name) {
+                otherPlayer.isDrunk = true;
+                otherPlayer.drunkTime = 560;
+              }
+            });
+            break;
+        
+          default:
+            break;
+        }
+    
+        p.item = "NONE"
+      }
     }
   });
 
@@ -208,8 +244,53 @@ const GamepadsEvent = (_manager) => {
                 contador = 0;
                 console.log(_manager.jugadores);
               }
+
+              if(_manager.isGameStarted) {
+                p.willActivateItem = true;
+              }
             }
           } else {
+
+            if(i == 0 && p.willActivateItem) {
+              p.willActivateItem = false
+              
+              switch (p.item) {
+                case "STUN_ITEM":
+                  p.ActiveItem()
+                  /*manager.jugadores.forEach(otherPlayer => {
+                    if (otherPlayer.name != p.name) {
+                      otherPlayer.isStuned = true;
+                      otherPlayer.stunTime = 180;
+                    }
+                  });*/
+                  break;
+                
+                case "SLOW_ITEM":
+                  manager.jugadores.forEach(otherPlayer => {
+                    if (otherPlayer.name != p.name) {
+                      otherPlayer.slowDownFactor = 0.2;
+                      otherPlayer.slowDownTime = 560;
+                    }
+                  });
+                  break;
+          
+                case "DRUNK_ITEM":
+                  manager.jugadores.forEach(otherPlayer => {
+                    if (otherPlayer.name != p.name) {
+                      otherPlayer.isDrunk = true;
+                      otherPlayer.drunkTime = 560;
+                    }
+                  });
+                  break;
+              
+                default:
+                  break;
+              }
+          
+              p.item = "NONE"
+              
+            }
+            
             //Reseteamos todos los eventos (Mejorar la lógica de los botónes luego).
             if (i == 7 && !c.buttons[6].pressed) {
               p.AccelerateOff();

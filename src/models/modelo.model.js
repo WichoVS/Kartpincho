@@ -3,11 +3,11 @@ class Modelo {
   body;
   isLoaded = false;
   worldReady = false;
-  constructor(_pathMesh, _pathTexture, _v3_shape, _name, _side) {
-    this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side);
+  constructor(_pathMesh, _pathTexture, _v3_shape, _name, _side, _x=0,_y=0,_z=0,_xs=1,_ys=1,_zs=1) {
+    this.CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side, _x,_y,_z,_xs,_ys,_zs);
   }
 
-  CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side) {
+  CargaModelo(_pathMesh, _pathTexture, _v3_shape, _name, _side, _x,_y,_z,_xs,_ys,_zs) {
     var mLoader = new THREE.FBXLoader();
     var tLoader = new THREE.TextureLoader();
 
@@ -26,10 +26,10 @@ class Modelo {
             child.material = texture;
             this.mesh = child;
             this.mesh.name = _name;
-            this.mesh.translateX(0);
-            this.mesh.translateY(0);
-            this.mesh.translateZ(0);
-            this.mesh.scale.set(1, 1, 1);
+            this.mesh.translateX(_x);
+            this.mesh.translateY(_y);
+            this.mesh.translateZ(_z);
+            this.mesh.scale.set(_xs, _ys, _zs);
             this.isLoaded = true;
 
             if (_v3_shape !== undefined && _v3_shape !== null) {
@@ -37,7 +37,7 @@ class Modelo {
                 type: CANNON.Body.STATIC,
                 shape: new CANNON.Box(_v3_shape),
               });
-            }
+            } 
           }
         });
       },
