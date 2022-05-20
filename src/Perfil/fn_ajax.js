@@ -1,7 +1,7 @@
 const LoadPerfilData = async () => {
   const user = localStorage.getItem("UsuarioLog");
   const resp = await fetch(
-    `http://localhost:3000/api/usuarios/perfil/${user}`,
+    `https://kartpinchoapi.onrender.com/api/usuarios/perfil/${user}`,
     {
       method: "GET",
       headers: {
@@ -18,18 +18,21 @@ const LoadPerfilData = async () => {
 
 const GuardaPlaylist = async (nombre, url) => {
   const user = localStorage.getItem("UsuarioLog");
-  const resp = await fetch(`http://localhost:3000/api/playlist/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      UsuarioOwner: user,
-      Nombre: nombre,
-      Imagen: "",
-      Url: url,
-    }),
-  });
+  const resp = await fetch(
+    `https://kartpinchoapi.onrender.com/api/playlist/create`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        UsuarioOwner: user,
+        Nombre: nombre,
+        Imagen: "",
+        Url: url,
+      }),
+    }
+  );
 
   const { success, message, data } = await resp.json();
 
@@ -41,7 +44,7 @@ const GuardaPlaylist = async (nombre, url) => {
 const CargaPlaylist = async () => {
   const user = localStorage.getItem("UsuarioLog");
   const resp = await fetch(
-    `http://localhost:3000/api/playlist/getByOwner/${user}`,
+    `https://kartpinchoapi.onrender.com/api/playlist/getByOwner/${user}`,
     {
       method: "GET",
       headers: {
