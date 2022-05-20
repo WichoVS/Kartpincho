@@ -1,7 +1,7 @@
 function SignIn(inputData) {
   $.ajax({
     type: "POST",
-    url: "http://localhost:3000/api/usuarios/registro",
+    url: "https://kartpinchoapi.onrender.com/api/usuarios/registro",
     data: inputData,
     dataType: "json",
     contentType: "application/json",
@@ -31,7 +31,7 @@ function SignIn(inputData) {
 function Login(inputForm) {
   $.ajax({
     type: "POST",
-    url: "http://localhost:3000/api/usuarios/login",
+    url: "https://kartpinchoapi.onrender.com/api/usuarios/login",
     data: inputForm,
     dataType: "json",
     contentType: "application/json",

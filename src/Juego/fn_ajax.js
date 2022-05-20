@@ -3,7 +3,7 @@ const GetPartida = async (manager) => {
   const urlParams = new URLSearchParams(queryString);
   const p = urlParams.get("p");
   const resp = await fetch(
-    `http://localhost:3000/api/partida/getPartidaById/${p}`,
+    `https://kartpinchoapi.onrender.com/api/partida/getPartidaById/${p}`,
     {
       method: "GET",
       mode: "cors",
@@ -18,7 +18,7 @@ const GetPartida = async (manager) => {
   if (success) {
     partida = data;
     const respPlayers = await fetch(
-      `http://localhost:3000/api/jugadorPartida/getJugadoresByPartida/${p}`,
+      `https://kartpinchoapi.onrender.com/api/jugadorPartida/getJugadoresByPartida/${p}`,
       {
         method: "GET",
         mode: "cors",
