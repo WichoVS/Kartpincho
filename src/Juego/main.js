@@ -6,7 +6,7 @@ const JUGADORESGPO = 2;
 const TRIGGERGPO = 4;
 
 var controlesAsignados = 0;
-var Moles = []
+var Moles = [];
 
 var manager;
 var terreno;
@@ -101,7 +101,7 @@ const LoadPlayers = (pManager) => {
     arrayTypeKarts.push(p);
 
     //#region Moles
-    var sc = 0.25
+    var sc = 0.25;
 
     var mole1 = new Mole(
       "../../assets/modelos/Mole/mole.fbx",
@@ -109,23 +109,26 @@ const LoadPlayers = (pManager) => {
       undefined,
       "Mole1",
       THREE.DoubleSide,
-      -20, 2.75, 100,       // (x, y, z) position
-      sc, sc, sc            // (x, y, z) scale
-    )
+      -20,
+      2.75,
+      100, // (x, y, z) position
+      sc,
+      sc,
+      sc // (x, y, z) scale
+    );
     var mole1body = new CANNON.Body({
       type: CANNON.Body.STATIC,
-      shape: new CANNON.Box(new CANNON.Vec3(1,1,1)),
-      position: new CANNON.Vec3(-20, 2.75, 100)
-    })
-    mole1.body = mole1body
+      shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+      position: new CANNON.Vec3(-20, 2.75, 100),
+    });
+    mole1.body = mole1body;
 
-    if(!mole1.isListed) {
-      Moles.push(mole1)
-      mole1.isListed = true
+    if (!mole1.isListed) {
+      Moles.push(mole1);
+      mole1.isListed = true;
     }
 
     //#endregion
-
   });
 
   arrayTypeKarts.forEach((j) => {
@@ -193,7 +196,6 @@ const render = () => {
       mole.UpdateMole();
     });
 
-
     manager.cannonDebugRenderer.update();
     if (terreno.isLoaded) {
       terreno.isLoaded = false;
@@ -219,14 +221,14 @@ const render = () => {
 
     Moles.forEach((mole) => {
       if (mole.isLoaded) {
-        mole.isLoaded = false
-        mole.body.position.set = new CANNON.Vec3(0,2.75,0)
+        mole.isLoaded = false;
+        mole.body.position.set = new CANNON.Vec3(0, 2.75, 0);
 
         manager.scene.add(mole.mesh);
         manager.world.add(mole.body);
         mole.worldReady = true;
       }
-    })
+    });
 
     if (countPlayers > 0) updatePhysics();
     modelos.forEach((m) => {
@@ -1097,120 +1099,122 @@ const loadCollidersMar = (manager) => {
   //////////////Obstaculos/////////////
   /////////////////////////////////////
 
-  var c23 = new Collider(
-    new CANNON.Vec3(-24.5, 0, 107),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(-9.8, 0, 112.8),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(1.5, 0, 108.2),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(22.3, 0, 113.8),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(-7, 0, 97.3),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(38.5, 0, 92),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(-28.7, 0, 63.5),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(-27.3, 0, 37),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-  var c23 = new Collider(
-    new CANNON.Vec3(-19.5, 0, 16),
-    new CANNON.Vec3(1, 10, 1),
-    manager.world
-  );
-
+  if (partida.Dificultad == 1) {
+    var c23 = new Collider(
+      new CANNON.Vec3(-24.5, 0, 107),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(-9.8, 0, 112.8),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(1.5, 0, 108.2),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(22.3, 0, 113.8),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(-7, 0, 97.3),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(38.5, 0, 92),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(-28.7, 0, 63.5),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(-27.3, 0, 37),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+    var c23 = new Collider(
+      new CANNON.Vec3(-19.5, 0, 16),
+      new CANNON.Vec3(1, 10, 1),
+      manager.world
+    );
+  }
   /////////////////////////////////////
   ///////////////RAMPAS////////////////
   /////////////////////////////////////
+  if (partida.Dificultad == 1) {
+    var rampa0 = new Collider(
+      new CANNON.Vec3(-48, -1, -2),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
+    rampa0.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
-  var rampa0 = new Collider(
-    new CANNON.Vec3(-48, -1, -2),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
-  rampa0.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+    var rampa1 = new Collider(
+      new CANNON.Vec3(-48, -1, 21.5),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
+    rampa1.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
-  var rampa1 = new Collider(
-    new CANNON.Vec3(-48, -1, 21.5),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
-  rampa1.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+    var rampa2 = new Collider(
+      new CANNON.Vec3(-61.5, -1, 78.5),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
+    rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
-  var rampa2 = new Collider(
-    new CANNON.Vec3(-61.5, -1, 78.5),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
-  rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+    var rampa3 = new Collider(
+      new CANNON.Vec3(-2 /*-50*/, -1, -22),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
 
-  var rampa3 = new Collider(
-    new CANNON.Vec3(-2 /*-50*/, -1, -22),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
+    var rampa4 = new Collider(
+      new CANNON.Vec3(18 /*-50*/, -1, -42),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
 
-  var rampa4 = new Collider(
-    new CANNON.Vec3(18 /*-50*/, -1, -42),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
+    var rampa5 = new Collider(
+      new CANNON.Vec3(30 /*-50*/, -1, -55),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
 
-  var rampa5 = new Collider(
-    new CANNON.Vec3(30 /*-50*/, -1, -55),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
+    var quatX = new CANNON.Quaternion();
+    var quatY = new CANNON.Quaternion();
+    var quatZ = new CANNON.Quaternion();
+    quatX.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
+    quatY.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), THREE.Math.degToRad(45));
+    quatZ.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), THREE.Math.degToRad(35));
+    var quaternion = quatY.mult(quatX.mult(quatZ));
+    quaternion.normalize();
+    rampa5.body.quaternion.copy(quaternion);
+    rampa4.body.quaternion.copy(quaternion);
+    rampa3.body.quaternion.copy(quaternion);
 
-  var quatX = new CANNON.Quaternion();
-  var quatY = new CANNON.Quaternion();
-  var quatZ = new CANNON.Quaternion();
-  quatX.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), THREE.Math.degToRad(-45));
-  quatY.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), THREE.Math.degToRad(45));
-  quatZ.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), THREE.Math.degToRad(35));
-  var quaternion = quatY.mult(quatX.mult(quatZ));
-  quaternion.normalize();
-  rampa5.body.quaternion.copy(quaternion);
-  rampa4.body.quaternion.copy(quaternion);
-  rampa3.body.quaternion.copy(quaternion);
+    var rampa5 = new Collider(
+      new CANNON.Vec3(38 /*-50*/, -1, -92),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
+    rampa5.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
 
-  var rampa5 = new Collider(
-    new CANNON.Vec3(38 /*-50*/, -1, -92),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
-  rampa5.Rota(new CANNON.Vec3(1, 0, 0), -1.0472);
-
-  var rampa6 = new Collider(
-    new CANNON.Vec3(-53, -1, -107),
-    new CANNON.Vec3(5, 1, 1),
-    manager.world
-  );
-  rampa6.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+    var rampa6 = new Collider(
+      new CANNON.Vec3(-53, -1, -107),
+      new CANNON.Vec3(5, 1, 1),
+      manager.world
+    );
+    rampa6.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
+  }
 };
 const loadTriggersMar = (manager) => {};
 const loadModelosMar = () => {
@@ -1262,13 +1266,6 @@ const loadModelosMar = () => {
     "Piedras"
   );
 
-  var RocasObstaculo = new Modelo(
-    "../../assets/modelos/Pista2/RocasObstaculos.fbx",
-    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
-    undefined,
-    "Piedras2"
-  );
-
   var CajasObs = new Modelo(
     "../../assets/modelos/Pista2/CajasObstaculos.fbx",
     "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
@@ -1283,22 +1280,31 @@ const loadModelosMar = () => {
     "BotesCarga"
   );
 
-  var Rampas = new Modelo(
-    "../../assets/modelos/Pista2/Rampas.fbx",
-    "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
-    undefined,
-    "Rampita"
-  );
+  if (partida.Dificultad == 1) {
+    var Rampas = new Modelo(
+      "../../assets/modelos/Pista2/Rampas.fbx",
+      "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+      undefined,
+      "Rampita"
+    );
+
+    var RocasObstaculo = new Modelo(
+      "../../assets/modelos/Pista2/RocasObstaculos.fbx",
+      "../../assets/modelos/PistaNascar/Piedra1_Color.jpg",
+      undefined,
+      "Piedras2"
+    );
+    modelos.push(Rampas);
+    modelos.push(RocasObstaculo);
+  }
 
   modelos.push(pista);
   modelos.push(faro);
   modelos.push(meta);
   modelos.push(agua);
   modelos.push(RocasFaro);
-  modelos.push(RocasObstaculo);
   modelos.push(CajasObs);
   modelos.push(Botes);
-  modelos.push(Rampas);
 };
 
 function randomIntFromInterval(min, max) {
