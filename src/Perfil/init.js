@@ -1,4 +1,4 @@
-export const InicializaEventos = () => {
+const InicializaEventos = () => {
   $("#btnBack").on("click", () => {
     window.location.href = "../MenuInicio/Inicio.html";
   });
@@ -20,6 +20,9 @@ export const InicializaEventos = () => {
   });
 
   $("#btnSaveList").on("click", (e) => {
+    const name = $("#lblPlaylistName").val();
+    const url = $("#lblPlaylistUrl").val();
+    GuardaPlaylist(name, url);
     $("#modalPlaylist").css("display", "none");
   });
 

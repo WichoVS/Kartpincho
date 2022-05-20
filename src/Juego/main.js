@@ -16,10 +16,13 @@ var winnerFound = false;
 
 var rendererAerea;
 var cameraAerea;
+var winnerToMenu;
 
 var modelos = [];
 var colliders = [];
 var worldLoaded = false;
+
+var canGoToMenu = false;
 
 const TimerTiempos = (_manager) => {
   _manager.jugadores.forEach((j) => {
@@ -38,7 +41,7 @@ const LoadPlayers = (pManager) => {
     var shell = new Modelo(
       "../../assets/modelos/items/untitled.fbx",
       "../../assets/modelos/items/Shell.png",
-      undefined,
+      new CANNON.Vec3(1, 1, 1),
       `${j.Nombre}Shell`,
       THREE.DoubleSide,
       0,
@@ -50,7 +53,7 @@ const LoadPlayers = (pManager) => {
     );
 
     var shellbody = new CANNON.Body({
-      mass: 1,
+      mass: 10,
       shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
       position: new CANNON.Vec3(0, 0, 0),
     });
@@ -81,20 +84,38 @@ const LoadPlayers = (pManager) => {
       }
     });
 
-    var p = new Jugador(
-      j.Modelo,
-      j.Modelo.replace("fbx", "png"),
-      j.Nombre,
-      pManager.wheelMaterial,
-      pManager.world,
-      150,
-      partida.Jugadores,
-      new CANNON.Vec3(15 + (i % 2) * 5, 1, -140 - (i % 2) * 5),
-      j.Imagen,
-      manager,
-      shell,
-      mode
-    );
+    var p;
+    if (partida.Pista == "624544f2558f73e5aa3d340f") {
+      var p = new Jugador(
+        j.Modelo,
+        j.Modelo.replace("fbx", "png"),
+        j.Nombre,
+        pManager.wheelMaterial,
+        pManager.world,
+        150,
+        partida.Jugadores,
+        new CANNON.Vec3(15 + (i % 2) * 5, 1, -140 - (i % 2) * 5),
+        j.Imagen,
+        manager,
+        shell,
+        mode
+      );
+    } else {
+      var p = new Jugador(
+        j.Modelo,
+        j.Modelo.replace("fbx", "png"),
+        j.Nombre,
+        pManager.wheelMaterial,
+        pManager.world,
+        150,
+        partida.Jugadores,
+        new CANNON.Vec3(-50 + (i % 2) * 5, 1, -75 - (i % 2) * 5),
+        j.Imagen,
+        manager,
+        shell,
+        mode
+      );
+    }
 
     $(`#player${i + 1}ControllerSetup`).removeClass("display-none");
 
@@ -1216,7 +1237,211 @@ const loadCollidersMar = (manager) => {
     rampa6.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
   }
 };
-const loadTriggersMar = (manager) => {};
+const loadTriggersMar = (manager) => {
+  var factor = 0;
+  if (mode == "Eliminación") factor = -1000;
+
+  var metaTrigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(7, 20, 1)),
+  });
+  metaTrigger.position.set(-50, 0 + factor, -67);
+  metaTrigger.collisionResponse = false;
+  var totalCheckpoints = 4;
+  metaTrigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (!player.flagTrigger) {
+        player.AddVuelta(totalCheckpoints);
+        player.flagTrigger = true;
+        player.FlagCollisionReset();
+        player.checkpTime -= 1;
+        checkPlacements(manager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  manager.world.add(metaTrigger);
+
+  //#region Inicio Bloque de Código que genera los checkpoints de la Pista
+
+  var triggerChecker4 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker4.position.set(-46, 0 + factor, -145);
+  triggerChecker4.collisionResponse = false;
+  triggerChecker4.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 3) {
+        player.checkpoints = 4;
+        player.checkpTime -= 1;
+        checkPlacements(manager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  manager.world.add(triggerChecker4);
+
+  var triggerChecker3 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker3.position.set(20, 0 + factor, -140);
+  triggerChecker3.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker3.collisionResponse = false;
+  triggerChecker3.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 2) {
+        player.checkpoints = 3;
+        player.checkpTime -= 1;
+        checkPlacements(manager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  manager.world.add(triggerChecker3);
+
+  var triggerChecker2 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
+  });
+  triggerChecker2.position.set(-25, 0 + factor, 20);
+  triggerChecker2.collisionResponse = false;
+  triggerChecker2.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 1) {
+        player.checkpoints = 2;
+        player.checkpTime -= 1;
+        checkPlacements(manager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  manager.world.add(triggerChecker2);
+
+  var triggerChecker1 = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(8, 20, 1)),
+  });
+  triggerChecker1.position.set(10, 0 + factor, 110);
+  triggerChecker1.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(0, 1, 0),
+    THREE.MathUtils.degToRad(90)
+  );
+  triggerChecker1.collisionResponse = false;
+  triggerChecker1.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+      if (player.checkpoints === 0) {
+        player.checkpoints = 1;
+        player.checkpTime -= 1;
+        checkPlacements(manager);
+        player.checkpTime = 0;
+      }
+    }
+  });
+  manager.world.add(triggerChecker1);
+
+  //#endregion Fin del bloque que genera los checkpoints de la pista
+
+  //#region Comienzan triggers de ITEM BLOCKS
+
+  var ITEMS = ["STUN_ITEM", "SLOW_ITEM", "DRUNK_ITEM"];
+
+  var itembox1Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox1Trigger.collisionResponse = false;
+  itembox1Trigger.position.set(10, 0, 110);
+  itembox1Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  manager.world.add(itembox1Trigger);
+
+  // 2
+  var itembox2Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox2Trigger.collisionResponse = false;
+  itembox2Trigger.position.set(-25, 0, 20);
+  itembox2Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  manager.world.add(itembox2Trigger);
+
+  // 3
+  var itembox3Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox3Trigger.collisionResponse = false;
+  itembox3Trigger.position.set(18, 0, -140);
+  itembox3Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  manager.world.add(itembox3Trigger);
+
+  // 4
+  var itembox4Trigger = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+  });
+  itembox4Trigger.collisionResponse = false;
+  itembox4Trigger.position.set(23, 0, -140);
+  itembox4Trigger.addEventListener("collide", (e) => {
+    if (e.body.userData != undefined) {
+      let player = manager.jugadores.find(
+        (ele) => ele.name === e.body.userData.name
+      );
+
+      if (player.item == "NONE") {
+        var i = randomIntFromInterval(1, 3) - 1;
+        player.item = ITEMS[i];
+      }
+    }
+  });
+  manager.world.add(itembox4Trigger);
+
+  //#endregion
+};
 const loadModelosMar = () => {
   terreno = new Terreno(
     //"../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
@@ -1363,8 +1588,10 @@ function checkPlacements(_pManager) {
       );
       // Si se encuentra, hay un ganador!
       if (winner != undefined && !winnerFound) {
+        winnerToMenu = winner;
         winnerFound = true;
         winner.isGameOver = true;
+
         $("body").append(
           `<div id="controllerSetup2" class="div-controller-setup"><div/>`
         );
@@ -1462,6 +1689,7 @@ function checkPlacements(_pManager) {
     );
     // Si se encuentra, hay un ganador!
     if (winner != undefined) {
+      winnerToMenu = winner;
       _pManager.jugadores.forEach((player) => {
         player.GameOver();
       });
@@ -1496,6 +1724,13 @@ function checkPlacements(_pManager) {
   }
 }
 
-function goToMainMenu() {
-  window.location.href = "../MenuInicio/Inicio.html";
+async function goToMainMenu() {
+  if (winnerToMenu) {
+    const rFin = await FinalizaPartida();
+    const rVuelta = await ActualizaVueltaMasRapida(winnerToMenu.fastestTime);
+    const rWinner = await ActualizaGanador(winnerToMenu.name);
+
+    canGoToMenu = rFin && rVuelta && rWinner;
+    if (canGoToMenu) window.location.href = "../MenuInicio/Inicio.html";
+  }
 }
