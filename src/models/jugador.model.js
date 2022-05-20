@@ -531,7 +531,7 @@ class Jugador {
       $(`#${this.name}`).append(`
       <div class="div-player-ui">
         <div class="player-ui-top">
-
+          <label id="${this.name}position">Lugar </label>
         </div>
         <div class="player-ui-bot">
           <div class="row-states">
@@ -591,6 +591,7 @@ class Jugador {
         "src",
         `../../assets/images/items/${this.item}.png`
       );
+      if(this.mesh != undefined) $(`#${this.name}position`).text(`X: ${Math.round(this.mesh.position.x)} Y: ${Math.round(this.mesh.position.y)} Z: ${Math.round(this.mesh.position.z)} `);
       if (this.gameMode == "Circuito") {
         $(`#${this.name}vueltas`).text(`Vueltas: ${this.vueltas}`);
         $(`#${this.name}tiempo`).text(`Tiempo: ${this.tiempoActual}`);

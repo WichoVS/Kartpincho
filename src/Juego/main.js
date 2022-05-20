@@ -7,6 +7,8 @@ const TRIGGERGPO = 4;
 
 var controlesAsignados = 0;
 var Moles = []
+var molesCount = 2
+var molesAdded = false
 
 var manager;
 var terreno;
@@ -101,29 +103,65 @@ const LoadPlayers = (pManager) => {
     arrayTypeKarts.push(p);
 
     //#region Moles
-    var sc = 0.25
+    if(partida.Dificultad == 1) {
+      if(molesCount <= manager.molesPositions.length) {
+        if(!molesAdded) {
+          molesCount = Math.round(manager.molesPositions.length / 2)
+          molesAdded = true;
+          for(let i = 0; i < molesCount; i++) {
+            var sc = 0.25
+            var mole = new Mole(
+              "../../assets/modelos/Mole/mole.fbx",
+              "../../assets/modelos/Mole/mole.png",
+              undefined,
+              `Mole${i+1}`,
+              THREE.DoubleSide,
+              0, 0, 0,
+              sc, sc, sc
+            )
+            var acceptedPos = false
+            var molePos = new CANNON.Vec3()
 
-    var mole1 = new Mole(
-      "../../assets/modelos/Mole/mole.fbx",
-      "../../assets/modelos/Mole/mole.png",
-      undefined,
-      "Mole1",
-      THREE.DoubleSide,
-      -20, 2.75, 100,       // (x, y, z) position
-      sc, sc, sc            // (x, y, z) scale
-    )
-    var mole1body = new CANNON.Body({
-      type: CANNON.Body.STATIC,
-      shape: new CANNON.Box(new CANNON.Vec3(1,1,1)),
-      position: new CANNON.Vec3(-20, 2.75, 100)
-    })
-    mole1.body = mole1body
+            while (!acceptedPos) {
+              let i = randomIntFromInterval(1, manager.molesPositions.length) - 1
+              var posiblePos = manager.molesPositions[i];
 
-    if(!mole1.isListed) {
-      Moles.push(mole1)
-      mole1.isListed = true
+              if(posiblePos.isFree) {
+                molePos = new CANNON.Vec3(posiblePos.pos.x, posiblePos.pos.y, posiblePos.pos.z)
+                acceptedPos = true
+                manager.molesPositions[i].isFree = false;
+                break;
+              } else {
+                acceptedPos = false
+              }
+            }
+
+            var molebody = new CANNON.Body({
+              shape: new CANNON.Box(new CANNON.Vec3(1.75,2.75,1.75)),
+              type: CANNON.Body.STATIC,
+              position: molePos         // (x, y, z) position
+            })
+            var sphere = new CANNON.Sphere(1.75)
+            molebody.addShape(sphere, new CANNON.Vec3(0,2.5,0), new CANNON.Quaternion())
+
+            mole.body = molebody
+
+            mole.body.quaternion.setFromAxisAngle(
+              new CANNON.Vec3(0, 1, 0),
+              THREE.MathUtils.degToRad(randomIntFromInterval(0,360))
+            );
+
+            if(!mole.isListed) {
+              Moles.push(mole)
+              mole.isListed = true
+            }
+          }
+
+        } 
+      } else {
+        console.log("Hay demasiados topos")
+      }
     }
-
     //#endregion
 
   });
@@ -172,7 +210,6 @@ $(async () => {
   manager.scene.add(sb.skyBox);
 
   LoadMap(manager);
-
   setTimeout(TimerTiempos, 100, manager);
 
   InicializaEventos(manager);
@@ -1213,6 +1250,7 @@ const loadCollidersMar = (manager) => {
   rampa6.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 };
 const loadTriggersMar = (manager) => {};
+
 const loadModelosMar = () => {
   terreno = new Terreno(
     //"../../assets/modelos/PistaNascar/TerrenoPistaNascar.fbx",
@@ -1465,10 +1503,12 @@ function checkPlacements(_pManager) {
       );
 
       $("#controllerSetup2").append(
-        `<h2 class='h2-controller-setup'>EL GANADOR ES: ${winner.name}</h2>`
+        `<h2 class='h2-controller-setup'>EL GANADOR ES: ${winner.name}</h2>
+        <hr>`
       );
       $("#controllerSetup2").append(
-        `<h4 class="h4-controller-setup">Felicidades\nMejor tiempo ${winner.fastestTime}</h4>`
+        `<h4 class="h4-controller-setup">Felicidades</h4>
+        <h4 class="h4-controller-setup">Mejor tiempo ${winner.fastestTime}</h4>`
       );
       $("#controllerSetup2").append(`<div class="div-players-controller-setup">
                                     <div id="player1ControllerSetup" class="div-card-player-controller"></div>

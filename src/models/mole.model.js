@@ -32,7 +32,7 @@ class Mole {
             this.mesh.translateZ(_z);
             this.mesh.scale.set(_xs, _ys, _zs);
             this.isLoaded = true;
-
+            this.Init()
             if (_v3_shape !== undefined && _v3_shape !== null) {
               this.body = new CANNON.Body({
                 type: CANNON.Body.STATIC,
@@ -49,6 +49,9 @@ class Mole {
     );
   }
 
+  Init() {
+
+  }
 
   UpdateMole() {
     if(this.mesh != undefined && this.body != undefined) {
