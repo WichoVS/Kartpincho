@@ -13,6 +13,7 @@ class Jugador {
   willActivateItem = false;
   checkpoints;
   gameMode;
+  isPaused = false;
   // Items y cosas
   item = "NONE";
   slowDownFactor = 1;
@@ -46,6 +47,11 @@ class Jugador {
   imagen;
   manager;
   isGameOver = false;
+
+  SavedVel;
+  SavedVelSpdKmHour;
+  SavedShellVel;
+  SavedEngineF;
 
   constructor(
     _pathModel,
@@ -238,15 +244,17 @@ class Jugador {
   }
 
   PostStepWheels() {
-    for (var i = 0; i < this.vehicle.wheelInfos.length; i++) {
-      this.vehicle.updateWheelTransform(i);
-      var t = this.vehicle.wheelInfos[i].worldTransform;
-      // update wheel physics
-      this.wheelBodies[i].position.copy(t.position);
-      this.wheelBodies[i].quaternion.copy(t.quaternion);
-      // update wheel visuals
-      this.wheelsVisual[i].position.copy(t.position);
-      this.wheelsVisual[i].quaternion.copy(t.quaternion);
+    if(!this.isPaused) {
+      for (var i = 0; i < this.vehicle.wheelInfos.length; i++) {
+        this.vehicle.updateWheelTransform(i);
+        var t = this.vehicle.wheelInfos[i].worldTransform;
+        // update wheel physics
+        this.wheelBodies[i].position.copy(t.position);
+        this.wheelBodies[i].quaternion.copy(t.quaternion);
+        // update wheel visuals
+        this.wheelsVisual[i].position.copy(t.position);
+        this.wheelsVisual[i].quaternion.copy(t.quaternion);
+      }
     }
   }
 
@@ -266,15 +274,15 @@ class Jugador {
   }
 
   AddTimeVuelta(_manager) {
-    if (!this.isGameOver) if (_manager.isGameStarted) this.tiempoActual++;
+    if (!this.isGameOver && !this.isPaused) if (_manager.isGameStarted) this.tiempoActual++;
   }
 
   AddTimeCheckp(_manager) {
-    if (!this.isGameOver) if (_manager.isGameStarted) this.checkpTime++;
+    if (!this.isGameOver && !this.isPaused) if (_manager.isGameStarted) this.checkpTime++;
   }
 
   AddVuelta(pTotalChecks) {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       if (this.startedRace) {
         if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
           this.fastestTime = this.tiempoActual;
@@ -292,7 +300,7 @@ class Jugador {
   }
 
   TurnLeftOn(valueFactor = 1) {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       if (!this.isDrunk) {
         this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 2);
         this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 3);
@@ -309,7 +317,7 @@ class Jugador {
   }
 
   TurnRightOn(valueFactor = 1) {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       if (!this.isDrunk) {
         this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 2);
         this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 3);
@@ -334,7 +342,7 @@ class Jugador {
   }
 
   AccelerateOn(valueFactor = 1) {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       this.vehicle.applyEngineForce(
         -this.engineForce * valueFactor * this.slowDownFactor,
         2
@@ -365,7 +373,7 @@ class Jugador {
   }
 
   ReverseOn(valueFactor = 1) {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       this.vehicle.applyEngineForce(this.engineForce * valueFactor, 2);
       this.vehicle.applyEngineForce(this.engineForce * valueFactor, 3);
     }
@@ -377,7 +385,7 @@ class Jugador {
   }
 
   ActiveItem() {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       this.shell.body.force = new CANNON.Vec3(0, 0, 0);
       var localForward = new CANNON.Vec3(0, 0, 1);
       var worldvector = new CANNON.Vec3();
@@ -585,7 +593,7 @@ class Jugador {
   }
 
   UpdateUIPlayer() {
-    if (!this.isGameOver) {
+    if (!this.isGameOver && !this.isPaused) {
       //#region UI PLAYER & ITEM STATES
       $(`#${this.name}Item`).attr(
         "src",
@@ -650,14 +658,60 @@ class Jugador {
         this.shell.mesh.quaternion.copy(this.shell.body.quaternion);
       }
     }
+
+    if(this.isPaused) {
+
+      this.body.position = this.body.position
+      this.body.quaternion = this.body.quaternion
+
+      this.vehicle.chassisBody.position = this.vehicle.chassisBody.position
+      this.vehicle.chassisBody.quaternion = this.vehicle.chassisBody.quaternion
+
+      this.vehicle.wheelInfos.forEach(wheel => {
+        wheel.position = wheel.position
+        wheel.quaternion = wheel.quaternion
+      });
+
+      if (this.shell.mesh != undefined && this.shell.body != undefined) {
+        this.shell.body.quaternion = this.shell.body.quaternion
+        this.shell.body.position = this.shell.body.position
+
+        this.shell.body.angularVelocity = new CANNON.Vec3(0,0,0)
+      }
+    }
   }
 
   GameOver() {
+    this.deleteShell()
+    this.vehicle.chassisBody.sleep()
     for (let i = 0; i < 3; i++) {
       $(`#${this.name}lives${i + 1}`).attr("display", "none");
     }
     $(`${this.name}UI`).attr("gameover", "true");
     this.isGameOver = true;
+  }
+
+  Pause() {
+    this.isPaused = !this.isPaused
+
+    if(this.isPaused) {
+      this.vehicle.chassisBody.allowSleep = false;
+      this.vehicle.chassisBody.sleep()
+      
+      this.shell.body.allowSleep = true;
+      this.shell.body.sleep()
+      this.SavedShellVel = this.shell.body.angularVelocity
+    } else {
+      this.vehicle.chassisBody.allowSleep = false;
+      this.vehicle.chassisBody.wakeUp()
+      
+      this.shell.body.allowSleep = false;
+      this.shell.body.wakeUp()
+      this.shell.body.angularVelocity = this.SavedShellVel
+    }
+
+
+    console.log("Pause is: " + this.isPaused)
   }
 
   Hit() {

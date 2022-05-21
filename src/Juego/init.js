@@ -135,6 +135,12 @@ const InicializaEventos = (manager) => {
 
         p.item = "NONE";
       }
+
+      if (code == 13 && worldLoaded && manager.isGameStarted) {
+        manager.jugadores.forEach(player => {
+          player.Pause()
+        });
+      }
     }
   });
 
