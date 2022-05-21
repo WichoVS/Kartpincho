@@ -6,9 +6,9 @@ const JUGADORESGPO = 2;
 const TRIGGERGPO = 4;
 
 var controlesAsignados = 0;
-var Moles = []
-var molesCount = 2
-var molesAdded = false
+var Moles = [];
+var molesCount = 2;
+var molesAdded = false;
 
 var manager;
 var terreno;
@@ -43,7 +43,7 @@ const LoadPlayers = (pManager) => {
     var shell = new Modelo(
       "../../assets/modelos/items/untitled.fbx",
       "../../assets/modelos/items/Shell.png",
-      new CANNON.Vec3(1, 1, 1),
+      undefined,
       `${j.Nombre}Shell`,
       THREE.DoubleSide,
       0,
@@ -55,7 +55,7 @@ const LoadPlayers = (pManager) => {
     );
 
     var shellbody = new CANNON.Body({
-      mass: 10,
+      mass: 1,
       shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
       position: new CANNON.Vec3(0, 0, 0),
     });
@@ -124,63 +124,78 @@ const LoadPlayers = (pManager) => {
     arrayTypeKarts.push(p);
 
     //#region Moles
-    if(partida.Dificultad == 1 && partida.Pista == "624544f2558f73e5aa3d340f") {
-      if(molesCount <= manager.molesPositions.length) {
-        if(!molesAdded) {
-          molesCount = Math.round(manager.molesPositions.length / 2)
+    if (
+      partida.Dificultad == 1 &&
+      partida.Pista == "624544f2558f73e5aa3d340f"
+    ) {
+      if (molesCount <= manager.molesPositions.length) {
+        if (!molesAdded) {
+          molesCount = Math.round(manager.molesPositions.length / 2);
           molesAdded = true;
-          for(let i = 0; i < molesCount; i++) {
-            var sc = 0.25
+          for (let i = 0; i < molesCount; i++) {
+            var sc = 0.25;
             var mole = new Mole(
               "../../assets/modelos/Mole/mole.fbx",
               "../../assets/modelos/Mole/mole.png",
               undefined,
-              `Mole${i+1}`,
+              `Mole${i + 1}`,
               THREE.DoubleSide,
-              0, 0, 0,
-              sc, sc, sc
-            )
-            var acceptedPos = false
-            var molePos = new CANNON.Vec3()
+              0,
+              0,
+              0,
+              sc,
+              sc,
+              sc
+            );
+            var acceptedPos = false;
+            var molePos = new CANNON.Vec3();
 
             while (!acceptedPos) {
-              let i = randomIntFromInterval(1, manager.molesPositions.length) - 1
+              let i =
+                randomIntFromInterval(1, manager.molesPositions.length) - 1;
               var posiblePos = manager.molesPositions[i];
 
-              if(posiblePos.isFree) {
-                molePos = new CANNON.Vec3(posiblePos.pos.x, posiblePos.pos.y, posiblePos.pos.z)
-                acceptedPos = true
+              if (posiblePos.isFree) {
+                molePos = new CANNON.Vec3(
+                  posiblePos.pos.x,
+                  posiblePos.pos.y,
+                  posiblePos.pos.z
+                );
+                acceptedPos = true;
                 manager.molesPositions[i].isFree = false;
                 break;
               } else {
-                acceptedPos = false
+                acceptedPos = false;
               }
             }
 
             var molebody = new CANNON.Body({
-              shape: new CANNON.Box(new CANNON.Vec3(1.75,2.75,1.75)),
+              shape: new CANNON.Box(new CANNON.Vec3(1.75, 2.75, 1.75)),
               type: CANNON.Body.STATIC,
-              position: molePos         // (x, y, z) position
-            })
-            var sphere = new CANNON.Sphere(1.75)
-            molebody.addShape(sphere, new CANNON.Vec3(0,2.5,0), new CANNON.Quaternion())
+              position: molePos, // (x, y, z) position
+            });
+            var sphere = new CANNON.Sphere(1.75);
+            molebody.addShape(
+              sphere,
+              new CANNON.Vec3(0, 2.5, 0),
+              new CANNON.Quaternion()
+            );
 
-            mole.body = molebody
+            mole.body = molebody;
 
             mole.body.quaternion.setFromAxisAngle(
               new CANNON.Vec3(0, 1, 0),
-              THREE.MathUtils.degToRad(randomIntFromInterval(0,360))
+              THREE.MathUtils.degToRad(randomIntFromInterval(0, 360))
             );
 
-            if(!mole.isListed) {
-              Moles.push(mole)
-              mole.isListed = true
+            if (!mole.isListed) {
+              Moles.push(mole);
+              mole.isListed = true;
             }
           }
-
-        } 
+        }
       } else {
-        console.log("Hay demasiados topos")
+        console.log("Hay demasiados topos");
       }
     }
     //#endregion
@@ -250,7 +265,7 @@ const render = () => {
       mole.UpdateMole();
     });
 
-    manager.cannonDebugRenderer.update();
+    //manager.cannonDebugRenderer.update();
     if (terreno.isLoaded) {
       terreno.isLoaded = false;
       manager.scene.add(terreno.mesh);
@@ -843,7 +858,6 @@ const LoadMapaMar = (manager) => {
 };
 
 const loadCollidersMar = (manager) => {
-  
   /////////////////////////////////////
   ///////////Limites Mapa//////////////
   /////////////////////////////////////
@@ -1227,19 +1241,19 @@ const loadCollidersMar = (manager) => {
     rampa2.Rota(new CANNON.Vec3(1, 0, 0), 1.0472);
 
     var rampa3 = new Collider(
-      new CANNON.Vec3(-2 , -1, -22),
+      new CANNON.Vec3(-2, -1, -22),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
 
     var rampa4 = new Collider(
-      new CANNON.Vec3(18 , -1, -42),
+      new CANNON.Vec3(18, -1, -42),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
 
     var rampa5 = new Collider(
-      new CANNON.Vec3(30 , -1, -55),
+      new CANNON.Vec3(30, -1, -55),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
@@ -1257,7 +1271,7 @@ const loadCollidersMar = (manager) => {
     rampa3.body.quaternion.copy(quaternion);
 
     var rampa5 = new Collider(
-      new CANNON.Vec3(38 , -1, -92),
+      new CANNON.Vec3(38, -1, -92),
       new CANNON.Vec3(5, 1, 1),
       manager.world
     );
@@ -1273,12 +1287,10 @@ const loadCollidersMar = (manager) => {
 };
 
 const loadTriggersMar = (manager) => {
-
   var factor = 0;
   if (mode == "Eliminación") factor = -1000;
 
   var metaTrigger = new CANNON.Body({
-
     shape: new CANNON.Box(new CANNON.Vec3(7, 20, 1)),
   });
   metaTrigger.position.set(-50, 0 + factor, -67);
@@ -1287,9 +1299,7 @@ const loadTriggersMar = (manager) => {
   var totalCheckpoints = 4;
   metaTrigger.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
-
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
 
@@ -1306,7 +1316,6 @@ const loadTriggersMar = (manager) => {
   });
 
   manager.world.add(metaTrigger);
-
 
   //#region Inicio Bloque de Código que genera los checkpoints de la Pista
 
@@ -1334,7 +1343,6 @@ const loadTriggersMar = (manager) => {
 
   manager.world.add(triggerChecker4);
 
-
   var triggerChecker3 = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
   });
@@ -1359,7 +1367,6 @@ const loadTriggersMar = (manager) => {
   });
   manager.world.add(triggerChecker3);
 
-
   var triggerChecker2 = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(10, 20, 1)),
   });
@@ -1369,7 +1376,6 @@ const loadTriggersMar = (manager) => {
   triggerChecker2.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
       if (player.checkpoints === 1) {
@@ -1397,9 +1403,7 @@ const loadTriggersMar = (manager) => {
   triggerChecker1.collisionResponse = false;
   triggerChecker1.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
-
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
       if (player.checkpoints === 0) {
@@ -1417,7 +1421,6 @@ const loadTriggersMar = (manager) => {
 
   //#endregion Fin del bloque que genera los checkpoints de la pista
 
-
   //#region Comienzan triggers de ITEM BLOCKS
 
   var ITEMS = ["STUN_ITEM", "SLOW_ITEM", "DRUNK_ITEM"];
@@ -1431,7 +1434,6 @@ const loadTriggersMar = (manager) => {
   itembox1Trigger.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
 
@@ -1444,7 +1446,6 @@ const loadTriggersMar = (manager) => {
 
   manager.world.add(itembox1Trigger);
 
-
   // 2
   var itembox2Trigger = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
@@ -1455,7 +1456,6 @@ const loadTriggersMar = (manager) => {
   itembox2Trigger.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
 
@@ -1468,7 +1468,6 @@ const loadTriggersMar = (manager) => {
 
   manager.world.add(itembox2Trigger);
 
-
   // 3
   var itembox3Trigger = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
@@ -1479,7 +1478,6 @@ const loadTriggersMar = (manager) => {
   itembox3Trigger.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
 
@@ -1492,7 +1490,6 @@ const loadTriggersMar = (manager) => {
 
   manager.world.add(itembox3Trigger);
 
-
   // 4
   var itembox4Trigger = new CANNON.Body({
     shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
@@ -1503,7 +1500,6 @@ const loadTriggersMar = (manager) => {
   itembox4Trigger.addEventListener("collide", (e) => {
     if (e.body.userData != undefined) {
       let player = manager.jugadores.find(
-
         (ele) => ele.name === e.body.userData.name
       );
 
@@ -1609,9 +1605,9 @@ const loadModelosMar = () => {
     new CANNON.Vec3(1, 1, 1),
     "Itembox1",
     THREE.DoubleSide,
-    -50,
+    10,
     0,
-    50, // (x, y, z) position
+    110, // (x, y, z) position
     1 / 32,
     1 / 32,
     1 / 32 // (x, y, z) scale
@@ -1623,9 +1619,9 @@ const loadModelosMar = () => {
     new CANNON.Vec3(1, 1, 1),
     "Itembox1",
     THREE.DoubleSide,
-    88,
+    -25,
     0,
-    118, // (x, y, z) position
+    20, // (x, y, z) position
     1 / 32,
     1 / 32,
     1 / 32 // (x, y, z) scale
@@ -1637,9 +1633,9 @@ const loadModelosMar = () => {
     new CANNON.Vec3(1, 1, 1),
     "Itembox1",
     THREE.DoubleSide,
-    5,
+    18,
     0,
-    -30, // (x, y, z) position
+    -140, // (x, y, z) position
     1 / 32,
     1 / 32,
     1 / 32 // (x, y, z) scale
@@ -1651,18 +1647,18 @@ const loadModelosMar = () => {
     new CANNON.Vec3(1, 1, 1),
     "Itembox1",
     THREE.DoubleSide,
+    23,
     0,
-    0,
-    -160, // (x, y, z) position
+    -140, // (x, y, z) position
     1 / 32,
     1 / 32,
     1 / 32 // (x, y, z) scale
   );
 
-  modelos.push(itembox1)
-  modelos.push(itembox2)
-  modelos.push(itembox3)
-  modelos.push(itembox4)
+  modelos.push(itembox1);
+  modelos.push(itembox2);
+  modelos.push(itembox3);
+  modelos.push(itembox4);
 
   modelos.push(pista);
   modelos.push(faro);
