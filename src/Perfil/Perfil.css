@@ -1,343 +1,357 @@
 .wrapper {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    float: none;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  float: none;
 }
 
 .head-card-player {
-    display: flex;
-    justify-content: space-between;
-    height: 150px;
-    width: 100%;
-    background-color: #ffffff;
-    border-radius: 5px;
-    margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  height: 150px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-top: 40px;
 }
 
 .head-card-player-dataDiv {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .dataDiv-top {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    margin-top: 20px;
-    margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
-.dataDiv-top>label {
-    font-family: Nunito;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 33px;
-    display: flex;
-    align-items: center;
-    color: #000000;
+.dataDiv-top > label {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  color: #000000;
 }
 
-.dataDiv-top>button {
-    border: 1px solid #1f0a27;
-    box-sizing: border-box;
-    border-radius: 5px;
-    background-color: transparent;
-    font-family: Nunito;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
-    margin-left: 30px;
+.dataDiv-top > button {
+  border: 1px solid #1f0a27;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: transparent;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  margin-left: 30px;
 }
 
-.dataDiv-top>button:hover {
-    background-color: #d8bbe4;
-    cursor: pointer;
+.dataDiv-top > button:hover {
+  background-color: #d8bbe4;
+  cursor: pointer;
 }
 
 .dataDiv-statDiv {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  align-items: center;
 }
 
 .statDiv-text {
-    font-family: Nunito;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 33px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
 }
 
 .statDiv-label {
-    font-family: Nunito;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 27px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
 }
 
 .dataDiv-bot {
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    margin-left: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .head-card-player-imgDiv {
-    width: 20%;
-    height: 100%;
-    background-image: url(../../assets/images/modosJuego/circuito.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    box-shadow: 10px 0px 10px 0px white inset;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+  width: 20%;
+  height: 100%;
+  background-image: url(../../assets/images/modosJuego/circuito.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 10px 0px 10px 0px white inset;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .body-maps-stats {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
 .card-map-stats {
-    width: 30%;
-    background: #e6f2ff;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding-top: 25px;
-    padding-bottom: 25px;
+  width: 30%;
+  background: #e6f2ff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
-.card-map-stats>img {
-    width: 80%;
-    height: 48%;
+.card-map-stats > img {
+  width: 80%;
+  height: 48%;
 }
 
 .card-map-divStats {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
 }
 
 .card-map-divStats-data {
-    font-family: Nunito;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
 }
 
 .card-map-divStats-label {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
 }
 
 .button-pasos-back {
-    width: 200px;
-    height: 50px;
-    background: #405CBF;
-    border-radius: 5px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 29px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 90%;
-    left: 10%;
-    color: #FFFFFF;
-    position: fixed;
+  width: 200px;
+  height: 50px;
+  background: #405cbf;
+  border-radius: 5px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 90%;
+  left: 10%;
+  color: #ffffff;
+  position: fixed;
 }
 
 .modal-card {
-    background-color: white;
-    height: fit-content;
-    max-height: 34rem;
-    width: 50%;
-    position: absolute;
-    margin: auto;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    border-radius: 5px;
-    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.41);
-    -webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.41);
-    -moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.41);
+  background-color: white;
+  height: fit-content;
+  max-height: 34rem;
+  width: 50%;
+  position: absolute;
+  margin: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.41);
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.41);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.41);
 }
 
 .modal-content {
-    flex-direction: column;
-    width: 100%;
-    display: flex;
-    align-items: center;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .modal-title {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: x-large;
-    font-weight: bold;
-    font-family: Montserrat;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: Montserrat;
 }
 
 .modal-inputs {
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    justify-content: center;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  justify-content: center;
 }
 
-.modal-inputs>label {
-    width: 20%;
-    font-family: Montserrat;
-    padding-right: 5px
+.modal-inputs > label {
+  width: 20%;
+  font-family: Montserrat;
+  padding-right: 5px;
 }
 
-.modal-inputs>input {
-    height: 18px;
-    outline: none;
-    border: none;
-    border-bottom: solid 1px #1f0a27;
-    width: 50%;
-    padding-left: 5px;
-    padding-right: 5px;
+.modal-inputs > input {
+  height: 18px;
+  outline: none;
+  border: none;
+  border-bottom: solid 1px #1f0a27;
+  width: 50%;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .modal-input-img {
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
-.modal-input-img>label {
-    text-align: center;
-    font-family: Montserrat;
-    margin-bottom: 5px
+.modal-input-img > label {
+  text-align: center;
+  font-family: Montserrat;
+  margin-bottom: 5px;
 }
 
-.modal-input-img>img {
-    width: 100px;
-    height: 100px;
-    border: solid 1px black;
-    margin-bottom: 5px;
-    border-radius: 5px;
+.modal-input-img > img {
+  width: 100px;
+  height: 100px;
+  border: solid 1px black;
+  margin-bottom: 5px;
+  border-radius: 5px;
 }
 
-.modal-input-img>.lbl-input-img {
-    text-align: center;
-    border-radius: 2px;
-    background-color: blue;
-    color: wheat;
-    font-family: Nunito;
-    width: 30%;
+.modal-input-img > .lbl-input-img {
+  text-align: center;
+  border-radius: 2px;
+  background-color: blue;
+  color: wheat;
+  font-family: Nunito;
+  width: 30%;
 }
 
 .btnCancelar {
-    background-color: red;
-    color: white;
-    width: 20%;
-    height: 30px;
-    border-radius: 4px;
-    outline: none;
-    border: none;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    box-shadow: 0px 5px 5px -2px rgba(194, 18, 71, 0.53);
-    -webkit-box-shadow: 0px 5px 5px -2px rgba(194, 18, 71, 0.53);
-    -moz-box-shadow: 0px 5px 5px -2px rgba(194, 18, 71, 0.53);
+  background-color: red;
+  color: white;
+  width: 20%;
+  height: 30px;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  box-shadow: 0px 5px 5px -2px rgba(194, 18, 71, 0.53);
+  -webkit-box-shadow: 0px 5px 5px -2px rgba(194, 18, 71, 0.53);
+  -moz-box-shadow: 0px 5px 5px -2px rgba(194, 18, 71, 0.53);
 }
 
 .btnGuardar {
-    background-color: green;
-    color: white;
-    width: 20%;
-    height: 30px;
-    border-radius: 4px;
-    outline: none;
-    border: none;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    box-shadow: 0px 5px 5px -2px rgba(20, 179, 104, 0.53);
-    -webkit-box-shadow: 0px 5px 5px -2px rgba(20, 179, 104, 0.53);
-    -moz-box-shadow: 0px 5px 5px -2px rgba(20, 179, 104, 0.53);
+  background-color: green;
+  color: white;
+  width: 20%;
+  height: 30px;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  box-shadow: 0px 5px 5px -2px rgba(20, 179, 104, 0.53);
+  -webkit-box-shadow: 0px 5px 5px -2px rgba(20, 179, 104, 0.53);
+  -moz-box-shadow: 0px 5px 5px -2px rgba(20, 179, 104, 0.53);
 }
 
 table {
-    font-family: Montserrat;
-    font-size: smaller;
-    border-collapse: collapse;
-    width: 100%;
-    max-height: 14rem;
-    display: inline-block;
-    overflow: auto;
+  font-family: Montserrat;
+  font-size: smaller;
+  border-collapse: collapse;
+  width: 100%;
+  max-height: 14rem;
+  display: inline-block;
+  overflow: auto;
 }
 
 th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #04aa6d;
-    color: white;
-    border: 1px solid #ddd;
-    padding: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
 td {
-    font-family: Nunito;
-    font-size: smaller;
-    border: 1px solid #ddd;
-    padding: 8px;
+  font-family: Nunito;
+  font-size: smaller;
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 tr:hover {
-    background-color: #ddd;
+  background-color: #ddd;
+}
+
+.h1-tipoJuego {
+  padding: 5px 0px;
+  margin: 0px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
 }

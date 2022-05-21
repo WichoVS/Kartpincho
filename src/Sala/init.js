@@ -10,6 +10,11 @@ const Init = () => {
     playersSkin.push(playerSkin);
   }
 
+  $("#selMapa").on("change", (e) => {
+    var opt = $("#selMapa option:selected").attr("attr-imagen");
+    $("#imgMapa").attr("src", opt);
+  });
+
   $("#btnBack").on("click", () => {
     switch (pasoActual) {
       case 1:
@@ -26,10 +31,14 @@ const Init = () => {
         $("#divPaso2").addClass("div-paso-otro");
         $("#divPaso2").removeClass("div-paso-actual");
         $("#btnNext").css("display", "none");
+        var opt = $("#selMapa option:selected").attr("attr-imagen");
+        $("#imgMapa").attr("src", opt);
         pasoActual = 1;
         break;
 
       case 3:
+        var opt = $("#selMapa option:selected").attr("attr-imagen");
+        $("#imgMapa").attr("src", opt);
         $("#paso1").css("display", "none");
         $("#paso2").css("display", "flex");
         $("#paso3").css("display", "none");

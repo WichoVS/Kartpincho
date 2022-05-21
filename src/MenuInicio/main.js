@@ -108,9 +108,23 @@ const CargaModelos = () => {
   const textureLoader = new THREE.TextureLoader();
 
   loader.load(
-    "../../assets/modelos/menu-principal/gokart/gokart.fbx",
+    "../../assets/modelos/GoKartTest/KartTrue.fbx",
     (fbx) => {
       //Acciones cuando se cargue este modelo
+
+      let color = textureLoader.load(
+        "../../assets/modelos/GoKartTest/Kart_Textura.png"
+      );
+
+      let texture = new THREE.MeshStandardMaterial({
+        map: color,
+      });
+
+      fbx.traverse((child) => {
+        if (child.isMesh) {
+          child.material = texture;
+        }
+      });
 
       fbx.name = "gokart";
       fbx.translateX(0);
