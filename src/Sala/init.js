@@ -10,6 +10,11 @@ const Init = () => {
     playersSkin.push(playerSkin);
   }
 
+  $("#selMapa").on("change", (e) => {
+    var opt = $("#selMapa option:selected").attr("attr-imagen");
+    $("#imgMapa").attr("src", opt);
+  });
+
   $("#btnBack").on("click", () => {
     switch (pasoActual) {
       case 1:
@@ -26,10 +31,14 @@ const Init = () => {
         $("#divPaso2").addClass("div-paso-otro");
         $("#divPaso2").removeClass("div-paso-actual");
         $("#btnNext").css("display", "none");
+        var opt = $("#selMapa option:selected").attr("attr-imagen");
+        $("#imgMapa").attr("src", opt);
         pasoActual = 1;
         break;
 
       case 3:
+        var opt = $("#selMapa option:selected").attr("attr-imagen");
+        $("#imgMapa").attr("src", opt);
         $("#paso1").css("display", "none");
         $("#paso2").css("display", "flex");
         $("#paso3").css("display", "none");
@@ -52,19 +61,13 @@ const Init = () => {
         //Se pasa al paso 3
         var _pista = $("#selMapa").val();
         var _jugadores = parseInt($("#selJugadores").val());
-        var _vueltas = parseInt($("#selVueltas").val());
+        var _vueltas = parseInt($("#inpVueltas").val());
         var _dificultad = parseInt($("#selDificultad").val());
-        var _bots = Boolean(
-          parseInt($("input[name='sel-bots']:checked").val())
-        );
-        var _noBots = parseInt($("#selBots").val());
 
         opcionesJuego.Pista = _pista;
         opcionesJuego.Jugadores = _jugadores;
         opcionesJuego.Vueltas = _vueltas;
         opcionesJuego.Dificultad = _dificultad;
-        opcionesJuego.Bots = _bots;
-        opcionesJuego.NoBots = _noBots;
 
         $("#divPlayers").empty();
         for (let index = 0; index < opcionesJuego.Jugadores; index++) {
@@ -156,7 +159,28 @@ const Init = () => {
         pasoActual = 3;
         break;
       case 3:
-        window.location.href = "../Juego/Juego.html";
+        opcionesJuego.Playlist = $("#selPlaylist").val();
+        opcionesJuego.CreadaPor = localStorage.getItem("UsuarioLog");
+
+        for (let index = 0; index < opcionesJuego.Jugadores; index++) {
+          let jugador = {
+            Partida: "",
+            JugadorLogeado: localStorage.getItem("UsuarioLog"),
+            Imagen: GetUrlImagen(
+              playersSkin[index].kart,
+              playersSkin[index].corredor
+            ),
+            Modelo: GetUrlModelo(
+              playersSkin[index].kart,
+              playersSkin[index].corredor
+            ),
+            Nombre: `Jugador${index + 1}`,
+          };
+
+          jugadoresArray.push(jugador);
+        }
+
+        CrearPartida(opcionesJuego, jugadoresArray);
         break;
       default:
         break;
@@ -171,4 +195,12 @@ const Init = () => {
       $("#selBots").prop("disabled", true);
     }
   });
+};
+
+const GetUrlImagen = (_kart, _corredor) => {
+  return `../../assets/images/playersStyles/opt${_kart}_${_corredor}.png`;
+};
+
+const GetUrlModelo = (_kart, _corredor) => {
+  return `../../assets/modelos/players/player${_kart}_${_corredor}.fbx`;
 };

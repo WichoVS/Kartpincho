@@ -173,6 +173,25 @@
     color: #000000;
 }
 
+.inp-option {
+    background: #FFFFFF;
+    border: 3px solid #000000;
+    box-sizing: border-box;
+    border-radius: 5px;
+    height: 30px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    padding: 0px 5px;
+
+    color: #000000;
+}
+
+
 .radio-lbl {
     font-family: Nunito;
     font-style: normal;

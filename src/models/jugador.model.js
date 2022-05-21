@@ -10,7 +10,22 @@ class Jugador {
   wheelBodies = [];
   wheelsVisual = [];
   vehicle;
+  willActivateItem = false;
   checkpoints;
+  gameMode;
+  isPaused = false;
+  // Items y cosas
+  item = "NONE";
+  slowDownFactor = 1;
+  slowDownTime = 0;
+  isDrunk = false;
+  drunkTime = 0;
+  isStuned = false;
+  stunTime = 0;
+  shellsThrow = 0;
+  shell;
+  lives = 3;
+  kills = 0;
   // En el render lo uso si está cargado lo agrego al mundo.
   isLoaded = false;
   // Si ya está agregado al mundo y quiero saber si está el jugador.
@@ -20,11 +35,23 @@ class Jugador {
   worldReady = false;
   cameraOffset = new THREE.Vector3(0, 3, -10);
   totalPlayers;
-  vueltas = [];
+  vueltas = 0;
+  placement = 1;
   tiempoActual;
+  checkpTime;
   flagTrigger = false;
   fastestTime;
   startedRace;
+  isKeyboardControl = false;
+  controllerIndex = -1;
+  imagen;
+  manager;
+  isGameOver = false;
+
+  SavedVel;
+  SavedVelSpdKmHour;
+  SavedShellVel;
+  SavedEngineF;
 
   constructor(
     _pathModel,
@@ -34,11 +61,19 @@ class Jugador {
     _world,
     _mass,
     _totalPlayers,
-    _origin
+    _origin,
+    _imagen = "",
+    _manager,
+    _shell,
+    _gameMode
   ) {
+    this.gameMode = _gameMode;
+    this.world = _world;
+    this.manager = _manager;
     this.vueltas = 0;
     this.checkpoints = 0;
     this.tiempoActual = 0;
+    this.checkpTime = 0;
     this.fastestTime = 0;
     this.totalPlayers = _totalPlayers;
     this.name = _name;
@@ -49,6 +84,9 @@ class Jugador {
     this.camera.lookAt(0, 0, 0);
     this.renderer = this.CrearRenderer();
     this.startedRace = false;
+    this.imagen = _imagen;
+    this.shell = _shell;
+    this.mass = _mass;
     $("#game").append(
       `<div id="${this.name}" style="position:relative"></div>`
     );
@@ -206,15 +244,17 @@ class Jugador {
   }
 
   PostStepWheels() {
-    for (var i = 0; i < this.vehicle.wheelInfos.length; i++) {
-      this.vehicle.updateWheelTransform(i);
-      var t = this.vehicle.wheelInfos[i].worldTransform;
-      // update wheel physics
-      this.wheelBodies[i].position.copy(t.position);
-      this.wheelBodies[i].quaternion.copy(t.quaternion);
-      // update wheel visuals
-      this.wheelsVisual[i].position.copy(t.position);
-      this.wheelsVisual[i].quaternion.copy(t.quaternion);
+    if(!this.isPaused) {
+      for (var i = 0; i < this.vehicle.wheelInfos.length; i++) {
+        this.vehicle.updateWheelTransform(i);
+        var t = this.vehicle.wheelInfos[i].worldTransform;
+        // update wheel physics
+        this.wheelBodies[i].position.copy(t.position);
+        this.wheelBodies[i].quaternion.copy(t.quaternion);
+        // update wheel visuals
+        this.wheelsVisual[i].position.copy(t.position);
+        this.wheelsVisual[i].quaternion.copy(t.quaternion);
+      }
     }
   }
 
@@ -234,23 +274,178 @@ class Jugador {
   }
 
   AddTimeVuelta(_manager) {
-    if (_manager.isGameStarted) this.tiempoActual++;
+    if (!this.isGameOver && !this.isPaused) if (_manager.isGameStarted) this.tiempoActual++;
+  }
+
+  AddTimeCheckp(_manager) {
+    if (!this.isGameOver && !this.isPaused) if (_manager.isGameStarted) this.checkpTime++;
   }
 
   AddVuelta(pTotalChecks) {
-    if (this.startedRace) {
-      if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
-        this.fastestTime = this.tiempoActual;
-        this.tiempoActual = 0;
+    if (!this.isGameOver && !this.isPaused) {
+      if (this.startedRace) {
+        if (this.checkpoints == pTotalChecks) {
+          if (this.fastestTime > this.tiempoActual || this.fastestTime == 0) {
+            this.fastestTime = this.tiempoActual;
+          }
+          this.vueltas++;
+          this.tiempoActual = 0;
+          this.checkpoints = 0;
+        }
+      } else {
+        this.startedRace = true;
       }
-      if (this.checkpoints == pTotalChecks) {
-        this.vueltas++;
-        this.tiempoActual = 0;
-        this.checkpoints = 0;
-      }
-    } else {
-      this.startedRace = true;
     }
+  }
+
+  TurnLeftOn(valueFactor = 1) {
+    if (!this.isGameOver && !this.isPaused) {
+      if (!this.isDrunk) {
+        this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 2);
+        this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 3);
+      } else {
+        this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 2);
+        this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 3);
+      }
+    }
+  }
+
+  TurnLeftOff() {
+    this.vehicle.setSteeringValue(0, 2);
+    this.vehicle.setSteeringValue(0, 3);
+  }
+
+  TurnRightOn(valueFactor = 1) {
+    if (!this.isGameOver && !this.isPaused) {
+      if (!this.isDrunk) {
+        this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 2);
+        this.vehicle.setSteeringValue(-this.maxSteerVal * valueFactor, 3);
+      } else {
+        this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 2);
+        this.vehicle.setSteeringValue(this.maxSteerVal * valueFactor, 3);
+      }
+    }
+  }
+
+  ResetPosition() {
+    console.log("entra");
+    this.vehicle.chassisBody.quaternion.setFromAxisAngle(
+      new CANNON.Vec3(0, 1, 0),
+      Math.PI / 2
+    );
+  }
+
+  TurnRightOff() {
+    this.vehicle.setSteeringValue(0, 2);
+    this.vehicle.setSteeringValue(0, 3);
+  }
+
+  AccelerateOn(valueFactor = 1) {
+    if (!this.isGameOver && !this.isPaused) {
+      this.vehicle.applyEngineForce(
+        -this.engineForce * valueFactor * this.slowDownFactor,
+        2
+      );
+      this.vehicle.applyEngineForce(
+        -this.engineForce * valueFactor * this.slowDownFactor,
+        3
+      );
+
+      if (this.slowDownFactor < 1)
+        this.engineForce = Math.max(this.engineForce, 250);
+    }
+  }
+
+  AccelerateOff() {
+    this.vehicle.applyEngineForce(0, 2);
+    this.vehicle.applyEngineForce(0, 3);
+  }
+
+  BrakeOn(valueFactor = 1) {
+    this.vehicle.setBrake(10 * valueFactor, 2);
+    this.vehicle.setBrake(10 * valueFactor, 3);
+  }
+
+  BrakeOff() {
+    this.vehicle.setBrake(0, 2);
+    this.vehicle.setBrake(0, 3);
+  }
+
+  ReverseOn(valueFactor = 1) {
+    if (!this.isGameOver && !this.isPaused) {
+      this.vehicle.applyEngineForce(this.engineForce * valueFactor, 2);
+      this.vehicle.applyEngineForce(this.engineForce * valueFactor, 3);
+    }
+  }
+
+  ReverseOff() {
+    this.vehicle.applyEngineForce(0, 2);
+    this.vehicle.applyEngineForce(0, 3);
+  }
+
+  ActiveItem() {
+    if (!this.isGameOver && !this.isPaused) {
+      this.shell.body.force = new CANNON.Vec3(0, 0, 0);
+      var localForward = new CANNON.Vec3(0, 0, 1);
+      var worldvector = new CANNON.Vec3();
+      var fVector = this.vehicle.chassisBody.vectorToWorldFrame(
+        localForward,
+        worldvector
+      );
+      var fx = Math.floor(fVector.x * 100) / 100;
+      var fy = Math.floor(fVector.y * 100) / 100;
+      var fz = Math.floor(fVector.z * 100) / 100;
+
+      var minVel = Math.max(this.vehicle.currentVehicleSpeedKmHour * 15, 1);
+      var force = 1000 + minVel;
+
+      this.shellsThrow += 1;
+      this.world.add(this.shell.body);
+      this.manager.scene.add(this.shell.mesh);
+      this.shell.body.position.x = this.mesh.position.x + fx * 2;
+      this.shell.body.position.y = this.mesh.position.y + 1.5;
+      this.shell.body.position.z = this.mesh.position.z + fz * 2;
+
+      this.shell.body.force = new CANNON.Vec3(
+        fx * force,
+        fy * force,
+        fz * force
+      );
+
+      this.shell.owner = this.name;
+
+      this.shell.body.quaternion.setFromAxisAngle(
+        new CANNON.Vec3(1, 0, 0),
+        THREE.MathUtils.degToRad(270)
+      );
+
+      this.shell.body.angularVelocity.set(0, 10, 0);
+
+      /*shell.body.addEventListener("collide", (e) => {
+        if(e.body.userData != undefined) {
+          let player = pManager.jugadores.find(
+            (ele) => ele.name !== e.body.userData.name
+          );
+          
+          if(player != undefined) {
+            console.log(player)
+            player.isStuned = true;
+            player.stunTime = 180;
+            this.world.delete(this.shell.body)
+            this.manager.scene.delete(this.shell.mesh)
+          }
+        }
+      });*/
+    }
+  }
+
+  deleteShell() {
+    var _shell = this.shell;
+    var _world = this.world;
+    setTimeout(function () {
+      _world.removeBody(_shell.body);
+      this.manager.scene.remove(_shell.mesh);
+    }, 0);
   }
 
   CrearRenderer() {
@@ -268,6 +463,7 @@ class Jugador {
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
         break;
+        8;
       case 4:
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
@@ -301,27 +497,231 @@ class Jugador {
   }
 
   AddUIPlayer() {
-    $(`#${this.name}`).append(`
-      <div class="div-player-ui">
+    if (this.gameMode == "Circuito") {
+      $(`#${this.name}`).append(`
+      <div id="${this.name}UI" class="div-player-ui">
         <div class="player-ui-top">
           <label id="${this.name}vueltas">Vueltas: ${this.vueltas}</label>
           <label id="${this.name}tiempo">Tiempo: ${this.tiempoActual}</label>
           <label id="${this.name}fastest">Vuelta más Rápida: ${this.fastestTime}</label>
+          <label id="${this.name}placement">Lugar </label>
         </div>
         <div class="player-ui-bot">
-          <img
-            class="player-item"
-            src="../../assets/images/modosJuego/circuito.png"
-            alt=""
-          />
+          <div class="row-states">
+            <img
+              id="${this.name}drunk"
+              class="player-state"
+              src="../../assets/images/items/DRUNK_ITEM.png"
+            />
+            <img
+              id="${this.name}slowed"
+              class="player-state"
+              src="../../assets/images/items/SLOW_ITEM.png"
+            />
+            <img
+              id="${this.name}stuned"
+              class="player-state"
+              src="../../assets/images/items/STUN_ITEM.png"
+            />
+          </div>
+          <div class="row">
+            <img
+              id="${this.name}Item"
+              class="player-item"
+              src="../../assets/images/items/${this.item}.png"
+            />
+          </div>
         </div>
       </div>
     `);
+    } else if (this.gameMode == "Eliminación") {
+      $(`#${this.name}`).append(`
+      <div class="div-player-ui">
+        <div class="player-ui-top">
+          <label id="${this.name}position">Lugar </label>
+        </div>
+        <div class="player-ui-bot">
+          <div class="row-states">
+            <img
+              id="${this.name}drunk"
+              class="player-state"
+              src="../../assets/images/items/DRUNK_ITEM.png"
+            />
+            <img
+              id="${this.name}slowed"
+              class="player-state"
+              src="../../assets/images/items/SLOW_ITEM.png"
+            />
+            <img
+              id="${this.name}stuned"
+              class="player-state"
+              src="../../assets/images/items/STUN_ITEM.png"
+            />
+          </div>
+          <div id="livesUI" class="row-lives">
+            <img
+              id="${this.name}lives1"
+              class="player-state"
+              src="../../assets/images/lives_icon.png"
+              display="none"
+            />
+            <img
+              id="${this.name}lives2"
+              class="player-state"
+              src="../../assets/images/lives_icon.png"
+              display="none"
+            />
+            <img
+              id="${this.name}lives3"
+              class="player-state"
+              src="../../assets/images/lives_icon.png"
+              display="none"
+            />
+          </div>
+          <div class="row">
+            <img
+              id="${this.name}Item"
+              class="player-item"
+              src="../../assets/images/items/${this.item}.png"
+            />
+          </div>
+        </div>
+      </div>
+    `);
+    }
   }
 
   UpdateUIPlayer() {
-    $(`#${this.name}vueltas`).text(`Vueltas: ${this.vueltas}`);
-    $(`#${this.name}tiempo`).text(`Tiempo: ${this.tiempoActual}`);
-    $(`#${this.name}fastest`).text(`Vuelta más Rápida: ${this.fastestTime}`);
+    if (!this.isGameOver && !this.isPaused) {
+      //#region UI PLAYER & ITEM STATES
+      $(`#${this.name}Item`).attr(
+        "src",
+        `../../assets/images/items/${this.item}.png`
+      );
+      if(this.mesh != undefined) $(`#${this.name}position`).text(`X: ${Math.round(this.mesh.position.x)} Y: ${Math.round(this.mesh.position.y)} Z: ${Math.round(this.mesh.position.z)} `);
+      if (this.gameMode == "Circuito") {
+        $(`#${this.name}vueltas`).text(`Vueltas: ${this.vueltas}`);
+        $(`#${this.name}tiempo`).text(`Tiempo: ${this.tiempoActual}`);
+        $(`#${this.name}fastest`).text(
+          `Vuelta más Rápida: ${this.fastestTime}`
+        );
+        $(`#${this.name}placement`).text(`${this.placement}° Lugar`);
+      } else if (this.gameMode == "Eliminación") {
+        for (let i = 0; i < 3; i++) {
+          $(`#${this.name}lives${i + 1}`).attr("display", "none");
+        }
+
+        for (let i = 0; i < this.lives; i++) {
+          $(`#${this.name}lives${i + 1}`).attr("display", "block");
+        }
+      }
+
+      if (this.slowDownTime > 0) {
+        this.engineForce = Math.max(this.engineForce, 250);
+        $(`#${this.name}slowed`).attr("display", "block");
+        this.slowDownTime -= 1;
+      } else {
+        $(`#${this.name}slowed`).attr("display", "none");
+        this.slowDownFactor = 1;
+      }
+
+      if (this.drunkTime > 0) {
+        $(`#${this.name}drunk`).attr("display", "block");
+        this.drunkTime -= 1;
+      } else {
+        $(`#${this.name}drunk`).attr("display", "none");
+        this.isDrunk = false;
+      }
+
+      if (this.stunTime > 0) {
+        $(`#${this.name}stuned`).attr("display", "block");
+        this.vehicle.engineForce = 0;
+        this.BrakeOn(500);
+        this.stunTime -= 1;
+      } else {
+        $(`#${this.name}stuned`).attr("display", "none");
+        this.isStuned = false;
+        this.stunTime = 0;
+        if (this.vehicle != undefined) this.BrakeOff();
+      }
+      //#endregion
+
+      // Shell Mesh position
+      if (this.shell.mesh != undefined && this.shell.body != undefined) {
+        var adjustedPos = new CANNON.Vec3(
+          this.shell.body.position.x + 1,
+          this.shell.body.position.y,
+          this.shell.body.position.z
+        );
+        this.shell.mesh.position.copy(adjustedPos);
+        this.shell.mesh.quaternion.copy(this.shell.body.quaternion);
+      }
+    }
+
+    if(this.isPaused) {
+
+      this.body.position = this.body.position
+      this.body.quaternion = this.body.quaternion
+
+      this.vehicle.chassisBody.position = this.vehicle.chassisBody.position
+      this.vehicle.chassisBody.quaternion = this.vehicle.chassisBody.quaternion
+
+      this.vehicle.wheelInfos.forEach(wheel => {
+        wheel.position = wheel.position
+        wheel.quaternion = wheel.quaternion
+      });
+
+      if (this.shell.mesh != undefined && this.shell.body != undefined) {
+        this.shell.body.quaternion = this.shell.body.quaternion
+        this.shell.body.position = this.shell.body.position
+
+        this.shell.body.angularVelocity = new CANNON.Vec3(0,0,0)
+      }
+    }
+  }
+
+  GameOver() {
+    this.deleteShell()
+    this.vehicle.chassisBody.sleep()
+    for (let i = 0; i < 3; i++) {
+      $(`#${this.name}lives${i + 1}`).attr("display", "none");
+    }
+    $(`${this.name}UI`).attr("gameover", "true");
+    this.isGameOver = true;
+  }
+
+  Pause() {
+    this.isPaused = !this.isPaused
+
+    if(this.isPaused) {
+      this.vehicle.chassisBody.allowSleep = false;
+      this.vehicle.chassisBody.sleep()
+      
+      this.shell.body.allowSleep = true;
+      this.shell.body.sleep()
+      this.SavedShellVel = this.shell.body.angularVelocity
+    } else {
+      this.vehicle.chassisBody.allowSleep = false;
+      this.vehicle.chassisBody.wakeUp()
+      
+      this.shell.body.allowSleep = false;
+      this.shell.body.wakeUp()
+      this.shell.body.angularVelocity = this.SavedShellVel
+    }
+
+
+    console.log("Pause is: " + this.isPaused)
+  }
+
+  Hit() {
+    if (this.gameMode == "Eliminación" && this.stunTime <= 90) {
+      this.lives -= 1;
+
+      if (this.lives == 0) {
+        this.GameOver();
+        return true;
+      }
+      return false;
+    }
   }
 }

@@ -1,5 +1,7 @@
 const GetModalidades = async () => {
-  const resp = await fetch("http://localhost:3000/api/modalidad/getAll");
+  const resp = await fetch(
+    "https://kartpinchoapi.onrender.com/api/modalidad/getAll"
+  );
   const { success, message, data } = await resp.json();
 
   if (success) {
@@ -16,6 +18,8 @@ const GetModalidades = async () => {
           `);
     });
     $(".div-modojuego").on("click", (e) => {
+      var opt = $("#selMapa option:selected").attr("attr-imagen");
+      $("#imgMapa").attr("src", opt);
       opcionesJuego.Modalidad = e.target.id;
       pasoActual = 2;
       $("#btnNext").css("display", "flex");
@@ -37,7 +41,9 @@ const GetModalidades = async () => {
 };
 
 const GetMapas = async () => {
-  const resp = await fetch("http://localhost:3000/api/pista/getAll");
+  const resp = await fetch(
+    "https://kartpinchoapi.onrender.com/api/pista/getAll"
+  );
   const { success, message, data } = await resp.json();
 
   if (success) {
@@ -59,14 +65,16 @@ const GetMapas = async () => {
 
 const GetPlaylistUsuario = async () => {
   var user = localStorage.getItem("UsuarioLog");
-  const resp = await fetch("http://localhost:3000/api/playlist/getByOwner", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ UsuarioOwner: user }),
-  });
+  const resp = await fetch(
+    `https://kartpinchoapi.onrender.com/api/playlist/getByOwner/${user}`,
+    {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const { success, message, data } = await resp.json();
 
   data.forEach((p) => {
@@ -76,4 +84,43 @@ const GetPlaylistUsuario = async () => {
       `
     );
   });
+};
+
+const CrearPartida = async (partida, jugadores) => {
+  const resp = await fetch(
+    "https://kartpinchoapi.onrender.com/api/partida/createPartida",
+    {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(partida),
+    }
+  );
+
+  const { success, message, data } = await resp.json();
+  console.log(data);
+  jugadores.forEach((j) => {
+    j.Partida = data._id;
+  });
+  AddJugadoresAPartida(jugadores);
+};
+
+const AddJugadoresAPartida = async (jugadores) => {
+  const resp = await fetch(
+    "https://kartpinchoapi.onrender.com/api/jugadorPartida/createJugadores",
+    {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Jugadores: jugadores }),
+    }
+  );
+
+  const { success, message, data } = await resp.json();
+  window.location.href = `../Juego/Juego.html?p=${jugadores[0].Partida}`;
+  return success;
 };

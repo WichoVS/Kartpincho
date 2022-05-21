@@ -29,6 +29,13 @@ export class KBInputs {
       pressed: false,
     };
     this.keys.push(key);
+    // E
+    key = {
+      code: 69,
+      pressed: false,
+    };
+    this.keys.push(key);
+
   }
 
   setKey(index, valor) {
